@@ -121,16 +121,16 @@ breadcrumb:
   page_types:
     book: true
 comments:
-  provider: 'disqus'
+  provider: ''
   commentable:
     post: true
     book: true
     project: true
     publication: true
     event: true
-  disqus:
-    shortname: 'brightprogrammer'
-    show_count: true
+  # disqus:
+  #   shortname: 'brightprogrammer'
+  #   show_count: true
   # commento:
   #   url: ''
 search:
