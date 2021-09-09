@@ -10,7 +10,7 @@ headless: true
 weight: 65
 
 title: Projects
-subtitle: ''
+subtitle: 'List of projects that I worked or am working on. I’m enlisting my incomplete as well as complete projects because incomplete as they are, they still taught me many indispensable things and concepts.'
 
 content:
   # Page type to display. E.g. project.
@@ -29,6 +29,8 @@ content:
     tag: '*'
   - name: Machine Learning
     tag: MachineLearning
+  - name: Operating System
+    tag: OperatingSystem
   - name: Misc
     tag: Misc
 
