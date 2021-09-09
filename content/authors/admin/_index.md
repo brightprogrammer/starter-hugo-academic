@@ -1,8 +1,9 @@
 ---
 role: Computer Science Enthusiast
-avatar_filename: profile-modified.png
+avatar_filename: profile-modified-1-.png
 bio: My interests include CyberSecurity, Machine Learning and Computer Graphics
-interests: []
+interests:
+  - Cyber Security; Computer Graphics Programing; Machine Learning;
 social:
   - icon: twitter
     icon_pack: fab
@@ -34,8 +35,4 @@ highlight_name: true
 title: Siddharth Mishra
 email: bshock665@gmail.com
 ---
-Hi! I am Siddharth Mishra. I am a student and I love reading about low level problems in Computer Science. I have progressive experience of about 4 years in C++ and I would call myself an *intermediate*. I still have a lot to learn and I am curious to learn more and more. I love writing about my achievents and learnings, so this place is a journal of my journey. 
-
-At the age of 17, I have made several attempts to write my own desktop applications ( a text editor / calculator / an IDE itself ), in making my own game engine ( 3-4 tries ) and I quit because of different reasons everytime. Those failures have taught me a lot and I am glad that I tried instead of giving up at the very start. I am still working on my game engine.
-
-At the point of writing this post, I am not even in college. I am preparing for my entrace exams. I have a small list of private achievements and by private I mean less exposed because of ingorant people around me. So, to make myself recognized I will write about what I know on this blog.
+Siddharth Mishra completed his high school in the year 2020 and at the moment is preparing for college entrace exams. He as 4 years progressive experience in C++ as he used it in amlost all projects that he made in the school. He started programming at the age of 14 and He has experience in Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Engine Development, GUI Programming and the list goes on.
