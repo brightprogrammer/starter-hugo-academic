@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>post | BrightProgrammer</title>
+    <link>https://brightprogrammer.netlify.app/category/post/</link>
+      <atom:link href="https://brightprogrammer.netlify.app/category/post/index.xml" rel="self" type="application/rss+xml" />
+    <description>post</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Copyright © {2021} Siddharth Mishra (Me)</copyright><lastBuildDate>Sat, 14 Aug 2021 14:22:00 +0000</lastBuildDate>
+    <image>
+      <url>https://brightprogrammer.netlify.app/media/icon_huc9547a376fefe39609425a864fc14636_180245_512x512_fill_lanczos_center_3.png</url>
+      <title>post</title>
+      <link>https://brightprogrammer.netlify.app/category/post/</link>
+    </image>
+    
+    <item>
+      <title>Welcome To My Blog</title>
+      <link>https://brightprogrammer.netlify.app/post/welcome-to-my-blog/</link>
+      <pubDate>Sat, 14 Aug 2021 14:22:00 +0000</pubDate>
+      <guid>https://brightprogrammer.netlify.app/post/welcome-to-my-blog/</guid>
+      <description>&lt;p&gt;Hi everyone, you have reached the very first blog post of my blog. This is basically a test blog post to see how things work. Since I am a newbie in all this blogs and stuff using GitHub, I am testing things out.&lt;/p&gt;
+&lt;p&gt;I hope you find the other posts satisfying ;-)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“&lt;strong&gt;A story has no beginning or end: arbitrarily one chooses that moment of experience from which to look back or from which to look ahead.&lt;/strong&gt;” ― Graham Greene, The End of the Affai&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
