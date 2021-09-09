@@ -24,10 +24,12 @@ social:
     link: https://instagram.com/imsiddharthmishra/
     icon_pack: fab
     icon: instagram
-organizations: []
+organizations:
+  - name: Dhanbad Public Shool
+    url: https://dhanbadpublicschool.edu.in/
 education:
   courses:
-    - course: XIIth Boards
+    - course: CBSE XIIth Boards
       institution: Dhanbad Public School
       year: 2020
 superuser: true
@@ -35,4 +37,4 @@ highlight_name: true
 title: Siddharth Mishra
 email: bshock665@gmail.com
 ---
-Siddharth Mishra completed his high school in the year 2020 and at the moment is preparing for college entrace exams. He as 4 years progressive experience in C++ as he used it in amlost all projects that he made in the school. He started programming at the age of 14 and He has experience in Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Engine Development, GUI Programming and the list goes on.
+Siddharth Mishra completed his high school in the year 2020 and at the moment is preparing for college entrace exams. He as 4 years progressive experience in C++ as he used it in amlost all projects that he made in the school. He started programming at the age of 14 and He has experience in Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Engine Development, GUI Programming and Computer Vision.
