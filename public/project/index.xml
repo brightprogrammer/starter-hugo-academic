@@ -5,12 +5,301 @@
     <link>https://brightprogrammer.netlify.app/project/</link>
       <atom:link href="https://brightprogrammer.netlify.app/project/index.xml" rel="self" type="application/rss+xml" />
     <description>Projects</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Copyright © {2021} Siddharth Mishra (Me)</copyright><lastBuildDate>Thu, 09 Sep 2021 19:35:44 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Copyright © {2021} Siddharth Mishra (Me)</copyright><lastBuildDate>Thu, 09 Sep 2021 20:03:12 +0000</lastBuildDate>
     <image>
       <url>https://brightprogrammer.netlify.app/media/icon_huc9547a376fefe39609425a864fc14636_180245_512x512_fill_lanczos_center_3.png</url>
       <title>Projects</title>
       <link>https://brightprogrammer.netlify.app/project/</link>
     </image>
+    
+    <item>
+      <title>GameZero</title>
+      <link>https://brightprogrammer.netlify.app/project/gamezero/</link>
+      <pubDate>Thu, 09 Sep 2021 20:03:12 +0000</pubDate>
+      <guid>https://brightprogrammer.netlify.app/project/gamezero/</guid>
+      <description>&lt;h1 id=&#34;gamezero&#34;&gt;GameZero&lt;/h1&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
+               /project/gamezero/preview_huccbb4e3960889121039ef4531032a44d_945696_b6f49538dcfc1a5364ad33338f6bfad6.png 400w,
+               /project/gamezero/preview_huccbb4e3960889121039ef4531032a44d_945696_4f1c74763d7eec2572eda4a0867a0cf1.png 760w,
+               /project/gamezero/preview_huccbb4e3960889121039ef4531032a44d_945696_1200x1200_fit_lanczos_3.png 1200w&#34;
+               src=&#34;https://brightprogrammer.netlify.app/project/gamezero/preview_huccbb4e3960889121039ef4531032a44d_945696_b6f49538dcfc1a5364ad33338f6bfad6.png&#34;
+               width=&#34;760&#34;
+               height=&#34;426&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+
+Here is the &lt;a href=&#34;https://github.com/brightprogrammer/GameZero&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub Repository Link&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
+&lt;p&gt;I made this project while learning Vulkan. My goal was to make a MineCraft clone like what &lt;a href=&#34;https://www.youtube.com/watch?v=Xq3isov6mZ8&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Hopson did using OpenGL&lt;/a&gt;.Vulkan is a modern graphics api written from sratch. It&amp;rsquo;s also faster than many other graphics APIs like OpenGL. I closely followed &lt;a href=&#34;https://vkguide.dev&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;VkGuide&lt;/a&gt; by V. Blanco and &lt;a href=&#34;https://vulkan-tutorial.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Vulkan-Tutorial&lt;/a&gt; by Alexander Overvoorde while working on this project. I stopped working on this project again due to my college entrance exams.&lt;/p&gt;
+&lt;h2 id=&#34;comments-&#34;&gt;Comments :&lt;/h2&gt;
+&lt;p&gt;I don&amp;rsquo;t plan to continue this further but instead write a similar one from scratch. I am trying to make a game engine and in that pursuit I learn a lot. That is what my main focus is when I&amp;rsquo;m taking such big projects (like this one!). Most of my learning was like this : I took a challenge that I&amp;rsquo;ll make this and then I try and fail/succeed. In both cases there is a win-win situation.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bhayankar</title>
+      <link>https://brightprogrammer.netlify.app/project/bhayankar/</link>
+      <pubDate>Thu, 09 Sep 2021 19:50:36 +0000</pubDate>
+      <guid>https://brightprogrammer.netlify.app/project/bhayankar/</guid>
+      <description>&lt;h1 id=&#34;bhayankar&#34;&gt;Bhayankar&lt;/h1&gt;
+&lt;h2 id=&#34;first-steps&#34;&gt;First Steps&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;First Triangle&lt;/th&gt;
+&lt;th&gt;Different Pipelines&lt;/th&gt;
+&lt;th&gt;With Vertex Buffer&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34;
+           src=&#34;https://brightprogrammer.netlify.app/project/bhayankar/first-triangle.gif&#34;
+           loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/td&gt;
+&lt;td&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34;
+           src=&#34;https://brightprogrammer.netlify.app/project/bhayankar/toggle-shaders.gif&#34;
+           loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/td&gt;
+&lt;td&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34;
+           src=&#34;https://brightprogrammer.netlify.app/project/bhayankar/vertex-buffer.gif&#34;
+           loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;going-3d&#34;&gt;Going 3D&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;3D Triangle&lt;/th&gt;
+&lt;th&gt;3D Monkey Head&lt;/th&gt;
+&lt;th&gt;Many Monkey Heads&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34;
+           src=&#34;https://brightprogrammer.netlify.app/project/bhayankar/camera-start.gif&#34;
+           loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/td&gt;
+&lt;td&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34;
+           src=&#34;https://brightprogrammer.netlify.app/project/bhayankar/monkey-head.gif&#34;
+           loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/td&gt;
+&lt;td&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34;
+           src=&#34;https://brightprogrammer.netlify.app/project/bhayankar/many-monkey-heads.gif&#34;
+           loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Here is the &lt;a href=&#34;https://github.com/brightprogrammer/Bhayankar&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub Repository Link&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
+&lt;p&gt;This is one of my beginning Vulkan projects. It was amazing learning this stuff because my progress was clearly visible.&lt;/p&gt;
+&lt;h2 id=&#34;comments&#34;&gt;Comments&lt;/h2&gt;
+&lt;p&gt;Again this was stopped because of my entrance exam preparations. At this point I was learning how to setup project using CMake and GitHub.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Computerator</title>
+      <link>https://brightprogrammer.netlify.app/project/computerator/</link>
+      <pubDate>Thu, 09 Sep 2021 19:45:21 +0000</pubDate>
+      <guid>https://brightprogrammer.netlify.app/project/computerator/</guid>
+      <description>&lt;h1 id=&#34;computerator&#34;&gt;Computerator&lt;/h1&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Dark Theme&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Light Theme&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://raw.githubusercontent.com/brightprogrammer/Computerator/master/Resources/screenshot.png&#34; alt=&#34;Computerator Dark Theme Image&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://raw.githubusercontent.com/brightprogrammer/Computerator/master/Resources/screenshot_light.png&#34; alt=&#34;Computerator Light Theme Image&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;description-&#34;&gt;Description :&lt;/h2&gt;
+&lt;p&gt;This is a simple calculator program written in &lt;a href=&#34;https://www.wxwidgets.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;wxWidgets&lt;/a&gt;. This was my attempt to learn how to do GUI programming using &lt;a href=&#34;https://www.wxwidgets.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;wxWidgets&lt;/a&gt;. I made this simple calculator in order to learn how sizers work in &lt;a href=&#34;https://www.wxwidgets.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;wxWidgets&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;comments-&#34;&gt;Comments :&lt;/h2&gt;
+&lt;p&gt;I also made a text editor in &lt;a href=&#34;hhtps://www.qt.io&#34;&gt;Qt&lt;/a&gt; but I don&amp;rsquo;t have the source/screenshot of it now. I plan to make my own GUI library/framework in future using Vulkan.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Daivik OS</title>

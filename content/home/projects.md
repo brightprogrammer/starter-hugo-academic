@@ -31,8 +31,12 @@ content:
     tag: MachineLearning
   - name: Operating System
     tag: OperatingSystem
-  - name: Misc
-    tag: Misc
+  - name: Game Engine
+    tag: GameEngine
+  - name: Computer Graphics
+    tag: ComputerGraphics
+  - name: GUI
+    tag: GUI
 
 design:
   # Choose how many columns the section has. Valid values: '1' or '2'.
