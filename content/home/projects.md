@@ -28,7 +28,7 @@ content:
   - name: All
     tag: '*'
   - name: Machine Learning
-    tag: Machine Learning
+    tag: MachineLearning
   - name: Misc
     tag: Misc
 
