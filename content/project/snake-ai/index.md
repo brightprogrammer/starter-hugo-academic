@@ -1,7 +1,7 @@
 ---
 title: Snake AI
 subtitle: A Simple AI To Play Snake Game
-date: 2021-09-09T18:33:08.425Z
+date: 2021-09-09T18:58:10.759Z
 draft: false
 featured: false
 tags:
