@@ -19,8 +19,6 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-![](snake_ai.png)
-
 Link : <https://youtu.be/tpJ6qsCAWSo>
 
 ## Description :
