@@ -13,7 +13,6 @@ tags:
   - AI
 categories:
   - Machine Learning
-  - C++
 image:
   filename: featured
   focal_point: Smart
