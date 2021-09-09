@@ -4,6 +4,8 @@ subtitle: My Attempt To Learn Vulkan & Game Engines
 date: 2021-09-09T19:50:36.025Z
 draft: false
 featured: false
+tags:
+  - ComputerGraphics
 image:
   filename: featured
   focal_point: Smart
