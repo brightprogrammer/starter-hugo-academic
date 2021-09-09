@@ -1,8 +1,7 @@
 ---
 role: Computer Science Enthusiast
 avatar_filename: profile-modified.png
-bio: Myinterests include distributed CyberSecurity, Low Level Programming,
-  Machine Learning, Comptuer Graphics Programming, etc...
+bio: My interests include CyberSecurity, Machine Learning and Computer Graphics
 interests: []
 social:
   - icon: envelope
