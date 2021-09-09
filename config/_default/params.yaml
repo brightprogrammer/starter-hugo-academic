@@ -132,7 +132,7 @@ comments:
     shortname: 'brightprogrammer'
     show_count: true
   commento:
-    url: 'https://disqus.com/by/brightprogrammer/'
+    url: 'brightprogrammer.disqus.com'
 search:
   provider: wowchemy
   algolia:
