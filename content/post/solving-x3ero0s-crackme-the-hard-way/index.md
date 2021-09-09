@@ -9,6 +9,7 @@ tags:
   - assembly
   - radare2
   - decompiling
+  - crackme
 categories:
   - reversing
   - crackme
