@@ -6,13 +6,7 @@ draft: false
 featured: false
 tags:
   - MachineLearning
-  - ReinforcementLearning
-  - QLearning
-  - C++
-  - Game
-  - AI
-categories:
-  - Machine Learning
+categories: []
 image:
   filename: featured
   focal_point: Smart
