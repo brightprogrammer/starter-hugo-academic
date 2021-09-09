@@ -281,7 +281,7 @@ str[12] = 'd';
 ***For deducing value of str\[1]***\
 We know that `'\n'` in decimal is 10, so we are effectively checking for `str[1] % 10 == 1`. This means that str\[1] must be of the form `char(10*r + 1)`, so the possible values are `char(1)` to `char(121)`(i.e `char(1)`, `char(11)`, `char(21)` and so on...)  
 
-```c
+```cpp
 int main(){
     for(uint8_t i=0; i < 128; i++){
         if(i%10==1)
@@ -331,7 +331,7 @@ Flag is correct.%
 
 So, we have multiple passwords, so let's make a program to check for all possible values : 
 
-```c++
+```cpp
 #include <string>
 #include <memory>
 #include <cstdio>
@@ -396,7 +396,7 @@ int main(int argc, char** argv){
 On running this, you will see that all passwords are accepted.
 So let's make a dump of all these passwords and complete solving the crackme.
 
-```c++
+```cpp
 #include <string>
 #include <cstdio>
 int main(){
