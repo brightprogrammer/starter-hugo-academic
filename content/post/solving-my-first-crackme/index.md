@@ -13,7 +13,7 @@ categories:
   - reversing
   - crackme
 image:
-  filename: reverse_engineering_1.jpg
+  filename: featured.jpg
   focal_point: Smart
   preview_only: false
 ---
