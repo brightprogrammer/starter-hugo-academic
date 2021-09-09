@@ -18,24 +18,21 @@ social:
     link: https://youtube.com/channel/UCaa5_xy0usCnHXNketyHlmQ
     icon_pack: fab
     icon: youtube
-organizations:
-  - name: Stanford University
-    url: https://www.stanford.edu/
+  - display:
+      header: false
+    link: https://instagram.com/imsiddharthmishra/
+    icon_pack: fab
+    icon: instagram
+organizations: []
 education:
   courses:
-    - course: PhD in Artificial Intelligence
-      institution: Stanford University
-      year: 2012
-    - course: MEng in Artificial Intelligence
-      institution: Massachusetts Institute of Technology
-      year: 2009
-    - course: BSc in Artificial Intelligence
-      institution: Massachusetts Institute of Technology
-      year: 2008
+    - course: XIIth Boards
+      institution: Dhanbad Public School
+      year: 2020
 superuser: true
 highlight_name: true
 title: Siddharth Mishra
-email: ""
+email: bshock665@gmail.com
 ---
 Hi! I am Siddharth Mishra. I am a student and I love reading about low level problems in Computer Science. I have progressive experience of about 4 years in C++ and I would call myself an *intermediate*. I still have a lot to learn and I am curious to learn more and more. I love writing about my achievents and learnings, so this place is a journal of my journey. 
 
