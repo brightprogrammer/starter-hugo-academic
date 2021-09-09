@@ -1,6 +1,6 @@
 ---
 role: Computer Science Enthusiast
-avatar_filename: profile-modified-1-.png
+avatar_filename: avatar.png
 bio: My interests include CyberSecurity, Machine Learning and Computer Graphics
 interests:
   - Cyber Security
