@@ -4,6 +4,16 @@ subtitle: A Simple AI To Play Snake Game
 date: 2021-09-09T18:33:08.425Z
 draft: false
 featured: false
+tags:
+  - MachineLearning
+  - ReinforcementLearning
+  - QLearning
+  - C++
+  - Game
+  - AI
+categories:
+  - Machine Learning
+  - C++
 image:
   filename: featured
   focal_point: Smart
