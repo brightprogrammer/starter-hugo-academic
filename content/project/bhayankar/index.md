@@ -13,17 +13,15 @@ image:
 
 ## First Steps
 
-| First Triangle          | Different Pipelines | With Vertex Buffer |
-| ----------------------- | ------------------- | ------------------ |
-| ![](first-triangle.gif) | ![](toggle-shaders.gif)| ![](vertex-buffer.gif) |
-
+| First Triangle          | Different Pipelines     | With Vertex Buffer     |
+| ----------------------- | ----------------------- | ---------------------- |
+| ![](first-triangle.gif) | ![](toggle-shaders.gif) | ![](vertex-buffer.gif) |
 
 ## Going 3D
 
-| 3D Triangle | 3D Monkey Head | Many Monkey Heads |
-| ----------- | -------------- | ----------------- |
-|             |                |                   |
-
+| 3D Triangle           | 3D Monkey Head       | Many Monkey Heads |
+| --------------------- | -------------------- | ----------------- |
+| ![](camera-start.gif) | ![](monkey-head.gif) | ![](many-monkey-heads.gif) |
 
 
 Here is the [GitHub Repository Link](https://github.com/brightprogrammer/Bhayankar)
