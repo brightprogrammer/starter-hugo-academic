@@ -4,6 +4,12 @@ subtitle: In This Post I Show My Approach To Solving My First CrackMe
 date: 2021-08-14T16:38:10.432Z
 draft: false
 featured: false
+tags:
+  - reversing
+  - first
+  - post
+categories:
+  - reversing
 image:
   filename: featured
   focal_point: Smart
@@ -12,8 +18,6 @@ image:
 In this post, I will write about how I solved my very first crackme.
 
 ![](reverse_engineering_1.jpg)
-
-
 
 Tools you will need are : 
 
@@ -33,7 +37,6 @@ If somehow your system isn't treating this as an executable, you can confirm tha
 ➜  forest-crackme file forest
 forest: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=3cec36018b4f8638a3f4c1156b074988c0227980, for GNU/Linux 4.4.0, not stripped
 ➜  forest-crackme 
-
 ```
 
 As you can see that it is an `ELF 64-bit executable`.
@@ -47,7 +50,6 @@ Please enter the flag:idonthaveone
 The forest is unforgiving.
 Flag not correct.%                                                                                                                                             
 ➜  forest-crackme 
-
 ```
 
 So, on executing, the program asks us to enter a flag. Since I don't know it now, I will enter anything that comes in my mind 😝. Ok, so ususally the next step is to check the strings in this executable. From this you can get more information like what libraries / functions this program uses, is it a packed executable or not etc. etc...
@@ -225,7 +227,6 @@ undefined8 main(void)
   }
   return 0;
 }
-
 ```
 
 Notice that the behaviour of this program is similar to what that `forest` executable did. First print the string `The forest is dark and dangerous. Be careful!` using the `puts` and then it uses `printf` to print the string `Please enter the flag:` after which we enter our flag.   
@@ -315,7 +316,6 @@ Please enter the flag:r3doidinghood
 You escaped the forest.
 Flag is correct.%                                                                                                                               
 ➜  forest-crackme 
-
 ```
 
 Again :    
@@ -327,7 +327,6 @@ Please enter the flag:r=daidinghood
 You escaped the forest.
 Flag is correct.%                                                                                                                               
 ➜  forest-crackme 
-
 ```
 
 So, we have multiple passwords, so let's make a program to check for all possible values : 
@@ -428,12 +427,11 @@ int main(){
 	// close file
 	fclose(passwd_dump);
 }
-
 ```
 
 <iframe src="https://pastebin.com/embed_iframe/xY31vYSi?theme=dark" style="border:none;width:100%"></iframe>
 
-\[Here](https://pastebin.com/xY31vYSi) is the generated file. Note that there are some broken passwords and that is because of some non `printf` friendly characters.
+[Here](https://pastebin.com/xY31vYSi) is the generated file. Note that there are some broken passwords and that is because of some non `printf` friendly characters.
 
 Yay!, we just solved our first crackme! It was fun!
 
@@ -441,4 +439,4 @@ If you didn't understand any part of this blog, then you can contact me on teleg
 
 See you next post 😇
 
-> > ***'"It's Impossible." said Pride. "It's Risky." said Experience. "It's Pointless." said Reason. If you really are a Hacker! then give it a try'*** - anonymous
+> ***'"It's Impossible." said Pride. "It's Risky." said Experience. "It's Pointless." said Reason. If you really are a Hacker! then give it a try'*** - anonymous
