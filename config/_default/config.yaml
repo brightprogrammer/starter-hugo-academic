@@ -65,6 +65,4 @@ related:
     - name: tags
       weight: 100
     - name: categories
-      weight: 70
-disqus:
-  shortname: brightprogrammer 
+      weight: 70 
