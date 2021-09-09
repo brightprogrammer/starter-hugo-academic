@@ -32,6 +32,9 @@ Here is the [GitHub Repository Link](https://github.com/brightprogrammer/Bhayank
 
 This is one of my beginning Vulkan projects. It was amazing learning this stuff because my progress was clearly visible.
 
+## Learning : 
+Bhayankar was my attempt to make something from Vulkan C API. “Bhayankar” is a Hindi word which in English means “Dangerous”. In the pursuit, I learned various concepts like how Vulkan is different from other Computer Graphics APIs and why is it fast. I also came across an awesome 2011 [blog series](https://fgiesen.wordpress.com/2011/07/09/a-trip-through-the-graphics-pipeline-2011-index/) that helped me in understanding the intrinsics of GPU.
+
 ## Comments
 
 Again this was stopped because of my entrance exam preparations. At this point I was learning how to setup project using CMake and GitHub.
