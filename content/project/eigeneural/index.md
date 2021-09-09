@@ -4,6 +4,8 @@ subtitle: A Simple Neural Network Implementation In C++
 date: 2021-09-09T19:31:25.170Z
 draft: false
 featured: false
+tags:
+  - MachineLearning
 image:
   filename: featured
   focal_point: Smart
