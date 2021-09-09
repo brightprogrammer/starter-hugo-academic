@@ -5,7 +5,7 @@
     <link>https://brightprogrammer.netlify.app/project/</link>
       <atom:link href="https://brightprogrammer.netlify.app/project/index.xml" rel="self" type="application/rss+xml" />
     <description>Projects</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Copyright © {2021} Siddharth Mishra (Me)</copyright><lastBuildDate>Wed, 27 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Copyright © {2021} Siddharth Mishra (Me)</copyright><lastBuildDate>Thu, 09 Sep 2021 18:33:08 +0000</lastBuildDate>
     <image>
       <url>https://brightprogrammer.netlify.app/media/icon_huc9547a376fefe39609425a864fc14636_180245_512x512_fill_lanczos_center_3.png</url>
       <title>Projects</title>
@@ -13,15 +13,48 @@
     </image>
     
     <item>
-      <title>Example Project</title>
-      <link>https://brightprogrammer.netlify.app/project/example/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      <guid>https://brightprogrammer.netlify.app/project/example/</guid>
-      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
-&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
-&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
-&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
-&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
+      <title>Snake AI</title>
+      <link>https://brightprogrammer.netlify.app/project/snake-ai/</link>
+      <pubDate>Thu, 09 Sep 2021 18:33:08 +0000</pubDate>
+      <guid>https://brightprogrammer.netlify.app/project/snake-ai/</guid>
+      <description>&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
+               /project/snake-ai/snake_ai_hufcf0e6400f2c6984f4be4a275bbd74c9_22159_0301c10018dfe09e1acb4de4f11e5302.png 400w,
+               /project/snake-ai/snake_ai_hufcf0e6400f2c6984f4be4a275bbd74c9_22159_cd1f50ca41bff1c23f7ebcb503ebfdbd.png 760w,
+               /project/snake-ai/snake_ai_hufcf0e6400f2c6984f4be4a275bbd74c9_22159_1200x1200_fit_lanczos_3.png 1200w&#34;
+               src=&#34;https://brightprogrammer.netlify.app/project/snake-ai/snake_ai_hufcf0e6400f2c6984f4be4a275bbd74c9_22159_0301c10018dfe09e1acb4de4f11e5302.png&#34;
+               width=&#34;478&#34;
+               height=&#34;486&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Link : &lt;a href=&#34;https://youtu.be/tpJ6qsCAWSo&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://youtu.be/tpJ6qsCAWSo&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;description-&#34;&gt;Description :&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This project was inspired by Code Bullet&amp;rsquo;s video on making a Snake AI. I found the idea interesting so I gave it a try. I used SFML for rendering graphics and Q-Learning (Reinforcement Learning) based approach to train the AI. The code was written from scratch. This was a nice challenge as at that time I was beginning to learn concepts of Object Oriented Programming (OOP).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;comments-&#34;&gt;Comments :&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I would say that the &amp;ldquo;me&amp;rdquo; who was working on this project is a noob as compared to what I know now. You won&amp;rsquo;t find the source code anywhere because I didn&amp;rsquo;t know how to use GitHub then. I uploaded it on my google drive. I&amp;rsquo;ll make a post on how to code it and also upload the original source code. I was working on this project as my personal interest but coincidentally this was also my project in my school&amp;rsquo;s science exhibition.
+It is likely that I&amp;rsquo;ll improve the code and add more features like using Neural Networks.&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
     </item>
     

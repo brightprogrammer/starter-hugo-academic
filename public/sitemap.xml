@@ -11,19 +11,79 @@
     <loc>https://brightprogrammer.netlify.app/event/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/ai/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/c-/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/category/c-/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
+  </url><url>
     <loc>https://brightprogrammer.netlify.app/categories/</loc>
-    <lastmod>2021-08-14T14:22:00+00:00</lastmod>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
   </url><url>
-    <loc>https://brightprogrammer.netlify.app/tag/first/</loc>
-    <lastmod>2021-08-14T14:22:00+00:00</lastmod>
+    <loc>https://brightprogrammer.netlify.app/tag/game/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
   </url><url>
-    <loc>https://brightprogrammer.netlify.app/category/post/</loc>
-    <lastmod>2021-08-14T14:22:00+00:00</lastmod>
+    <loc>https://brightprogrammer.netlify.app/category/machine-learning/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
   </url><url>
-    <loc>https://brightprogrammer.netlify.app/post/</loc>
-    <lastmod>2021-08-14T14:22:00+00:00</lastmod>
+    <loc>https://brightprogrammer.netlify.app/tag/machinelearning/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/project/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/qlearning/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/reinforcementlearning/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/project/snake-ai/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
   </url><url>
     <loc>https://brightprogrammer.netlify.app/tags/</loc>
+    <lastmod>2021-09-09T18:33:08+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/assembly/</loc>
+    <lastmod>2021-09-03T17:50:32+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/crackme/</loc>
+    <lastmod>2021-09-03T17:50:32+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/category/crackme/</loc>
+    <lastmod>2021-09-03T17:50:32+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/decompiling/</loc>
+    <lastmod>2021-09-03T17:50:32+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/post/</loc>
+    <lastmod>2021-09-03T17:50:32+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/radare2/</loc>
+    <lastmod>2021-09-03T17:50:32+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/reversing/</loc>
+    <lastmod>2021-09-03T17:50:32+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/category/reversing/</loc>
+    <lastmod>2021-09-03T17:50:32+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/post/solving-x3ero0s-crackme-the-hard-way/</loc>
+    <lastmod>2021-09-03T17:50:32+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/first/</loc>
+    <lastmod>2021-08-14T16:38:10+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/tag/post/</loc>
+    <lastmod>2021-08-14T16:38:10+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/post/solving-my-first-crackme/</loc>
+    <lastmod>2021-08-14T16:38:10+00:00</lastmod>
+  </url><url>
+    <loc>https://brightprogrammer.netlify.app/category/post/</loc>
     <lastmod>2021-08-14T14:22:00+00:00</lastmod>
   </url><url>
     <loc>https://brightprogrammer.netlify.app/post/welcome-to-my-blog/</loc>
@@ -40,15 +100,6 @@
   </url><url>
     <loc>https://brightprogrammer.netlify.app/terms/</loc>
     <lastmod>2018-06-28T00:00:00+01:00</lastmod>
-  </url><url>
-    <loc>https://brightprogrammer.netlify.app/tag/deep-learning/</loc>
-    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://brightprogrammer.netlify.app/project/example/</loc>
-    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://brightprogrammer.netlify.app/project/</loc>
-    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://brightprogrammer.netlify.app/publication-type/1/</loc>
     <lastmod>2013-07-01T00:00:00+00:00</lastmod>

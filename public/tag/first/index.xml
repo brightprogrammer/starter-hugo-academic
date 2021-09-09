@@ -5,12 +5,446 @@
     <link>https://brightprogrammer.netlify.app/tag/first/</link>
       <atom:link href="https://brightprogrammer.netlify.app/tag/first/index.xml" rel="self" type="application/rss+xml" />
     <description>first</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Copyright © {2021} Siddharth Mishra (Me)</copyright><lastBuildDate>Sat, 14 Aug 2021 14:22:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Copyright © {2021} Siddharth Mishra (Me)</copyright><lastBuildDate>Sat, 14 Aug 2021 16:38:10 +0000</lastBuildDate>
     <image>
       <url>https://brightprogrammer.netlify.app/media/icon_huc9547a376fefe39609425a864fc14636_180245_512x512_fill_lanczos_center_3.png</url>
       <title>first</title>
       <link>https://brightprogrammer.netlify.app/tag/first/</link>
     </image>
+    
+    <item>
+      <title>Solving My First CrackMe</title>
+      <link>https://brightprogrammer.netlify.app/post/solving-my-first-crackme/</link>
+      <pubDate>Sat, 14 Aug 2021 16:38:10 +0000</pubDate>
+      <guid>https://brightprogrammer.netlify.app/post/solving-my-first-crackme/</guid>
+      <description>&lt;p&gt;In this post, I will write about how I solved my very first crackme.&lt;/p&gt;
+&lt;p&gt;Tools you will need are :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A Linux terminal&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;crackmes.one/crackme/60f31f1d33c5d42814fb3381&#34;&gt;This&lt;/a&gt; crackme&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ghidra-sre.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Ghidra&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you are on Windows you can use cygwin or some other emulator. If you can understand what is being done in Linux, and you can translate that in Windows then you are good to go ;-).&lt;/p&gt;
+&lt;p&gt;We begin by downloading the crackme. Before opening any crackme, I recommend you to scan the file for viruses on &lt;a href=&#34;https://www.virustotal.com/gui/home/upload&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Virus Total&lt;/a&gt;. Even though all crackmes are checked for malwares before being accepted, it never hurts to stay cautious. Sometimes Virus Total gives false positives too, so make sure to check whether the executable is packed or not before executing it because sometimes packed executables are detected as malwares by some AV softwares. I&amp;rsquo;m telling you this &lt;em&gt;&lt;strong&gt;becuase this happened with me&lt;/strong&gt;&lt;/em&gt;, while I was solving my third crackme!&lt;/p&gt;
+&lt;p&gt;After downloading, checking for malwares, extracting blah blah&amp;hellip; we try to run the executable and try to understand what we have to do.&lt;/p&gt;
+&lt;p&gt;If somehow your system isn&amp;rsquo;t treating this as an executable, you can confirm that by using the &lt;code&gt;file&lt;/code&gt; tool. You may or may not have this tool already installed on your pc so make sure to install it.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;➜  forest-crackme file forest
+forest: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=3cec36018b4f8638a3f4c1156b074988c0227980, for GNU/Linux 4.4.0, not stripped
+➜  forest-crackme 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As you can see that it is an &lt;code&gt;ELF 64-bit executable&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now we need to give it permission to execute and for that we will do &lt;code&gt;chmod +x forest&lt;/code&gt; and then execute the executable :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;➜  forest-crackme ./forest
+The forest is dark and dangerous. Be careful!
+Please enter the flag:idonthaveone
+The forest is unforgiving.
+Flag not correct.%                                                                                                                                             
+➜  forest-crackme 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So, on executing, the program asks us to enter a flag. Since I don&amp;rsquo;t know it now, I will enter anything that comes in my mind 😝. Ok, so ususally the next step is to check the strings in this executable. From this you can get more information like what libraries / functions this program uses, is it a packed executable or not etc. etc&amp;hellip;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;➜  forest-crackme strings forest
+/lib64/ld-linux-x86-64.so.2
+_ITM_deregisterTMCloneTable
+__gmon_start__
+_ITM_registerTMCloneTable
+sqrt
+__isoc99_scanf
+puts
+__stack_chk_fail
+printf
+__cxa_finalize
+__libc_start_main
+libm.so.6
+libc.so.6
+GLIBC_2.2.5
+GLIBC_2.7
+GLIBC_2.4
+u3UH
+[]A\A]A^A_
+The forest is dark and dangerous. Be careful!
+You escaped the forest.
+Flag is correct.
+The forest is unforgiving.
+Flag not correct.
+Please enter the flag:
+%13s
+;*3$&amp;quot;
+GCC: (GNU) 11.1.0
+abi-note.c
+__abi_tag
+init.c
+forest.c
+crtstuff.c
+deregister_tm_clones
+__do_global_dtors_aux
+completed.0
+__do_global_dtors_aux_fini_array_entry
+frame_dummy
+__frame_dummy_init_array_entry
+__FRAME_END__
+__init_array_end
+_DYNAMIC
+__init_array_start
+__GNU_EH_FRAME_HDR
+_GLOBAL_OFFSET_TABLE_
+__libc_csu_fini
+_ITM_deregisterTMCloneTable
+puts@GLIBC_2.2.5
+_edata
+__stack_chk_fail@GLIBC_2.4
+printf@GLIBC_2.2.5
+__libc_start_main@GLIBC_2.2.5
+__data_start
+__gmon_start__
+__dso_handle
+_IO_stdin_used
+__libc_csu_init
+__bss_start
+main
+__isoc99_scanf@GLIBC_2.7
+__TMC_END__
+_ITM_registerTMCloneTable
+sqrt@GLIBC_2.2.5
+__cxa_finalize@GLIBC_2.2.5
+.symtab
+.strtab
+.shstrtab
+.interp
+.note.gnu.property
+.note.gnu.build-id
+.note.ABI-tag
+.gnu.hash
+.dynsym
+.dynstr
+.gnu.version
+.gnu.version_r
+.rela.dyn
+.rela.plt
+.init
+.text
+.fini
+.rodata
+.eh_frame_hdr
+.eh_frame
+.init_array
+.fini_array
+.dynamic
+.got
+.got.plt
+.data
+.bss
+.comment
+➜  forest-crackme 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Most of the strings in this dump are useless and finding useful string is often like finding needle in a haystack (i.e if executable is large). We can see some know strings here :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The forest is dark and dangerous. Be careful!&lt;/li&gt;
+&lt;li&gt;You escaped the forest.&lt;/li&gt;
+&lt;li&gt;Flag is correct.&lt;/li&gt;
+&lt;li&gt;The forest is unforgiving.&lt;/li&gt;
+&lt;li&gt;Flag not correct.&lt;/li&gt;
+&lt;li&gt;Please enter the flag:&lt;/li&gt;
+&lt;li&gt;puts@GLIBC_2.2.5&lt;/li&gt;
+&lt;li&gt;printf@GLIBC_2.2.5&lt;/li&gt;
+&lt;li&gt;sqrt&lt;/li&gt;
+&lt;li&gt;puts&lt;/li&gt;
+&lt;li&gt;printf&lt;/li&gt;
+&lt;li&gt;sqrt@GLIBC_2.2.5&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can see that the program is using functions &lt;code&gt;sqrt&lt;/code&gt;, &lt;code&gt;puts&lt;/code&gt; and &lt;code&gt;printf&lt;/code&gt;. Strings starting with a &lt;code&gt;.&lt;/code&gt; represent a section in assembly, like for eg : &lt;code&gt;.rodata&lt;/code&gt; means &lt;em&gt;read only data&lt;/em&gt; section and &lt;code&gt;.text&lt;/code&gt; is where our functions are stored. So, after taking a look at the strings above, it is clear that there is nothing important in here.&lt;/p&gt;
+&lt;p&gt;The next step is to disassemble / decompile the program and try to understand what it&amp;rsquo;s doing. I will use Ghidra for that but you can use other tools too if you like. Some people also use debuggers to solve these types of crackmes. Ghidra is an awesome tool writen by the &lt;strong&gt;NSA&lt;/strong&gt; that can both disassemble and &lt;em&gt;&lt;strong&gt;decompile&lt;/strong&gt;&lt;/em&gt; your code.&lt;/p&gt;
+&lt;p&gt;If haven&amp;rsquo;t installed Ghidra yet, please google your way to install it. Fire up Ghidra, create a new project and hit &lt;code&gt;I&lt;/code&gt; on your keyboard to import an executable. Navigate your way to the &lt;code&gt;forest&lt;/code&gt; executable and select it. Ghidra will do some analysis now and you can just skip those steps as at this stage even I don&amp;rsquo;t pay much attention to those.&lt;br&gt;
+Next you will see a window labled &lt;code&gt;Listing: forest&lt;/code&gt; with some elvish written in it. Just kidding 😜, that&amp;rsquo;s your disassembled code! Try to hit a few buttons and menus for a file, explore the interface a bit&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://brightprogrammer.github.io/images/blog-res/ghidra-forest-1.png&#34; alt=&#34;ghidra-forest-1&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Next, search for &lt;code&gt;.text&lt;/code&gt; in the upper left window named &lt;code&gt;Program Trees&lt;/code&gt; because that is where we will find our &lt;code&gt;main&lt;/code&gt;. Why are we looking for &lt;code&gt;main&lt;/code&gt;, well that&amp;rsquo;s because all C/C++ programs must have it! and that is the entry point for every C/C++ program and that is where you will always want to start reversing.&lt;br&gt;
+Navigating to that section, you will instantly see disassembly of &lt;code&gt;main&lt;/code&gt; pop up in the &lt;code&gt;Listing&lt;/code&gt; window. If you are still not able to find this, then you can navigate to &lt;code&gt;main&lt;/code&gt; in the window below &lt;code&gt;Program Trees&lt;/code&gt; window named &lt;code&gt;Sybmol Tree&lt;/code&gt;. You will find &lt;code&gt;main&lt;/code&gt; in &lt;code&gt;Functions&lt;/code&gt; label.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://brightprogrammer.github.io/images/blog-res/ghidra-forest-2.png&#34; alt=&#34;ghidra-forest-2&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Next click on the &lt;code&gt;Listing: forest&lt;/code&gt; window and you will see a C-style code pop up in window next to that (i.e &lt;code&gt;Decompile: main - (forest)&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://brightprogrammer.github.io/images/blog-res/ghidra-forest-3.png&#34; alt=&#34;ghidra-forest-3&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;We will copy this code from &lt;code&gt;Decompile&lt;/code&gt; window in another text file and try to analyze that.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;undefined8 main(void)
+
+{
+  long in_FS_OFFSET;
+  double dVar1;
+  char local_1e;
+  char local_1d;
+  char local_1c;
+  char local_1b;
+  char local_1a;
+  char local_19;
+  char local_18;
+  char local_17;
+  char local_16;
+  char local_15;
+  char local_14;
+  char local_13;
+  char local_12;
+  long local_10;
+  
+  local_10 = *(long *)(in_FS_OFFSET + 0x28);
+  puts(&amp;quot;The forest is dark and dangerous. Be careful!&amp;quot;);
+  printf(&amp;quot;Please enter the flag:&amp;quot;);
+  __isoc99_scanf(&amp;amp;DAT_001020ac,&amp;amp;local_1e);
+  if (((((local_1e == &#39;r&#39;) &amp;amp;&amp;amp; (local_1d % &#39;\n&#39; == &#39;\x01&#39;)) &amp;amp;&amp;amp;
+       (dVar1 = sqrt((double)(int)local_1c), dVar1 * 5.0 == 50.0)) &amp;amp;&amp;amp;
+      ((((byte)(local_1b - 1U) &amp;lt; 0x72 &amp;amp;&amp;amp; (local_1a == &#39;i&#39;)) &amp;amp;&amp;amp;
+       ((local_19 == &#39;d&#39; &amp;amp;&amp;amp; ((local_18 == &#39;i&#39; &amp;amp;&amp;amp; (local_17 == &#39;n&#39;)))))))) &amp;amp;&amp;amp;
+     ((local_16 == &#39;g&#39; &amp;amp;&amp;amp;
+      ((((local_15 == &#39;h&#39; &amp;amp;&amp;amp; (local_14 == &#39;o&#39;)) &amp;amp;&amp;amp; (local_13 == &#39;o&#39;)) &amp;amp;&amp;amp; (local_12 == &#39;d&#39;)))))) {
+    printf(&amp;quot;You escaped the forest.\nFlag is correct.&amp;quot;);
+  }
+  else {
+    printf(&amp;quot;The forest is unforgiving.\nFlag not correct.&amp;quot;);
+  }
+  if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    __stack_chk_fail();
+  }
+  return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice that the behaviour of this program is similar to what that &lt;code&gt;forest&lt;/code&gt; executable did. First print the string &lt;code&gt;The forest is dark and dangerous. Be careful!&lt;/code&gt; using the &lt;code&gt;puts&lt;/code&gt; and then it uses &lt;code&gt;printf&lt;/code&gt; to print the string &lt;code&gt;Please enter the flag:&lt;/code&gt; after which we enter our flag.&lt;/p&gt;
+&lt;p&gt;We can close Ghidra now as we needed the decompiled code only. Why? because we see that all the functionalities of our program is defined in &lt;code&gt;main&lt;/code&gt; and no other user-defined function is called in &lt;code&gt;main&lt;/code&gt; so this means we just need to reverse &lt;code&gt;main&lt;/code&gt;. Let&amp;rsquo;s try to analyze the program further.&lt;br&gt;
+Notice that after printing those strings, program asks for an input using &lt;code&gt;scanf&lt;/code&gt;(or more precisely &lt;code&gt;__isoc99_scanf&lt;/code&gt;). Then some randome variables are being compared with some characters and some functions are used. At this moement it really looks elvish 🙃 .&lt;/p&gt;
+&lt;p&gt;Notice this part of code :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;  long in_FS_OFFSET;
+  double dVar1;
+  char local_1e;
+  char local_1d;
+  char local_1c;
+  char local_1b;
+  char local_1a;
+  char local_19;
+  char local_18;
+  char local_17;
+  char local_16;
+  char local_15;
+  char local_14;
+  char local_13;
+  char local_12;
+  long local_10;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Did you notice anything odd?&lt;br&gt;
+The suffix in variable names is decreasing by 1 as we go down from &lt;code&gt;local_1e&lt;/code&gt; to &lt;code&gt;local_12&lt;/code&gt;. In assembly when you have to allocate variables, you just allocate them all at once by subtracting the total required memory from the stack pointer(&lt;code&gt;esp&lt;/code&gt;). All this memory is allocated like an array and when decompilers deduce the variables, they name them accordingly, for eg : &lt;code&gt;local_10&lt;/code&gt; is &lt;code&gt;long&lt;/code&gt; which is of 2 bytes, so you see an increase of 2 from &lt;code&gt;local_10&lt;/code&gt; to &lt;code&gt;local_12&lt;/code&gt;. It is safe to assume from here that there is a string stored in the array from &lt;code&gt;local_1e&lt;/code&gt; to &lt;code&gt;local_12&lt;/code&gt; because our program took a string as input which is basically an array of characters which is what we see here and this is what is being compared in that huge elvish &lt;code&gt;if&lt;/code&gt; statement.  Also, in the &lt;code&gt;__isoc99_scanf&lt;/code&gt; call, you see that address of &lt;code&gt;local_1e&lt;/code&gt; is passed and from this we confirm our suspicion that we just encountered the whole string stored in the form of separate &lt;code&gt;char&lt;/code&gt; variables.&lt;/p&gt;
+&lt;p&gt;If you understood this part, then let&amp;rsquo;s try to deduce the values of each element in the string by looking at the if statement&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-c&#34;&gt;str[0]  = &#39;r&#39;;
+str[1]  = ??; // something, we have to apply some more brain here
+str[2]  = ??;
+str[3]  = ??;
+str[4]  = &#39;i&#39;;
+str[5]  = &#39;d&#39;;
+str[6]  = &#39;i&#39;;
+str[7]  = &#39;n&#39;;
+str[8]  = &#39;g&#39;;
+str[8]  = &#39;h&#39;;
+str[10] = &#39;o&#39;;
+str[11] = &#39;o&#39;;
+str[12] = &#39;d&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;For deducing value of str[1]&lt;/strong&gt;&lt;/em&gt;&lt;br&gt;
+We know that &lt;code&gt;&#39;\n&#39;&lt;/code&gt; in decimal is 10, so we are effectively checking for &lt;code&gt;str[1] % 10 == 1&lt;/code&gt;. This means that str[1] must be of the form &lt;code&gt;char(10*r + 1)&lt;/code&gt;, so the possible values are &lt;code&gt;char(1)&lt;/code&gt; to &lt;code&gt;char(121)&lt;/code&gt;(i.e &lt;code&gt;char(1)&lt;/code&gt;, &lt;code&gt;char(11)&lt;/code&gt;, &lt;code&gt;char(21)&lt;/code&gt; and so on&amp;hellip;)&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;int main(){
+    for(uint8_t i=0; i &amp;lt; 128; i++){
+        if(i%10==1)
+            printf(&amp;quot;%c &amp;quot;, i);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Execute this code to get list of possible values that &lt;code&gt;str[1]&lt;/code&gt; can hold and we get :  &lt;code&gt;) 3 = G Q [ e o y&lt;/code&gt;. (There can be more values, because I copy pasted the output).&lt;br&gt;
+So value for str[1] can be any of those characters.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;For deducing value of str[2]&lt;/strong&gt;&lt;/em&gt;&lt;br&gt;
+Here we see the following equations
+$$dVar1 * 5.0 = 50.0 \rightarrow dVar1 = 10.0$$
+$$dVar1 = \sqrt(str[2]) \rightarrow str[2] = (dVar1)^2 \rightarrow str[2] = 100$$&lt;br&gt;
+So, we get &lt;code&gt;str[2] = 100&lt;/code&gt; which in ASCII is the alphabet &lt;code&gt;d&lt;/code&gt; (yes, I&amp;rsquo;m taking reference from &lt;a href=&#34;https://en.cppreference.com/w/cpp/language/ASCII&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ASCII chart&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;For deducing value of str[3]&lt;/strong&gt;&lt;/em&gt;
+So up intil now we have our string : &lt;code&gt;r_d_idinghood&lt;/code&gt;, where &lt;code&gt;_&lt;/code&gt; means we are missing something there.&lt;br&gt;
+If we try to solve for &lt;code&gt;str[3]&lt;/code&gt;, we will have to bruteforce it because for &lt;code&gt;str[3]&lt;/code&gt; we have the mathematical inequality&lt;br&gt;
+$$str[3] - 1 &amp;lt; 114 \rightarrow str[3] &amp;lt; 115$$
+ASCII value for 115 is &lt;code&gt;s&lt;/code&gt;. So all ASCII characters that come before &lt;code&gt;s&lt;/code&gt; will be accepted as place holder for str[3].&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s try that :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;➜  forest-crackme ./forest
+The forest is dark and dangerous. Be careful!
+Please enter the flag:r3doidinghood
+You escaped the forest.
+Flag is correct.%                                                                                                                               
+➜  forest-crackme 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Again :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;➜  forest-crackme ./forest
+The forest is dark and dangerous. Be careful!
+Please enter the flag:r=daidinghood
+You escaped the forest.
+Flag is correct.%                                                                                                                               
+➜  forest-crackme 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So, we have multiple passwords, so let&amp;rsquo;s make a program to check for all possible values :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;#include &amp;lt;string&amp;gt;
+#include &amp;lt;memory&amp;gt;
+#include &amp;lt;cstdio&amp;gt;
+#include &amp;lt;array&amp;gt;
+#include &amp;lt;cstring&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+
+int main(int argc, char** argv){
+
+
+        if(argc != 2){
+                fprintf(stderr, &amp;quot;usage : bruteforce command\n&amp;quot;);
+                exit(-1);
+        }
+
+        // get command to be executed
+        const char* cmd = argv[1];
+
+        printf(&amp;quot;beginning to bruteforce \&amp;quot;%s\&amp;quot;\n\n&amp;quot;, cmd);
+
+        // get possible values for str[1]
+        std::string str1 = &amp;quot;&amp;quot;; // initialize as empty so that we can append values to it
+        for(char i=0; i &amp;lt; 127; i++){
+        if(i%10==1)
+                        str1.append(1, i);
+    }
+
+        // this is the password we get
+        // 1 and 2 are place holders
+        std::string passwd = &amp;quot;r1d3idinghood&amp;quot;;
+
+
+        for(uint i = 0; i &amp;lt; str1.size(); i++){
+                for(uint j = 0; j &amp;lt; 114; j++){
+                        // substitue placeholder values with possible ones
+                        passwd[1] = str1[i];
+                        passwd[3] = char(j);
+
+                        printf(&amp;quot;trying password : \&amp;quot;%s\&amp;quot;\n&amp;quot;, passwd.c_str());
+
+                        // test it out
+                        std::array&amp;lt;char, 256&amp;gt; buffer;
+                        std::string result;
+                        std::unique_ptr&amp;lt;FILE, decltype(&amp;amp;pclose)&amp;gt; proc_ptr(popen(cmd, &amp;quot;w&amp;quot;), pclose);
+                        if(!proc_ptr){
+                                fprintf(stderr, &amp;quot;failed to open executable \&amp;quot;%s\&amp;quot;\n&amp;quot;, cmd);
+                                exit(-1);
+                        }
+
+                        // write the password
+                        if(fwrite(passwd.c_str(), 1, passwd.size(), proc_ptr.get()) != passwd.size()){
+                                fprintf(stderr, &amp;quot;failed to give input to child process \&amp;quot;%s\&amp;quot;&amp;quot;, cmd);
+                                exit(-1);
+                        }
+
+                        printf(&amp;quot;\n\n&amp;quot;);
+                }
+        }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On running this, you will see that all passwords are accepted.
+So let&amp;rsquo;s make a dump of all these passwords and complete solving the crackme.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;#include &amp;lt;string&amp;gt;
+#include &amp;lt;cstdio&amp;gt;
+int main(){
+	// get possible values for str[1]
+	std::string str1 = &amp;quot;&amp;quot;; // initialize as empty so that we can append values to it
+	for(char i=0; i &amp;lt; 127; i++){
+        if(i%10==1)
+			str1.append(1, i);
+    }
+
+	// this is the password we get
+	// 1 and 3 are place holders
+	std::string passwd = &amp;quot;r1d3idinghood&amp;quot;;
+
+	// create dump file
+	FILE* passwd_dump = fopen(&amp;quot;passwd_dump.txt&amp;quot;, &amp;quot;w&amp;quot;);
+	
+	for(uint i = 0; i &amp;lt; str1.size(); i++){
+		for(uint j = 0; j &amp;lt; 114; j++){
+			// substitue placeholder values with possible ones
+			passwd[1] = str1[i];
+			passwd[3] = char(j);
+
+			fprintf(passwd_dump, &amp;quot;%s\n&amp;quot;, passwd.c_str());
+		}
+	}	
+
+	// close file
+	fclose(passwd_dump);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe src=&#34;https://pastebin.com/embed_iframe/xY31vYSi?theme=dark&#34; style=&#34;border:none;width:100%&#34;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&#34;https://pastebin.com/xY31vYSi&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Here&lt;/a&gt; is the generated file. Note that there are some broken passwords and that is because of some non &lt;code&gt;printf&lt;/code&gt; friendly characters.&lt;/p&gt;
+&lt;p&gt;Yay!, we just solved our first crackme! It was fun!&lt;/p&gt;
+&lt;p&gt;If you didn&amp;rsquo;t understand any part of this blog, then you can contact me on telegram/instagram!&lt;/p&gt;
+&lt;p&gt;See you next post 😇&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;&#39;&amp;ldquo;It&amp;rsquo;s Impossible.&amp;rdquo; said Pride. &amp;ldquo;It&amp;rsquo;s Risky.&amp;rdquo; said Experience. &amp;ldquo;It&amp;rsquo;s Pointless.&amp;rdquo; said Reason. If you really are a Hacker! then give it a try&#39;&lt;/strong&gt;&lt;/em&gt; - anonymous&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+    </item>
     
     <item>
       <title>Welcome To My Blog</title>
