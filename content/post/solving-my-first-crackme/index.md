@@ -8,16 +8,16 @@ tags:
   - reversing
   - first
   - post
+  - crackme
 categories:
   - reversing
+  - crackme
 image:
-  filename: featured
+  filename: reverse_engineering_1.jpg
   focal_point: Smart
   preview_only: false
 ---
 In this post, I will write about how I solved my very first crackme.
-
-![](reverse_engineering_1.jpg)
 
 Tools you will need are : 
 
