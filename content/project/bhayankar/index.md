@@ -13,10 +13,9 @@ image:
 
 ## First Steps
 
-| First Triangle | Different Pipelines | With Vertex Buffer |
-| -------------- | ------------------- | ------------------ |
-|  ![](first-triangle.gif) |                     |                    |
-
+| First Triangle          | Different Pipelines | With Vertex Buffer |
+| ----------------------- | ------------------- | ------------------ |
+| ![](first-triangle.gif) | [](toggle-shaders.gif)| ![](vertex-buffer.gif) |
 
 
 ## Going 3D
