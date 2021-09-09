@@ -4,21 +4,20 @@ avatar_filename: profile-modified.png
 bio: My interests include CyberSecurity, Machine Learning and Computer Graphics
 interests: []
 social:
-  - icon: envelope
-    icon_pack: fas
-    link: /#contact
   - icon: twitter
     icon_pack: fab
-    link: https://twitter.com/GeorgeCushen
-  - icon: graduation-cap
-    icon_pack: fas
-    link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
+    link: https://twitter.com/brightprogramer
   - icon: github
     icon_pack: fab
-    link: https://github.com/gcushen
+    link: https://github.com/brightprogrammer
   - icon: linkedin
     icon_pack: fab
-    link: https://www.linkedin.com/
+    link: https://www.linkedin.com/in/siddharth-mishra-331940219/
+  - display:
+      header: false
+    link: https://youtube.com/channel/UCaa5_xy0usCnHXNketyHlmQ
+    icon_pack: fab
+    icon: youtube
 organizations:
   - name: Stanford University
     url: https://www.stanford.edu/
