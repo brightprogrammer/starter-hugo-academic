@@ -33,48 +33,45 @@
     </item>
     
     <item>
+      <title>Daivik OS</title>
+      <link>https://brightprogrammer.netlify.app/project/daivik-os/</link>
+      <pubDate>Thu, 09 Sep 2021 19:35:44 +0000</pubDate>
+      <guid>https://brightprogrammer.netlify.app/project/daivik-os/</guid>
+      <description>&lt;h1 id=&#34;daivik-operating-system&#34;&gt;Daivik Operating System&lt;/h1&gt;
+&lt;p&gt;Here is the &lt;a href=&#34;https://github.com/brightprogrammer/daivik&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub Repository Link&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;description-&#34;&gt;Description :&lt;/h2&gt;
+&lt;p&gt;This is a hobbyist OS written in C++. I made this operating system while I was learning how to make one. The project did not go that far because of my college entrace exam preparations. The OS is able to pring string as shown in the above image.&lt;/p&gt;
+&lt;h2 id=&#34;comments-&#34;&gt;Comments :&lt;/h2&gt;
+&lt;p&gt;I however have a better approach to make an OS now so I will try to make one again from scratch. I sort of lost hope to take it to GUI state because I this is not a unix like os and because of that graphics drivers for Vulkan, OpenGL etc won&amp;rsquo;t run on it but now I know that you can create GUI too using assembly. For this the inspiration is many other hobbyist OS and the creator of DOOM&amp;rsquo;s game engine John Carmack. That man is on another level. He wrote a graphics driver using pure assembly!!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>EigeNeural</title>
+      <link>https://brightprogrammer.netlify.app/project/eigeneural/</link>
+      <pubDate>Thu, 09 Sep 2021 19:31:25 +0000</pubDate>
+      <guid>https://brightprogrammer.netlify.app/project/eigeneural/</guid>
+      <description>&lt;h1 id=&#34;eigeneural&#34;&gt;EigeNeural&lt;/h1&gt;
+&lt;p&gt;Here is the &lt;a href=&#34;https://github.com/brightprogrammer/EigeNeural&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub Repository Link&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;description&#34;&gt;Description&lt;/h2&gt;
+&lt;p&gt;This was written for a contest in GeeksForGeeks during The Lockdown. Unfortunately I deleted my account there (a BIG mistake) but I have the code so I upload it here. It uses &lt;a href=&#34;https://eigen.tuxfamily.org/index.php?title=Main_Page&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Eigen&lt;/a&gt; for it&amp;rsquo;s linear algebra operations.&lt;/p&gt;
+&lt;h2 id=&#34;comments&#34;&gt;Comments&lt;/h2&gt;
+&lt;p&gt;The code might have some bugs in it. I&amp;rsquo;m posting this here as a project because I wrote the code without copying from anywhere. Machine Learning in C/C++ is still a challenge. At the time of writing I started learning Machine Learning &amp;amp; AI and in that pursuit I wrote this code. Also, you can use it anywhere you like because it&amp;rsquo;s really fast and lightweight because I used one of the fast linear algebra libraries available out there for C++.  &lt;br&gt;
+PS : I made a new account in GFG and mailed them to claim the post back but sadly never got a reply 😦.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Snake AI</title>
       <link>https://brightprogrammer.netlify.app/project/snake-ai/</link>
-      <pubDate>Thu, 09 Sep 2021 18:33:08 +0000</pubDate>
+      <pubDate>Thu, 09 Sep 2021 18:58:10 +0000</pubDate>
       <guid>https://brightprogrammer.netlify.app/project/snake-ai/</guid>
-      <description>&lt;p&gt;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-&lt;figure  &gt;
-  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
-    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
-               /project/snake-ai/snake_ai_hufcf0e6400f2c6984f4be4a275bbd74c9_22159_0301c10018dfe09e1acb4de4f11e5302.png 400w,
-               /project/snake-ai/snake_ai_hufcf0e6400f2c6984f4be4a275bbd74c9_22159_cd1f50ca41bff1c23f7ebcb503ebfdbd.png 760w,
-               /project/snake-ai/snake_ai_hufcf0e6400f2c6984f4be4a275bbd74c9_22159_1200x1200_fit_lanczos_3.png 1200w&#34;
-               src=&#34;https://brightprogrammer.netlify.app/project/snake-ai/snake_ai_hufcf0e6400f2c6984f4be4a275bbd74c9_22159_0301c10018dfe09e1acb4de4f11e5302.png&#34;
-               width=&#34;478&#34;
-               height=&#34;486&#34;
-               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
-  &lt;/div&gt;&lt;/figure&gt;
-&lt;/p&gt;
-&lt;p&gt;Link : &lt;a href=&#34;https://youtu.be/tpJ6qsCAWSo&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://youtu.be/tpJ6qsCAWSo&lt;/a&gt;&lt;/p&gt;
+      <description>&lt;p&gt;Link : &lt;a href=&#34;https://youtu.be/tpJ6qsCAWSo&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://youtu.be/tpJ6qsCAWSo&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;description-&#34;&gt;Description :&lt;/h2&gt;
-&lt;blockquote&gt;
 &lt;p&gt;This project was inspired by Code Bullet&amp;rsquo;s video on making a Snake AI. I found the idea interesting so I gave it a try. I used SFML for rendering graphics and Q-Learning (Reinforcement Learning) based approach to train the AI. The code was written from scratch. This was a nice challenge as at that time I was beginning to learn concepts of Object Oriented Programming (OOP).&lt;/p&gt;
-&lt;/blockquote&gt;
 &lt;h2 id=&#34;comments-&#34;&gt;Comments :&lt;/h2&gt;
-&lt;blockquote&gt;
 &lt;p&gt;I would say that the &amp;ldquo;me&amp;rdquo; who was working on this project is a noob as compared to what I know now. You won&amp;rsquo;t find the source code anywhere because I didn&amp;rsquo;t know how to use GitHub then. I uploaded it on my google drive. I&amp;rsquo;ll make a post on how to code it and also upload the original source code. I was working on this project as my personal interest but coincidentally this was also my project in my school&amp;rsquo;s science exhibition.
 It is likely that I&amp;rsquo;ll improve the code and add more features like using Neural Networks.&lt;/p&gt;
-&lt;/blockquote&gt;
 </description>
     </item>
     
