@@ -7,7 +7,7 @@ featured: false
 tags:
   - GUI
 image:
-  filename: https://raw.githubusercontent.com/brightprogrammer/Computerator/master/Resources/screenshot.png
+  filename: ""
   focal_point: Smart
   preview_only: false
 ---
