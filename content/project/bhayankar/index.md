@@ -15,7 +15,7 @@ image:
 
 | First Triangle          | Different Pipelines | With Vertex Buffer |
 | ----------------------- | ------------------- | ------------------ |
-| ![](first-triangle.gif) | [](toggle-shaders.gif)| ![](vertex-buffer.gif) |
+| ![](first-triangle.gif) | ![](toggle-shaders.gif)| ![](vertex-buffer.gif) |
 
 
 ## Going 3D
@@ -23,6 +23,8 @@ image:
 | 3D Triangle | 3D Monkey Head | Many Monkey Heads |
 | ----------- | -------------- | ----------------- |
 |             |                |                   |
+
+
 
 Here is the [GitHub Repository Link](https://github.com/brightprogrammer/Bhayankar)
 
