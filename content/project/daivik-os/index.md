@@ -4,6 +4,8 @@ subtitle: An Incomplete Hobbyist OS
 date: 2021-09-09T19:35:44.899Z
 draft: false
 featured: false
+tags:
+  - OperatingSystem
 image:
   filename: preview.jpg
   focal_point: Smart
