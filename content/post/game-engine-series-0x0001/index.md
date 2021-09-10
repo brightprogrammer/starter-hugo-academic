@@ -136,9 +136,7 @@ Initialized empty Git repository in /home/brightprogrammer/Projects/infinity/.gi
 ➜  infinity git:(master)
 ```
 
-
-
-Let's add required dependencies in our project.
+Next, let's add required dependencies in our project.
 
 * [Vulkan Headers](https://github.com/KhronosGroup/Vulkan-Headers)
 * [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader)
