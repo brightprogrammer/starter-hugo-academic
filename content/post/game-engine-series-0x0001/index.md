@@ -59,14 +59,53 @@ Below I will explain the meaning of each file and folder :
 * /source - contains our actual project code
 * /source/include - contains project header files (.hpp)
 * /source/source - contains project source files (.cpp)
-* /source/`CMakeLists.txt `- defines our libraries and declares that source is a subdirectory of main project
+* /source/CMakeLists.txt - defines our libraries and declares that source is a subdirectory of main project
 * /build - contains our build files
 * /trash - contains useless code (but some of the code snippets might be useful)
 * /lib - contains built library files of our dependencies
 * /share - contains file corresponding to linux's share directory
 * /bin - contains binaries of built dependencies
 * /dependencies - contains git submodules
-* /`deps.sh` - script to build our dependencies and place the build files in their corresponding location
-* /`CMakeLists.txt` - the main CMake script for our project
+* /deps.sh - script to build our dependencies and place the build files in their corresponding location
+* /CMakeLists.txt - the main CMake script for our project
 
-Even if you don't create folders include, lib, share and bin, they will automatically be created by `deps.sh` script. Note that `deps.sh` will only work on Unix based OS. So, you will have to convert it to a windows script.
+Even if you don't create folders include, lib, share and bin, they will automatically be created by `deps.sh` script. Note that `deps.sh` will only work on Unix based OS. So, you will have to convert it to a windows script. 
+
+Next, we will setup the `/CMakeLists.txt`  and try to compile a simple `main.cpp`. Below is what the `CMakeLists.txt` will look like.
+
+```cmake
+# cmake min version
+cmake_minimum_required(VERSION 3.5)
+
+# project settings
+project(infinity VERSION 0 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include_directories("lib")
+
+# subdirectories setup
+add_subdirectory("source")
+```
+
+and the `/source/CMakeLists.txt` will contain : 
+
+```cmake
+# main executable
+add_executable(${PROJECT_NAME} "source/main.cpp")
+```
+
+After this create a `/source/source/main.cpp` file and enter the following contents into it :
+
+```cpp
+#include <iostream>
+
+int main(){
+    // print something
+    puts("infinity engine version 0.0");
+
+    return 0;
+}
+```
+
+If you are using VSCode like me then you can do `Ctrl`+`Shift`+`P` and search for `CMake: Configure` to generate build files
