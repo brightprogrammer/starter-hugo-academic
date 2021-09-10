@@ -110,7 +110,7 @@ int main(){
 
 If you are using VSCode like me then you can do `Ctrl`+`Shift`+`P` and search for `CMake: Configure` to generate build files or you can go to the `/build` and execute `cmake .. -G Ninja`. After this you can run `ninja` from build directory and then execute `/build/source/infinity`. 
 
-```shell
+```shellsession
 ➜  build source/infinity 
 infinity engine version 0.0
 ➜  build 
@@ -120,7 +120,7 @@ This works fine, this means that our build system is working as expected.
 
 Next we need to initialize git for our project so that we can easily add dependencies. For that go to project root and run `git init .` where "." means current directory. 
 
-```
+```shellsession
 ➜  infinity git init .
 hint: Using 'master' as the name for the initial branch. This default branch name
 hint: is subject to change. To configure the initial branch name to use in all
@@ -141,3 +141,161 @@ Next, let's add required dependencies in our project.
 * [Vulkan Headers](https://github.com/KhronosGroup/Vulkan-Headers)
 * [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader)
 * [SDL](https://github.com/libsdl-org/SDL)
+
+For that go to dependencies directory and runt he following commands :
+
+```shellsession
+➜  dependencies git:(master) ✗ git submodule add https://github.com/KhronosGroup/Vulkan-Headers
+Cloning into '/home/brightprogrammer/Projects/infinity/dependencies/Vulkan-Headers'...
+remote: Enumerating objects: 2151, done.
+remote: Counting objects: 100% (297/297), done.
+remote: Compressing objects: 100% (131/131), done.
+remote: Total 2151 (delta 189), reused 238 (delta 159), pack-reused 1854
+Receiving objects: 100% (2151/2151), 16.84 MiB | 3.54 MiB/s, done.
+Resolving deltas: 100% (1274/1274), done.
+
+➜  dependencies git:(master) ✗ git submodule add https://github.com/KhronosGroup/Vulkan-Loader 
+Cloning into '/home/brightprogrammer/Projects/infinity/dependencies/Vulkan-Loader'...
+remote: Enumerating objects: 70150, done.
+remote: Counting objects: 100% (1176/1176), done.
+remote: Compressing objects: 100% (486/486), done.
+remote: Total 70150 (delta 810), reused 887 (delta 671), pack-reused 68974
+Receiving objects: 100% (70150/70150), 48.47 MiB | 8.13 MiB/s, done.
+Resolving deltas: 100% (52959/52959), done.
+
+➜  dependencies git:(master) ✗ git submodule add https://github.com/libsdl-org/SDL
+Cloning into '/home/brightprogrammer/Projects/infinity/dependencies/SDL'...
+remote: Enumerating objects: 67197, done.
+remote: Counting objects: 100% (1256/1256), done.
+remote: Compressing objects: 100% (501/501), done.
+remote: Total 67197 (delta 800), reused 1058 (delta 745), pack-reused 65941
+Receiving objects: 100% (67197/67197), 81.81 MiB | 11.03 MiB/s, done.
+Resolving deltas: 100% (51979/51979), done.
+➜  dependencies git:(master) ✗ 
+```
+
+This will add the above repositories as `submodules` in our project. Next we need to setup deps.sh script to automate this task from next time.
+
+```shell
+#!/bin/zsh
+
+# set project root directory
+PROJECT_ROOT_DIRECTORY=$PWD
+# project submodule directory
+PROJECT_SUBMODULE_DIRECTORY=$PROJECT_ROOT_DIRECTORY/external
+# number of threads that make command will use
+THREADS_PER_BUILD=4
+
+# change to project submodule directory
+cd $PROJECT_SUBMODULE_DIRECTORY
+git submodule update --recursive
+
+# function to build submodules
+# first param : submodule name
+# following params are cmake defines
+BuildSubmodule(){
+    # store submodule name
+    SUBMODULE_NAME=$1
+    shift; # shift to get cmake defines
+
+    echo "Building Submodule $SUBMODULE_NAME"
+
+    # change to submodule dir
+    cd $PROJECT_SUBMODULE_DIRECTORY
+
+    # change to submodule directory
+    CURRENT_SUBMODULE_DIRECTORY=$PROJECT_SUBMODULE_DIRECTORY/$SUBMODULE_NAME
+    cd $CURRENT_SUBMODULE_DIRECTORY
+
+    # make build directory
+    mkdir -pv build
+    cd build
+    rm -fv CMakeCache.txt
+
+    # store cmake command in one var
+    CMAKE_GENERATE_COMMAND="cmake .. "
+    
+    # append defines 
+    for CMAKE_DEFINE in "$*"
+    do
+        CMAKE_GENERATE_COMMAND="$CMAKE_GENERATE_COMMAND $CMAKE_DEFINE"
+    done
+
+    # execute cmake command
+    echo "Generated CMake Comamnd : $CMAKE_GENERATE_COMMAND"
+    eval $CMAKE_GENERATE_COMMAND
+
+    # build 
+    echo "Starting Submodule $SUBMODULE_NAME Build"
+    make -j$THREADS_PER_BUILD
+    echo "$SUBMODULE_NAME Built"
+
+    # install
+    echo "Installing Submodule $SUBMODULE_NAME"
+    make install
+    echo "Installing Submodule $SUBMODULE_NAME -- DONE"
+
+    # go back to submodule dir
+    cd $CURRENT_SUBMODULE_DIRECTORY
+
+    # remove build dir
+    rm -rv build
+
+    # go back to root directory
+    cd $PROJECT_ROOT_DIRECTORY
+
+    echo "Building Submodule $SUBMODULE_NAME -- DONE"
+}
+
+# build Vulkan-Header
+BuildSubmodule Vulkan-Headers -DCMAKE_INSTALL_PREFIX=$PROJECT_ROOT_DIRECTORY
+
+# build Vulkan-Loader
+BuildSubmodule Vulkan-Loader -DCMAKE_INSTALL_PREFIX=$PROJECT_ROOT_DIRECTORY -DVULKAN_HEADERS_INSTALL_DIR=$PROJECT_ROOT_DIRECTORY
+
+# build sdl
+BuildSubmodule SDL -DCMAKE_INSTALL_PREFIX=$PROJECT_ROOT_DIRECTORY
+```
+
+This will clone our submodules if not cloned yet, build them and then place the build files in their right directories. The profit of setting up your project this way is that you can clone this repo on any project and then build it there without worrying about setting up dependencies.
+
+Make a file named `/.gitignore` and add the following lines into it
+
+```
+/build
+/bin
+/include
+/lib
+/share
+/.cache
+```
+
+Next, create a new GitHub repository and then link this project with that : 
+
+```
+➜  infinity git:(master) ✗ git remote add origin https://github.com/brightprogrammer/Infinity-Engine
+➜  infinity git:(master) ✗ git add .
+➜  infinity git:(master) ✗ git commit -m "init" 
+[master (root-commit) 0911734] init
+ 10 files changed, 40 insertions(+)
+ create mode 100644 .cache/clangd/index/main.cpp.CDECBC563D0B18EA.idx
+ create mode 100644 .gitignore
+ create mode 100644 .gitmodules
+ create mode 100644 CMakeLists.txt
+ create mode 160000 dependencies/SDL
+ create mode 160000 dependencies/Vulkan-Headers
+ create mode 160000 dependencies/Vulkan-Loader
+ create mode 100644 deps.sh
+ create mode 100644 source/CMakeLists.txt
+ create mode 100644 source/source/main.cpp
+➜  infinity git:(master) git push origin master
+Username for 'https://github.com': brightprogrammer
+Password for 'https://brightprogrammer@github.com': 
+Enumerating objects: 15, done.
+Counting objects: 100% (15/15), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (15/15), 1.69 KiB | 345.00 KiB/s, done.
+```
+
+This completes the project setup!
