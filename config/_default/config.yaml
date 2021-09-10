@@ -65,4 +65,9 @@ related:
     - name: tags
       weight: 100
     - name: categories
-      weight: 70 
+      weight: 70
+
+backend:
+  name: git-gateway
+  repo: brightprogrammer/starter-hugo-academic
+  branch: master
