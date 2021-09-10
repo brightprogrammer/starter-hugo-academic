@@ -1,6 +1,6 @@
 ---
 title: Game Engine Series 0x0001
-subtitle: Project Setup & Intro To Vulkan
+subtitle: Project Setup
 date: 2021-09-10T13:10:16.921Z
 draft: false
 featured: false
