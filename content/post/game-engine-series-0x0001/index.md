@@ -4,8 +4,18 @@ subtitle: Project Setup & Intro To Vulkan
 date: 2021-09-10T13:10:16.921Z
 draft: false
 featured: false
+tags:
+  - GameEngine
+  - ComputerGraphics
+  - C/C++
+  - Series
+categories:
+  - GameEngine
+  - Series
+  - ComputerGraphics
+projects: []
 image:
-  filename: featured
+  filename: featured.jpg
   focal_point: Smart
   preview_only: false
 ---
