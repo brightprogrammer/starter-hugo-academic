@@ -327,7 +327,7 @@ Wrong Password
 ➜  Pyaz 
 ```
 
-On taking pyaz.xvm as input this file asks for password. Since I don't know it, I'll just enter anything. This means that `pyaz.xvm` contains our password but on opening the file you see some random values (all gibberish).
+On taking `pyaz.xvm` as input this file asks for password. Since I don't know it, I'll just enter anything. This means that `pyaz.xvm` contains our password but on opening the file you see some random values (all gibberish).
 
 The next step in protocol is to check `strace` and `ltrace` to see what is happening during runtime (what functions are called, print statements, reads etc...).
 
@@ -390,7 +390,7 @@ exit_group(0)                           = ?
 ➜  Pyaz 
 ```
 
-Taking a look at this dump, it is clearly visible that `pyaz.xvm` is not a bluff and the program is actually reading values from file and might be interpreting in some way. Note that `strace` only traces systemcalls and not user defined functions.   
+Taking a look at this dump, it is clearly visible that `pyaz.xvm` is not a bluff and the program is actually reading values from file and might be interpreting in some way. Note that `strace` only traces system calls and not user defined functions.   
 
 We can see file reads in these lines : 
 
@@ -420,7 +420,7 @@ close(3)                                = 0
 exit_group(0)                           = ?
 ```
 
-I'll show you how to read the `strace` dump in some another post in detail. This one's pretty easy to read. The function `openat()` opens file `pyaz.xvm` and returns file descriptor `3`. We use that descriptor to read multiple values int he `read()` calls. After multiple file reads, we see the program write at `File Desecriptor` 1 (`stdout`) and read at `File Descriptor` 0 (`stdin`) after which I enter my password *idontknow* and the program exits after writing *"Wrong Password\n"* in `stdout`. and then closes.
+I'll show you how to read the `strace` dump in some another post in detail. This one's pretty easy to read. The function `openat()` opens file `pyaz.xvm` and returns file descriptor `3`. We use that descriptor to read multiple values int he `read()` calls. After multiple file reads, we see the program write at `File Descriptor` 1 (`stdout`) and read at `File Descriptor` 0 (`stdin`) after which I enter my password *idontknow* and the program exits after writing *"Wrong Password\n"* in `stdout`. and then closes.
 
 Next stept is to fireup `radare` to see the disassembly. We analyse the file by typing `aaaa` in the prompt.
 
@@ -444,12 +444,12 @@ WARNING: No calling convention defined for this file, analysis may be inaccurate
 
 Next to see the disassembly, type `v`! after which you will see a window similar to this :
 
-![radre2-1.png](https://brightprogrammer.github.io/images/blog-res/radare2-1.png)
+![](radare2-1.png)
 
 The big window on left is the one that contains our disassembly code. One in the top right corner contains function names/symbols and in bottom right contains symbol names.\
 At the very beginning you see the `entry` function, this is the very first function that is called when our program executes! and this function calls `main()`(indirectly). This function passes those `argc` and `argv` values to `main()`! Let's take a look at this function and try to find our `main()` from here :
 
-![radare2-2.png](https://brightprogrammer.github.io/images/blog-res/radare2-2.png)
+![](radare2-2.png)
 
 Let's understand this one by one : 
 
