@@ -182,7 +182,7 @@ This will add the above repositories as `submodules` in our project. Next we nee
 # set project root directory
 PROJECT_ROOT_DIRECTORY=$PWD
 # project submodule directory
-PROJECT_SUBMODULE_DIRECTORY=$PROJECT_ROOT_DIRECTORY/external
+PROJECT_SUBMODULE_DIRECTORY=$PROJECT_ROOT_DIRECTORY/dependencies
 # number of threads that make command will use
 THREADS_PER_BUILD=4
 
