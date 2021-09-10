@@ -39,6 +39,10 @@ Let's begin by creating the project folder. I will name my engine **Infinity**. 
 
   * include
   * source
+
+    * include
+    * source
+    * CMakeLists.txt
   * build
   * trash
   * lib
@@ -47,3 +51,22 @@ Let's begin by creating the project folder. I will name my engine **Infinity**. 
   * dependencies
   * deps.sh
   * CMakeLists.txt
+
+Below I will explain the meaning of each file and folder : 
+
+* infinity (/) - project root directory
+* /include - contains headers of dependencies
+* /source - contains our actual project code
+* /source/include - contains project header files (.hpp)
+* /source/source - contains project source files (.cpp)
+* /source/`CMakeLists.txt `- defines our libraries and declares that source is a subdirectory of main project
+* /build - contains our build files
+* /trash - contains useless code (but some of the code snippets might be useful)
+* /lib - contains built library files of our dependencies
+* /share - contains file corresponding to linux's share directory
+* /bin - contains binaries of built dependencies
+* /dependencies - contains git submodules
+* /`deps.sh` - script to build our dependencies and place the build files in their corresponding location
+* /`CMakeLists.txt` - the main CMake script for our project
+
+Even if you don't create folders include, lib, share and bin, they will automatically be created by `deps.sh` script. Note that `deps.sh` will only work on Unix based OS. So, you will have to convert it to a windows script.
