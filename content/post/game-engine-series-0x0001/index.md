@@ -19,9 +19,31 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-In this post we will setup our project directory for development. There is no *hard and fast rule* for project directory structure and this one will be based on my past experiences. We will be using the following things (for now) : 
+In this post we will setup our project directory for development. There is no *hard and fast rule* to setup project directory structure and this one will be based on my past experiences. We will be using the following things (for now) : 
 
 * [Vulkan Graphics API](https://www.vulkan.org/)
 * [SDL (Simple DirectMedia Layer)](https://www.libsdl.org)
 * C++ Compiler (Clang or GCC)
 * [CMake Build System](https://cmake.org/)
+* A Good Text Editor (I'll be using [VSCode](https://code.visualstudio.com/download))
+
+The list may grow in future for things like allocators, logging systems, image loader, 3D model loader etc...
+
+I plan to go in full depth of almost all topics that I think will be difficult to understand for new readers. At the time of writing this I am a beginner in Vulkan too and there are some concepts that I lack. In the pursuit of making this blog better and better (as this represents me) I will learn a lot of things and write about what I learned. This will be helpful to readers in a way that they will be learning this in the easiest language possible.
+
+I planned various projects and they never got *that far* because of lack of motivation, but this time I'm motivated to make this series long enough for me to take the engine to a mature state and for you to learn Vulkan and see it's power.
+
+Let's begin by creating the project folder. I will name my engine **Infinity**. The project directory structure will look something like this : 
+
+* infinity
+
+  * include
+  * source
+  * build
+  * trash
+  * lib
+  * share
+  * bin
+  * dependencies
+  * deps.sh
+  * CMakeLists.txt
