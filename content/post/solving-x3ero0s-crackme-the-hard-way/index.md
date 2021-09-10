@@ -442,11 +442,15 @@ WARNING: No calling convention defined for this file, analysis may be inaccurate
 [0x00001500]> 
 ```
 
-Next to see the disassembly, type `v`! after which you will see a window similar to this : 
-![radre2-1.png](/images/blog-res/radare2-1.png)\
+Next to see the disassembly, type `v`! after which you will see a window similar to this :
+
+![radre2-1.png](https://brightprogrammer.github.io/images/blog-res/radare2-1.png)
+
 The big window on left is the one that contains our disassembly code. One in the top right corner contians function names/symbols and in bottom right contains sybmol names.\
-At the very beginning you see the `entry` function, this is the very first function that is called when our program executes! and this function calls `main()`(indirectly). This function passes those `argc` and `argv` values to `main()`! Let's take a look at this function and try to find our `main()` from here : 
-![radare2-2.png](/images/blog-res/radare2-2.png)\
+At the very beginning you see the `entry` function, this is the very first function that is called when our program executes! and this function calls `main()`(indirectly). This function passes those `argc` and `argv` values to `main()`! Let's take a look at this function and try to find our `main()` from here :
+
+![radare2-2.png](https://brightprogrammer.github.io/images/blog-res/radare2-2.png)
+
 Let's understand this one by one : 
 
 * `endbr64` is an instruction to end an [indirect branch](https://en.wikipedia.org/wiki/Indirect_branch) made by some other function/process.
