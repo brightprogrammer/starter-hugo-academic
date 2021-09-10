@@ -21,8 +21,9 @@ Here is the [GitHub Repository Link](https://github.com/brightprogrammer/GameZer
 
 I made this project while learning Vulkan. My goal was to make a MineCraft clone like what [Hopson did using OpenGL](https://www.youtube.com/watch?v=Xq3isov6mZ8).Vulkan is a modern graphics api written from sratch. It's also faster than many other graphics APIs like OpenGL. I closely followed [VkGuide](https://vkguide.dev) by V. Blanco and [Vulkan-Tutorial](https://vulkan-tutorial.com) by Alexander Overvoorde while working on this project. I stopped working on this project again due to my college entrance exams.
 
-## Learning : 
-GameZero taught me how game engines work. The Vulkan C++ API, more C++ data structures etc… It also also taught me how to organize a project with CMake and using git submodules in a better way.
+## Learning :
+
+GameZero taught me how game engines work. The Vulkan C++ API, more C++ data structures etc… It also also taught me how to organize a project with CMake and using git submodules in a better way. I learned what is CRTP (Curiously Recurring Template Pattern), I learned what is Semantic Compression and many other stuffs.
 
 ## Comments :
 
