@@ -12,15 +12,19 @@ image:
   preview_only: false
 ---
 # Computerator
-Dark Theme                 |  Light Theme
-:-------------------------:|:-------------------------:
-![Computerator Dark Theme Image](https://raw.githubusercontent.com/brightprogrammer/Computerator/master/Resources/screenshot.png)  |  ![Computerator Light Theme Image](https://raw.githubusercontent.com/brightprogrammer/Computerator/master/Resources/screenshot_light.png)
+
+| Dark Theme                                                                                                                        | Light Theme                                                                                                                              |
+| --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Computerator Dark Theme Image](https://raw.githubusercontent.com/brightprogrammer/Computerator/master/Resources/screenshot.png) | ![Computerator Light Theme Image](https://raw.githubusercontent.com/brightprogrammer/Computerator/master/Resources/screenshot_light.png) |
 
 ## Description :
+
 This is a simple calculator program written in [wxWidgets](https://www.wxwidgets.org/). This was my attempt to learn how to do GUI programming using [wxWidgets](https://www.wxwidgets.org/). I made this simple calculator in order to learn how sizers work in [wxWidgets](https://www.wxwidgets.org/).
 
 ## Learning :
-Computerator taught me how different and unique graphics programming is! It’s completely different from what we do usually when creating terminal programs and it’s much more difficult. I learned what is CRTP (Curiously Recurring Template Pattern), I learned what is Semantic Compression and many other stuffs.
 
-## Comments : 
+Computerator taught me how different and unique graphics programming is! It’s completely different from what we do usually when creating terminal programs and it’s much more difficult. 
+
+## Comments :
+
 I also made a text editor in [Qt](hhtps://www.qt.io) but I don't have the source/screenshot of it now. I plan to make my own GUI library/framework in future using Vulkan.
