@@ -108,4 +108,4 @@ int main(){
 }
 ```
 
-If you are using VSCode like me then you can do `Ctrl`+`Shift`+`P` and search for `CMake: Configure` to generate build files
+If you are using VSCode like me then you can do `Ctrl`+`Shift`+`P` and search for `CMake: Configure` to generate build files or you can go to the `/build` and execute `cmake .. -G Ninja`
