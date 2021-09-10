@@ -446,7 +446,7 @@ Next to see the disassembly, type `v`! after which you will see a window similar
 
 ![radre2-1.png](https://brightprogrammer.github.io/images/blog-res/radare2-1.png)
 
-The big window on left is the one that contains our disassembly code. One in the top right corner contians function names/symbols and in bottom right contains sybmol names.\
+The big window on left is the one that contains our disassembly code. One in the top right corner contains function names/symbols and in bottom right contains symbol names.\
 At the very beginning you see the `entry` function, this is the very first function that is called when our program executes! and this function calls `main()`(indirectly). This function passes those `argc` and `argv` values to `main()`! Let's take a look at this function and try to find our `main()` from here :
 
 ![radare2-2.png](https://brightprogrammer.github.io/images/blog-res/radare2-2.png)
