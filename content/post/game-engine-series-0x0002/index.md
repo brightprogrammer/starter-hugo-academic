@@ -18,8 +18,6 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-image credit : ozzy10 from wallpapers.com
-
 This post will be on introduction to Vulkan API. We will setup our initiialization code and make our new window. Let's begin!
 
 ### What is Vulkan ?
