@@ -62,6 +62,8 @@ This way the loader allows you to use multiple `ICD`s at a time! You just need t
 
 In Linux you will generally find the loader as a shared object file named `/usr/lib/libvulkan.so`. You will see a library file named the same in our projects `/lib` directory because remember we build this as a dependency.
 
+A reason why libraries like volk give slightly better performance is because 
+
 ### Vulkan Validation Layers
 
 Validation layers are helper libraries that intercept your application's communication with the GPU (Vulkan Physical Device or `VkPhysicalDevice`). They help you in detecting bugs and errors in your program for easy debugging. They are an optional feature and hence can be removed anytime. This plugin type behaviour helps when you are deploying your game. In the debug builds, you can enable them to look for errors and in the release builds you can turn them off. This way, there won't be any error checking in release builds of your game and it will run faster as compared to the debug builds. In APIs like OpenGL, error checking is done all the time which adds an extra performance drop in the application. Layers sometimes also modify your function calls just in order to make them work.In the above image, you can see the connection between loader and the layer is a two way communication channel.
@@ -268,4 +270,196 @@ You can see that this struct contains
 
 ### Vulkan Physical Device (`VkPhysicalDevice`)  
 
-A Physical Device represents any Vulkan compatible device connected to your system. By Vulkan compatible, I mean that there is an `ICD` present for it on your system. Since your GPU has a device driver that conforms to the Vulkan API, it's Vulkan compatible. If the loader detects an `ICD` present on your system, it'll create a struct that wraps the actual physical device struct in the ICD and return it's pointer to us. We can then use this to talk to our GPU in future.
+A Physical Device represents any Vulkan compatible device connected to your system. By Vulkan compatible, I mean that there is an `ICD` present for it on your system. Since your GPU has a device driver that conforms to the Vulkan API, it's Vulkan compatible. If the loader detects an `ICD` present on your system, it'll create a struct that wraps the actual physical device struct in the `ICD` and return it's pointer to us. We can then use this to talk to our GPU in future. Below is an example from RADV to show how it is implemented in the driver : 
+
+```cpp
+struct radv_physical_device {
+   struct vk_physical_device vk;
+
+   /* Link in radv_instance::physical_devices */
+   struct list_head link;
+
+   struct radv_instance *instance;
+
+   struct radeon_winsys *ws;
+   struct radeon_info rad_info;
+   char name[VK_MAX_PHYSICAL_DEVICE_NAME_SIZE];
+   uint8_t driver_uuid[VK_UUID_SIZE];
+   uint8_t device_uuid[VK_UUID_SIZE];
+   uint8_t cache_uuid[VK_UUID_SIZE];
+
+   int local_fd;
+   int master_fd;
+   struct wsi_device wsi_device;
+
+   bool out_of_order_rast_allowed;
+
+   /* Whether DCC should be enabled for MSAA textures. */
+   bool dcc_msaa_allowed;
+
+   /* Whether to enable NGG. */
+   bool use_ngg;
+
+   /* Whether to enable NGG streamout. */
+   bool use_ngg_streamout;
+
+   /* Number of threads per wave. */
+   uint8_t ps_wave_size;
+   uint8_t cs_wave_size;
+   uint8_t ge_wave_size;
+
+   /* Whether to use the LLVM compiler backend */
+   bool use_llvm;
+
+   /* This is the drivers on-disk cache used as a fallback as opposed to
+    * the pipeline cache defined by apps.
+    */
+   struct disk_cache *disk_cache;
+
+   VkPhysicalDeviceMemoryProperties memory_properties;
+   enum radeon_bo_domain memory_domains[VK_MAX_MEMORY_TYPES];
+   enum radeon_bo_flag memory_flags[VK_MAX_MEMORY_TYPES];
+   unsigned heaps;
+
+#ifndef _WIN32
+   int available_nodes;
+   drmPciBusInfo bus_info;
+
+   dev_t primary_devid;
+   dev_t render_devid;
+#endif
+
+   nir_shader_compiler_options nir_options;
+};
+```
+
+and again this will be different from what Anvil implements : 
+
+```cpp
+struct anv_physical_device {
+    struct vk_physical_device                   vk;
+
+    /* Link in anv_instance::physical_devices */
+    struct list_head                            link;
+
+    struct anv_instance *                       instance;
+    char                                        path[20];
+    struct {
+       uint16_t                                 domain;
+       uint8_t                                  bus;
+       uint8_t                                  device;
+       uint8_t                                  function;
+    }                                           pci_info;
+    struct intel_device_info                      info;
+    /** Amount of "GPU memory" we want to advertise
+     *
+     * Clearly, this value is bogus since Intel is a UMA architecture.  On
+     * gfx7 platforms, we are limited by GTT size unless we want to implement
+     * fine-grained tracking and GTT splitting.  On Broadwell and above we are
+     * practically unlimited.  However, we will never report more than 3/4 of
+     * the total system ram to try and avoid running out of RAM.
+     */
+    bool                                        supports_48bit_addresses;
+    struct brw_compiler *                       compiler;
+    struct isl_device                           isl_dev;
+    struct intel_perf_config *                    perf;
+    /*
+     * Number of commands required to implement a performance query begin +
+     * end.
+     */
+    uint32_t                                    n_perf_query_commands;
+    int                                         cmd_parser_version;
+    bool                                        has_exec_async;
+    bool                                        has_exec_capture;
+    bool                                        has_exec_fence;
+    bool                                        has_syncobj_wait;
+    bool                                        has_syncobj_wait_available;
+    bool                                        has_context_priority;
+    bool                                        has_context_isolation;
+    bool                                        has_thread_submit;
+    bool                                        has_mmap_offset;
+    bool                                        has_userptr_probe;
+    uint64_t                                    gtt_size;
+
+    bool                                        use_softpin;
+    bool                                        always_use_bindless;
+    bool                                        use_call_secondary;
+
+    /** True if we can access buffers using A64 messages */
+    bool                                        has_a64_buffer_access;
+    /** True if we can use bindless access for images */
+    bool                                        has_bindless_images;
+    /** True if we can use bindless access for samplers */
+    bool                                        has_bindless_samplers;
+    /** True if we can use timeline semaphores through execbuf */
+    bool                                        has_exec_timeline;
+
+    /** True if we can read the GPU timestamp register
+     *
+     * When running in a virtual context, the timestamp register is unreadable
+     * on Gfx12+.
+     */
+    bool                                        has_reg_timestamp;
+
+    /** True if this device has implicit AUX
+     *
+     * If true, CCS is handled as an implicit attachment to the BO rather than
+     * as an explicitly bound surface.
+     */
+    bool                                        has_implicit_ccs;
+
+    bool                                        always_flush_cache;
+
+    uint32_t                                    subslice_total;
+
+    struct {
+      uint32_t                                  family_count;
+      struct anv_queue_family                   families[ANV_MAX_QUEUE_FAMILIES];
+    } queue;
+
+    struct {
+      uint32_t                                  type_count;
+      struct anv_memory_type                    types[VK_MAX_MEMORY_TYPES];
+      uint32_t                                  heap_count;
+      struct anv_memory_heap                    heaps[VK_MAX_MEMORY_HEAPS];
+      bool                                      need_clflush;
+    } memory;
+
+    struct anv_memregion                        vram;
+    struct anv_memregion                        sys;
+    uint8_t                                     driver_build_sha1[20];
+    uint8_t                                     pipeline_cache_uuid[VK_UUID_SIZE];
+    uint8_t                                     driver_uuid[VK_UUID_SIZE];
+    uint8_t                                     device_uuid[VK_UUID_SIZE];
+
+    struct disk_cache *                         disk_cache;
+
+    struct wsi_device                       wsi_device;
+    int                                         local_fd;
+    bool                                        has_local;
+    int64_t                                     local_major;
+    int64_t                                     local_minor;
+    int                                         master_fd;
+    bool                                        has_master;
+    int64_t                                     master_major;
+    int64_t                                     master_minor;
+    struct drm_i915_query_engine_info *         engine_info;
+
+    void (*cmd_emit_timestamp)(struct anv_batch *, struct anv_bo *, uint32_t );
+    struct intel_measure_device                 measure_device;
+};
+```
+
+where `vk_physical_device` is : 
+
+```cpp
+   struct vk_physical_device {
+      struct vk_object_base base;
+      struct vk_instance *instance;
+
+      struct vk_device_extension_table supported_extensions;
+
+      struct vk_physical_device_dispatch_table dispatch_table;
+   };
+
+```
