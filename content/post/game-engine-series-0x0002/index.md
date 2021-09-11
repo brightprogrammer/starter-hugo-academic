@@ -24,11 +24,11 @@ This post will be on introduction to Vulkan API. We will setup our initiializati
 
 ### What is Vulkan ?
 
-Vulkan is a fast, new and modern 3D graphics programming API. The initial release was about 5 years ago and it is now used my many games and game engines. The API was initially made by AMD for modern GPUs which was later made open source and is now maintained by the **Khronos Group**. It is written purely in C and supports many platforms like : [Android](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Android&stick=H4sIAAAAAAAAAONgVuLSz9U3MCqvKEkvX8TK7piXUpSfmQIAyAsAJhgAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoAXoECEIQAw), [Linux](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Linux&stick=H4sIAAAAAAAAAONgVuLUz9U3SCuoqipYxMrqk5lXWgEATgerNhUAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoAnoECEIQBA), [Fuchsia](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Fuchsia&stick=H4sIAAAAAAAAAONgVuLVT9c3NEw2zEnLKKoqXsTK7laanFGcmQgAxklZLRsAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoA3oECEIQBQ), [BSD Unix](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=BSD+Unix&stick=H4sIAAAAAAAAAONgVuLQz9U3MEwzzVnEyuEU7KIQmpdZAQDAUa93FwAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoBHoECEIQBg), [QNX](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=QNX&stick=H4sIAAAAAAAAAONgVuLQz9U3yEhKSlnEyhzoFwEA4JwBWRIAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoBXoECEIQBw), [Windows](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Windows&stick=H4sIAAAAAAAAAONgVuLQz9U3MCmKt1jEyh6emZeSX14MAFTjqsQWAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoBnoECEIQCA), [Nintendo Switch](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Nintendo+Switch&stick=H4sIAAAAAAAAAONgVuLVT9c3NEw2K7FMMzPMWcTK75eZV5Kal5KvEFyeWZKcAQB0QcE-IwAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoB3oECEIQCQ), [Stadia](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Stadia&stick=H4sIAAAAAAAAAONgVuLVT9c3NEzLMs8oyUiPX8TKFlySmJKZCACloW6EGgAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoCHoECEIQCg), [Tizen](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Tizen&stick=H4sIAAAAAAAAAONgVuLSz9U3yDDPqchKWcTKGpJZlZoHADhg-LkWAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoCXoECEIQCw), [macOS](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=macOS&stick=H4sIAAAAAAAAAONgVuLQz9U3MDWtLFrEypqbmOwfDADb5b_yFAAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoCnoECEIQDA), [IOS](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=IOS&stick=H4sIAAAAAAAAAONgVuLSz9U3MC5PyjE0WcTK7OkfDAC-b2NaFAAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoC3oECEIQDQ), [Raspberry Pi](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Raspberry+Pi&stick=H4sIAAAAAAAAAONgVuLSz9U3SM9NNzZLX8TKE5RYXJCUWlRUqRCQCQA5myHgHQAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoDHoECEIQDg). It uses [Apache License](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Apache+License&stick=H4sIAAAAAAAAAONgVuLUz9U3MDTKjrdcxMrnWJCYnJGq4JOZnJpXnAoAzGCpBx4AAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoAXoECEgQAw) 2.0 which means we can use it too.
+Vulkan is a fast, new and modern 3D graphics programming API. The initial release was about 5 years ago and it is now used my many games and game engines. The API was initially made by AMD for modern GPUs and was initially named Mantle which was later made open source, renamed to Vulkan and is now maintained by the **Khronos Group**. It is written purely in C and supports many platforms like : [Android](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Android&stick=H4sIAAAAAAAAAONgVuLSz9U3MCqvKEkvX8TK7piXUpSfmQIAyAsAJhgAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoAXoECEIQAw), [Linux](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Linux&stick=H4sIAAAAAAAAAONgVuLUz9U3SCuoqipYxMrqk5lXWgEATgerNhUAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoAnoECEIQBA), [Fuchsia](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Fuchsia&stick=H4sIAAAAAAAAAONgVuLVT9c3NEw2zEnLKKoqXsTK7laanFGcmQgAxklZLRsAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoA3oECEIQBQ), [BSD Unix](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=BSD+Unix&stick=H4sIAAAAAAAAAONgVuLQz9U3MEwzzVnEyuEU7KIQmpdZAQDAUa93FwAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoBHoECEIQBg), [QNX](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=QNX&stick=H4sIAAAAAAAAAONgVuLQz9U3yEhKSlnEyhzoFwEA4JwBWRIAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoBXoECEIQBw), [Windows](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Windows&stick=H4sIAAAAAAAAAONgVuLQz9U3MCmKt1jEyh6emZeSX14MAFTjqsQWAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoBnoECEIQCA), [Nintendo Switch](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Nintendo+Switch&stick=H4sIAAAAAAAAAONgVuLVT9c3NEw2K7FMMzPMWcTK75eZV5Kal5KvEFyeWZKcAQB0QcE-IwAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoB3oECEIQCQ), [Stadia](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Stadia&stick=H4sIAAAAAAAAAONgVuLVT9c3NEzLMs8oyUiPX8TKFlySmJKZCACloW6EGgAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoCHoECEIQCg), [Tizen](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Tizen&stick=H4sIAAAAAAAAAONgVuLSz9U3yDDPqchKWcTKGpJZlZoHADhg-LkWAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoCXoECEIQCw), [macOS](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=macOS&stick=H4sIAAAAAAAAAONgVuLQz9U3MDWtLFrEypqbmOwfDADb5b_yFAAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoCnoECEIQDA), [IOS](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=IOS&stick=H4sIAAAAAAAAAONgVuLSz9U3MC5PyjE0WcTK7OkfDAC-b2NaFAAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoC3oECEIQDQ), [Raspberry Pi](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Raspberry+Pi&stick=H4sIAAAAAAAAAONgVuLSz9U3SM9NNzZLX8TKE5RYXJCUWlRUqRCQCQA5myHgHQAAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoDHoECEIQDg). It uses [Apache License](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Apache+License&stick=H4sIAAAAAAAAAONgVuLUz9U3MDTKjrdcxMrnWJCYnJGq4JOZnJpXnAoAzGCpBx4AAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoAXoECEgQAw) 2.0 which means we can use it too.
 
 ### But why is it called an API?
 
-Well, this is because it is an API. Vulkan API is a set of rules (functions with defined valid usage and invalid usage etc..) defined in the [vkspec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html) which hardware vendors follow, more like make an implementation out of it to make their device driver. This driver contains functions with same names and arguments as defined in [vkspec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html) and these functions, no matter how they are implemented in the inside must look and work in the same way as defined by the [vkspec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html). The whole purpose of this API is to hide the actual implemetation from the user. This way no matter how the hardware vendors implement their device driver, we can use it as long as it follows the API rules. The functions defined in the device driver can be used to interact with GPU or any other device that can do some processing using the device driver provided by the hardware vendor. In simple words, Vulkan API is the header (.hpp) of a class and the `ICD` is the definition(.cpp) of that class and you are using this class in your application. So, you see Vulkan is combination of both the specification and the implementation (`ICD`) which makes the Vulkan API.
+Well, this is because it is an API. Vulkan API is a set of rules (functions with defined valid usage and invalid usage etc..) defined in the [vkspec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html) which hardware vendors follow, more like make an implementation out of it to make their device driver. This driver contains functions with same names and arguments as defined in [vkspec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html) and these functions, no matter how they are implemented in the inside must look and work in the same way as defined by the [vkspec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html). The whole purpose of this API is to hide the actual implemetation from the user. This way no matter how the hardware vendors implement their device driver, we can use it as long as it follows the API rules. The functions defined in the device driver can be used to interact with GPU or any other device that can do some processing using the device driver provided by the hardware vendor. In simple words, Vulkan API is the header (.hpp) of a class and the `ICD` is the definition(.cpp) of that class and you are using this class in your application. So, you see Vulkan is combination of both the specification and the implementation (`ICD`) which makes the Vulkan API. First the API is decided, then a specification (vkspec) and implementation (drivers) is made for that version of API.
 
 ### Can't we just directly talk to GPU?
 
@@ -36,9 +36,15 @@ Short answer : **No**
 
 Long answer : You cannot (you can in some cases like intel and amd), because that'd mean the GPU vendor revelaing their secrets to you. Each graphic card manufacturer try to make their product faster than their competetors and in that pursuit they research a lot and make their own methods to do stuffs faster and those methods are to be kept confidential. That is why we have a graphics driver. It is a platform and graphics card dependent library which contains the functions that [Vulkan Spec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html) defines and we link to that library to interact with the GPU.
 
+To get an idea of how intel driver works : [Anvil source code](https://gitlab.freedesktop.org/mesa/mesa/-/tree/main/src/intel/vulkan)
+
+
+
 ### But, how exactly do we talk to GPU?
 
-As stated above, we link our program with the graphics driver in order to make it run. But wouldn't that mean that we have to have graphics driver for every vendor our there? No, you don't need to do that! This is where the interface comes in. Since, Vulkan is an interface between our program and GPU, as long as both the hardware vendor and the developer follow the rules defined by Vulkan to use it's interface, then they don't need to care about each other. You can just assume that the system that your program will run in will already have the graphics drivers in place and then we can just link to it dynamically at runtime because ofcourse static linking will not be possible here. 
+As stated above, we link our program with the graphics driver in order to make it talk to GPU. But wouldn't that mean that we have to have graphics driver for every vendor our there? No, you don't need to do that! This is where the interface comes in. Since, Vulkan is an interface between our program and GPU, as long as both the hardware vendor and the developer follow the rules defined by Vulkan API to use it's interface, then they don't need to care about each other. You can just assume that the system that your program will run in will already have the graphics drivers in place and then we can just link to it dynamically at runtime because ofcourse static linking will not be possible here. 
+
+In case of intel
 
 ### How exactly will I link to driver dynamically?
 
@@ -68,4 +74,76 @@ Vulkan extensions are libraries that augment the Vulkan API by providing more pl
 
 ### Vulkan Instance
 
-A Vulkan Instance (`VkInstance`) represents our communication state with Vulkan. In OpenGL, the system is initialized for all application and all applications communicate with same instance of OpenGL but here in Vulkan, all applications talk to Vulkan in a different manner so they each need to have their own Vulkan Instance. This instance stores our application information and defines how we are going to use Vulkan. This `VkInstance` (and all vulkan handles) is actually a pointer to a data structure defined in the Vulkan loader
+A Vulkan Instance (`VkInstance`) represents our communication state with Vulkan. In OpenGL, the system is initialized for all application and all applications communicate with same instance of OpenGL but here in Vulkan, all applications talk to Vulkan in a different manner so they each need to have their own Vulkan Instance. This instance stores our application information and defines how we are going to use Vulkan. This `VkInstance` is actually a pointer to a data structure defined somewhere in the driver code.
+
+Here is an example how Anvil implements a Vulkan instance : 
+
+```cpp
+#include "vk_instance.h"
+
+struct anv_instance {
+    struct vk_instance                          vk;
+
+    bool                                        physical_devices_enumerated;
+    struct list_head                            physical_devices;
+
+    bool                                        pipeline_cache_enabled;
+
+    struct driOptionCache                       dri_options;
+    struct driOptionCache                       available_dri_options;
+};
+```
+
+What you will be able to use in your code is only a pointer to this data structure and some functions to manipulate this struct. You are only restricted to using the API and not this code.
+
+Here is how RADV for AMD implements it : 
+
+```cpp
+#include "vk_instance.h"
+
+struct radv_instance {
+   struct vk_instance vk;
+
+   VkAllocationCallbacks alloc;
+
+   uint64_t debug_flags;
+   uint64_t perftest_flags;
+
+   bool physical_devices_enumerated;
+   struct list_head physical_devices;
+
+   struct driOptionCache dri_options;
+   struct driOptionCache available_dri_options;
+
+   /**
+    * Workarounds for game bugs.
+    */
+   bool enable_mrt_output_nan_fixup;
+   bool disable_tc_compat_htile_in_general;
+   bool disable_shrink_image_store;
+   bool absolute_depth_bias;
+   bool report_apu_as_dgpu;
+};
+```
+
+Definiton of `vk_instance` can be found in `mesa/src/vulkan/util` to be  : 
+
+```cpp
+struct vk_instance {
+   struct vk_object_base base;
+   VkAllocationCallbacks alloc;
+
+   struct vk_app_info app_info;
+   struct vk_instance_extension_table enabled_extensions;
+
+   struct vk_instance_dispatch_table dispatch_table;
+
+   /* VK_EXT_debug_report debug callbacks */
+   struct {
+      mtx_t callbacks_mutex;
+      struct list_head callbacks;
+   } debug_report;
+};
+```
+
+There is a `struct` named [loader_instance](https://github.com/KhronosGroup/Vulkan-Loader/blob/e1dc222803390e8e18e4a9a211609341ea34ccab/loader/loader_common.h#L230) in the [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) too but that is only a wrapper around these actual implementations.
