@@ -30,7 +30,7 @@ Well, this is because it is an API. Vulkan API is a set of rules (functions with
 
 ### Can't we just directly talk to GPU?
 
-Short answer : **No**
+Short answer : **Not always**
 
 Long answer : You cannot (you can in some cases like intel and amd), because that'd mean the GPU vendor revelaing their secrets to you. Each graphic card manufacturer try to make their product faster than their competetors and in that pursuit they research a lot and make their own methods to do stuffs faster and those methods are to be kept confidential. That is why we have a graphics driver. It is a platform and graphics card dependent library which contains the functions that [Vulkan Spec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html) defines and we link to that library to interact with the GPU.
 
@@ -42,13 +42,13 @@ As stated above, we link our program with the graphics driver in order to make i
 
 ### How exactly will I link to driver dynamically?
 
-You use the [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) developed by the Khronos Group. You can link to this loader either dynamically (like what volk does or the normal way) or statically (what we will do). For help with the former method, refer to the following resources (if you want to make your own loader instead of using [volk](https://github.com/zeux/volk) or [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader)) : 
+You use the [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) developed by the Khronos Group. You can link to this loader either dynamically (like what volk does or the normal way like we will follow) or statically. For help with the former method, refer to the following resources (if you want to make your own loader instead of using [volk](https://github.com/zeux/volk) or [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader)) : 
 
 * For Linux or other Unix based systems : <https://tldp.org/HOWTO/Program-Library-HOWTO/dl-libraries.html>
 * For Windows : <https://docs.microsoft.com/en-us/windows/win32/dlls/using-run-time-dynamic-linking>
 * Intel tutorial on how to do it for vulkan : <https://software.intel.com/content/www/us/en/develop/articles/api-without-secrets-introduction-to-vulkan-part-1.html>
 
-For the latter method, we just have to download [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) and link to it statically or dynamically however you like. This is the method I will chose. There is a small performance gain if you use a custom loader instead, I, however at this moment just want to see something on my screen ASAP.
+For the latter method, we just have to download [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) and link to it statically or dynamically however you like. This is the method I will choose. There is a small performance gain if you use a custom loader instead, I, however at this moment just want to see something on my screen ASAP.
 
 Volk (and similar implementations) get's it's perfomance boost because it skips the [trampoline](http://kylehalladay.com/blog/2020/11/13/Hooking-By-Example.html) (also known as hooking) part in Vulkan Loader. An example image retrieved from khronos site is :
 
@@ -292,12 +292,9 @@ struct loader_instance {
 
 // link : https://github.com/KhronosGroup/Vulkan-Headers/blob/4fee3efc189c83ccd26a9cd8265185c98458c94d/include/vulkan/vulkan_core.h#L100
 VK_DEFINE_HANDLE(VkInstance)
-
 ```
 
-
-
-### Vulkan Physical Device (`VkPhysicalDevice`)  
+### Vulkan Physical Device (`VkPhysicalDevice`)
 
 A Physical Device represents any Vulkan compatible device connected to your system. By Vulkan compatible, I mean that there is an `ICD` present for it on your system. Since your GPU has a device driver that conforms to the Vulkan API, it's Vulkan compatible. If the loader detects an `ICD` present on your system, it'll create a struct that wraps the actual physical device struct in the `ICD` and return it's pointer to us. We can then use this to talk to our GPU in future. Below is an example from RADV to show how it is implemented in the driver : 
 
@@ -490,7 +487,6 @@ struct vk_physical_device {
 
    struct vk_physical_device_dispatch_table dispatch_table;
 };
-
 ```
 
 ### Vulkan Logical Device ([`VkDevice`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkDevice.html))
@@ -501,6 +497,84 @@ A logical device is exactly what it's name represents. It is not a real device l
 
 First understand what dispatch table means by reading [this](https://blog.alicegoldfuss.com/function-dispatch-tables/) blog. Then [take a look at what vulkan spec says](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html#fundamentals-objectmodel-overview). After this read the following : 
 
+From an application's point of view, a `dispatchable` handle is just a pointer to an underlying struct in the device driver. A non `dispatchable` handle is a `uint64_t` on `x86-64` platforms (major difference on `x86` platforms) but from the loader's point of view, a `dispatchable` handle contains a pointer to a dispatch table full of function pointers. When you make a `dispatchable` handle, for e.g. the `VkInstance` the loader will first create a  `loader_instance` and then will forward this call to all `ICD`s present on the system, then create the implementation level instance (eg : `anv_instance`, `radv_instance`), store their pointer and then will use it to get all instance related functions from the `ICD`s. If you make a logical device, then the loader will spawn a logical device for you and will get the respective functions from the `ICD`s in same way it was done for the instance. 
 
+A `non-dispatchable` handle is just an opaque handle and it is never used to retrieve function pointers.
+
+> The devices, queues, and other entities in Vulkan are represented by Vulkan objects. At the API level, all objects are referred to by handles. There are two classes of handles, dispatchable and non-dispatchable. *Dispatchable* handle types are a pointer to an opaque type. This pointer **may** be used by layers as part of intercepting API commands, and thus each API command takes a dispatchable type as its first parameter. Each object of a dispatchable type **must** have a unique handle value during its lifetime.
+
+above para is from [vkspec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html#fundamentals-objectmodel-overview).
+
+Below is a part of code from `vulkan_core.h` header file.
+
+```cpp
+#define VK_DEFINE_HANDLE(object) typedef struct object##_T* object;
+
+
+#ifndef VK_USE_64_BIT_PTR_DEFINES
+    #if defined(__LP64__) || defined(_WIN64) || (defined(__x86_64__) && !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__)
+        #define VK_USE_64_BIT_PTR_DEFINES 1
+    #else
+        #define VK_USE_64_BIT_PTR_DEFINES 0
+    #endif
+#endif
+
+
+#ifndef VK_DEFINE_NON_DISPATCHABLE_HANDLE
+    #if (VK_USE_64_BIT_PTR_DEFINES==1)
+        #if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201103L))
+            #define VK_NULL_HANDLE nullptr
+        #else
+            #define VK_NULL_HANDLE ((void*)0)
+        #endif
+    #else
+        #define VK_NULL_HANDLE 0ULL
+    #endif
+#endif
+#ifndef VK_NULL_HANDLE
+    #define VK_NULL_HANDLE 0
+#endif
+
+
+#ifndef VK_DEFINE_NON_DISPATCHABLE_HANDLE
+    #if (VK_USE_64_BIT_PTR_DEFINES==1)
+        #define VK_DEFINE_NON_DISPATCHABLE_HANDLE(object) typedef struct object##_T *object;
+    #else
+        #define VK_DEFINE_NON_DISPATCHABLE_HANDLE(object) typedef uint64_t object;
+    #endif
+#endif
+
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkBuffer)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkImage)
+VK_DEFINE_HANDLE(VkInstance)
+VK_DEFINE_HANDLE(VkPhysicalDevice)
+VK_DEFINE_HANDLE(VkDevice)
+VK_DEFINE_HANDLE(VkQueue)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkSemaphore)
+VK_DEFINE_HANDLE(VkCommandBuffer)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkFence)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkDeviceMemory)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkEvent)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkQueryPool)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkBufferView)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkImageView)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkShaderModule)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkPipelineCache)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkPipelineLayout)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkPipeline)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkRenderPass)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkDescriptorSetLayout)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkSampler)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkDescriptorSet)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkDescriptorPool)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkFramebuffer)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkCommandPool)
+```
+
+Clearly from above code, [`VkInstance`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkInstance.html), [`VkDevice`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkDevice.html), [`VkPhysicalDevice`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkPhysicalDevice.html), [`VkQueue`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkQueue.html) and [`VkCommandBuffer`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkCommandBuffer.html) are `dispatchable` handles. So these all will be used to get dispatch tables to get function pointers.
+
+So, this is it for this post. There is much more to learn in the Vulkan API. This is all what will need in the next few posts. I will explain other left out things when needed. 
 
 Note that I'm just providing you this code snippets in order to get an idea of what is being done on the inside. You mustn't think that this is how all hardware vendors do it. When I started learning Vulkan, I just had this itching sensation to know what exactly does this instance or physical device represent in code? You can easily skip these codes as we won't be using them anywhere but understanding this won't harm you. Instead this will help you when you read some low level implementation code like this.
+
+See you in next post ;-)
