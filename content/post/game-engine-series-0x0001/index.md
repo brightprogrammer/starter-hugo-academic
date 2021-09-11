@@ -298,4 +298,41 @@ Compressing objects: 100% (10/10), done.
 Writing objects: 100% (15/15), 1.69 KiB | 345.00 KiB/s, done.
 ```
 
-This completes the project setup!
+This completes the project setup! Let's try and check whether this works or not : 
+
+```shellsession
+➜  infinity git:(master) ✗ chmod +x deps.sh
+➜  infinity git:(master) ✗ ./deps.sh
+
+# cmake build log
+```
+
+As you can see this builds our dependencies in one fell swoop. If you wan to check whether the build was successful or not, you can go to `/include`, `/bin`, `/share` and `/lib` and see whether these folders contain some files or not. One more advantage of building submodules this way is that you are always supposed to get the latest version everytime you update the dependencies by doing `./deps.sh`, but this can also be a disadvantage sometimes when the submodule repo's build is failing. In that case you will have to wait until the bugs/problems are fixed or just comment it out in th `deps.sh` script.
+
+Few points  of wisdom that I'd like to give : 
+
+Making a Game Engine is hard and very hard not in the sense of programming because you can get help for that but in the sense of motivation and patience. You will lose your motivation and patience many times but you will have to keep going to see that smile on your face when you render your first triange, make it change colors, give it 3D aspects, make it a cube, then load 3D models, then make a small game prototype and so on. You achivements will be your only reward. Sometimes you will feel like giving up, in that case take some time off and switch to some other side project (you must have atleast one side project). Then when you feel like it, jump back to this project. Sometimes you will feel like giving up and continuing at the same time. In that case you must go outside, take a walk, talk to someone. Making a good Game Engine is not only programming but a lot of reading too. You'll have to look for better design principles, better algorithms, how other Game Engines' work. You'll have to study theory more than programming in the beginning.
+
+Graphics programing is completely different from what you do normally. In normal programs it's quite easy to debug it (trust me). You can fire up valgrind to look for memory leaks, you can read the assembly code to check ABI related problems, you can read the code! and check for problems! but in graphics programming you don't have much tools to debug. If your triangle doesn't show up or if your shaders aren't working as expected or if there is a problem in your pipeline, it'll be damn hard to find. You can only read code and hope that you find the problem. Luckily there is a tool for us called [RenderDoc](https://renderdoc.org/) to check problems in our program but the help it provides is also limited like any other tool (something is better than nothing). 
+
+One more thing, it's okay to give up now and pick up the topic later because learning the Vulkan API itself is a big barrier. Once you understand the Vulkan API and some other small concepts, Game Engine dev will be similar to software development.
+
+It will be hard but ***IT WILL BE AMAZING.*** Once you take your Game Engine to a decent mature level, you'll be different, different like the ninja standing on the top of a tower in windy night with a big moon glowing behind him!, hat covering this face, holding his katana, ready to slay the enemies!
+
+![](11854.jpg)
+
+Here are the few resources that I refer to when I get stuck : 
+
+1. [How To Learn Vulkan](https://www.jeremyong.com/c++/vulkan/graphics/rendering/2018/03/26/how-to-learn-vulkan/) - ninepoints
+2. [VkGuide](https://vkguide.dev/) - V. Blanco
+3. [Vulkan Tutorial](https://vulkan-tutorial.com) - Alexander Overvoorde
+4. [Vk Spec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html) (Very Important)
+5. [Raw Vulkan](https://alain.xyz/blog/raw-vulkan) - Alain Galavan
+6. [A Trip Through The Graphics Pipeline](https://fgiesen.wordpress.com/2011/07/09/a-trip-through-the-graphics-pipeline-2011-index/) - F. Giesen
+7. [Vulkan Examples](https://github.com/SaschaWillems/Vulkan) - Sascha Willems
+8. [Vulkan Samples](https://github.com/KhronosGroup/Vulkan-Samples) - Khronos Group
+9. [Shaders](https://learnopengl.com/Getting-started/Shaders) - Learn OpenGL
+
+I will keep increasing the resource list.
+
+See  you in next post 😃
