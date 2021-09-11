@@ -36,8 +36,6 @@ Long answer : You cannot (you can in some cases like intel and amd), because tha
 
 To get an idea of how intel driver works : [Anvil source code](https://gitlab.freedesktop.org/mesa/mesa/-/tree/main/src/intel/vulkan)
 
-
-
 ### But, how exactly do we talk to GPU?
 
 As stated above, we link our program with the graphics driver in order to make it talk to GPU. But wouldn't that mean that we have to have graphics driver for every vendor our there? No, you don't need to do that! This is where the interface comes in. Since, Vulkan is an interface between our program and GPU, as long as both the hardware vendor and the developer follow the rules defined by Vulkan API to use it's interface, then they don't need to care about each other. You can just assume that the system that your program will run in will already have the graphics drivers in place and then we can just link to it dynamically at runtime because ofcourse static linking will not be possible here. 
@@ -46,7 +44,7 @@ In case of intel
 
 ### How exactly will I link to driver dynamically?
 
-There are two ways to do this! Either you make our own loader to dynamically link to the libraries like what [volk](https://github.com/zeux/volk) does or you use the [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) developed by the Khronos Group. For help with the former method, refer to the following resources (if you want to make your own loader instead of using [volk](https://github.com/zeux/volk) or [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader)) : 
+There are two ways to do this! You use the [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) developed by the Khronos Group. You can link to this loader either dynamically (like what volk does or the normal way) or statically (what we will do). For help with the former method, refer to the following resources (if you want to make your own loader instead of using [volk](https://github.com/zeux/volk) or [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader)) : 
 
 * For Linux or other Unix based systems : <https://tldp.org/HOWTO/Program-Library-HOWTO/dl-libraries.html>
 * For Windows : <https://docs.microsoft.com/en-us/windows/win32/dlls/using-run-time-dynamic-linking>
@@ -62,13 +60,15 @@ This way the loader allows you to use multiple `ICD`s at a time! You just need t
 
 ![High Level View of Loader](https://github.com/KhronosGroup/Vulkan-Loader/raw/master/loader/images/high_level_loader.png)source : Khronos Group
 
+In Linux you will generally find the loader as a shared object file named `/usr/lib/libvulkan.so`. You will see a library file named the same in our projects `/lib` directory because remember we build this as a dependency.
+
 ### Vulkan Validation Layers
 
-Layers are helper libraries that intercept your application's communication with the GPU (Vulkan Physical Device or `VkPhysicalDevice`). They help you in detecting bugs and errors in your program for easy debugging. They are an optional feature and hence can be removed anytime. This plugin type behaviour helps when you are deploying your game. In the debug builds, you can enable them to look for errors and in the release builds you can turn them off. This way, there won't be any error checking in release builds of your game and it will run faster as compared to the debug builds. In APIs like OpenGL, error checking is done all the time which adds an extra performance drop in the application. Layers sometimes also modify your function calls just in order to make them work.In the above image, you can see the connection between loader and the layer is a two way communication channel.
+Validation layers are helper libraries that intercept your application's communication with the GPU (Vulkan Physical Device or `VkPhysicalDevice`). They help you in detecting bugs and errors in your program for easy debugging. They are an optional feature and hence can be removed anytime. This plugin type behaviour helps when you are deploying your game. In the debug builds, you can enable them to look for errors and in the release builds you can turn them off. This way, there won't be any error checking in release builds of your game and it will run faster as compared to the debug builds. In APIs like OpenGL, error checking is done all the time which adds an extra performance drop in the application. Layers sometimes also modify your function calls just in order to make them work.In the above image, you can see the connection between loader and the layer is a two way communication channel.
 
 ### Vulkan Extensions
 
-Vulkan extensions are libraries that augment the Vulkan API by providing more platform specific or device specific feature. For example : Vulkan does not provide a direct way to display rendererd images onto the screen. For this there is a Vulkan extension for creating surface for the window created by application. This extension is named `VK_KHR_surface`. This extension can be used to display rendered images onto the window we create. This extension is used in combination with a platform specific extension for surface creation. There is an extension named `VK_KHR_swapchain` to create a swapchain for us. A swapchain is used to replace image currenly presented on screen with a newly rendered one.
+Vulkan extensions augment the Vulkan API by providing more platform specific or device specific feature. For example : Vulkan does not provide a direct way to display rendered images onto the screen. For this there is a Vulkan extension for creating a display surface for the window created by application. This extension is named `VK_KHR_surface`. This extension can be used to display rendered images onto the window we create. This extension is used in combination with a platform specific extension for surface creation. There is an extension named `VK_KHR_swapchain` to create a swapchain for us. A swapchain is used to replace image currenly presented on screen with a newly rendered one.
 
 ### Vulkan Instance
 
@@ -124,9 +124,21 @@ struct radv_instance {
 };
 ```
 
-Definiton of `vk_instance` can be found in `mesa/src/vulkan/util` to be  : 
+Notice the change in definition of instance when the device changes. Definiton of `vk_instance` can be found in `mesa/src/vulkan/util` to be  : 
 
 ```cpp
+// in vk_objects.h
+struct vk_object_base {
+   VK_LOADER_DATA _loader_data;
+   VkObjectType type;
+
+   struct vk_device *device;
+
+   /* For VK_EXT_private_data */
+   struct util_sparse_array private_data;
+};
+
+// in vk_instance.h
 struct vk_instance {
    struct vk_object_base base;
    VkAllocationCallbacks alloc;
@@ -145,3 +157,115 @@ struct vk_instance {
 ```
 
 There is a `struct` named [loader_instance](https://github.com/KhronosGroup/Vulkan-Loader/blob/e1dc222803390e8e18e4a9a211609341ea34ccab/loader/loader_common.h#L230) in the [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) too but that is only a wrapper around these actual implementations.
+
+```cpp
+// Per instance structure
+struct loader_instance {
+    struct loader_instance_dispatch_table *disp;  // must be first entry in structure
+
+    // Vulkan API version the app is intending to use.
+    uint16_t app_api_major_version;
+    uint16_t app_api_minor_version;
+
+    // We need to manually track physical devices over time.  If the user
+    // re-queries the information, we don't want to delete old data or
+    // create new data unless necessary.
+    uint32_t total_gpu_count;
+    uint32_t phys_dev_count_term;
+    struct loader_physical_device_term **phys_devs_term;
+    uint32_t phys_dev_count_tramp;
+    struct loader_physical_device_tramp **phys_devs_tramp;
+
+    // We also need to manually track physical device groups, but we don't need
+    // loader specific structures since we have that content in the physical
+    // device stored internal to the public structures.
+    uint32_t phys_dev_group_count_term;
+    struct VkPhysicalDeviceGroupProperties **phys_dev_groups_term;
+    uint32_t phys_dev_group_count_tramp;
+    struct VkPhysicalDeviceGroupProperties **phys_dev_groups_tramp;
+
+    struct loader_instance *next;
+
+    uint32_t total_icd_count;
+    struct loader_icd_term *icd_terms;
+    struct loader_icd_tramp_list icd_tramp_list;
+
+    struct loader_dispatch_hash_entry dev_ext_disp_hash[MAX_NUM_UNKNOWN_EXTS];
+    struct loader_dispatch_hash_entry phys_dev_ext_disp_hash[MAX_NUM_UNKNOWN_EXTS];
+
+    struct loader_msg_callback_map_entry *icd_msg_callback_map;
+
+    struct loader_layer_list instance_layer_list;
+    bool override_layer_present;
+
+    // List of activated layers.
+    //  app_      is the version based on exactly what the application asked for.
+    //            This is what must be returned to the application on Enumerate calls.
+    //  expanded_ is the version based on expanding meta-layers into their
+    //            individual component layers.  This is what is used internally.
+    struct loader_layer_list app_activated_layer_list;
+    struct loader_layer_list expanded_activated_layer_list;
+
+    VkInstance instance;  // layers/ICD instance returned to trampoline
+
+    struct loader_extension_list ext_list;  // icds and loaders extensions
+    union loader_instance_extension_enables enabled_known_extensions;
+
+    VkLayerDbgFunctionNode *DbgFunctionHead;
+    uint32_t num_tmp_report_callbacks;
+    VkDebugReportCallbackCreateInfoEXT *tmp_report_create_infos;
+    VkDebugReportCallbackEXT *tmp_report_callbacks;
+    uint32_t num_tmp_messengers;
+    VkDebugUtilsMessengerCreateInfoEXT *tmp_messenger_create_infos;
+    VkDebugUtilsMessengerEXT *tmp_messengers;
+
+    VkAllocationCallbacks alloc_callbacks;
+
+    bool wsi_surface_enabled;
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+    bool wsi_win32_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_WAYLAND_KHR
+    bool wsi_wayland_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_XCB_KHR
+    bool wsi_xcb_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_XLIB_KHR
+    bool wsi_xlib_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+    bool wsi_directfb_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+    bool wsi_android_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_MACOS_MVK
+    bool wsi_macos_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_IOS_MVK
+    bool wsi_ios_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_GGP
+    bool wsi_ggp_surface_enabled;
+#endif
+    bool wsi_headless_surface_enabled;
+#if defined(VK_USE_PLATFORM_METAL_EXT)
+    bool wsi_metal_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_FUCHSIA
+    bool wsi_imagepipe_surface_enabled;
+#endif
+#ifdef VK_USE_PLATFORM_SCREEN_QNX
+    bool wsi_screen_surface_enabled;
+#endif
+    bool wsi_display_enabled;
+    bool wsi_display_props2_enabled;
+};
+```
+
+You can see that this struct contains
+
+### Vulkan Physical Device (`VkPhysicalDevice`)  
+
+A Physical Device represents any Vulkan compatible device connected to your system. By Vulkan compatible, I mean that there is an `ICD` present for it on your system. Since your GPU has a device driver that conforms to the Vulkan API, it's Vulkan compatible. If the loader detects an `ICD` present on your system, it'll create a struct that wraps the actual physical device struct in the ICD and return it's pointer to us. We can then use this to talk to our GPU in future.
