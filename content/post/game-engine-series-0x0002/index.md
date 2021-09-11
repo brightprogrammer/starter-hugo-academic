@@ -32,7 +32,7 @@ Well, this is because it is an API. Vulkan API is a set of rules (functions with
 
 Short answer : **Not always**
 
-Long answer : You cannot (you can in some cases like intel and amd), because that'd mean the GPU vendor revelaing their secrets to you. Each graphic card manufacturer try to make their product faster than their competetors and in that pursuit they research a lot and make their own methods to do stuffs faster and those methods are to be kept confidential. That is why we have a graphics driver. It is a platform and graphics card dependent library which contains the functions that [Vulkan Spec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html) defines and we link to that library to interact with the GPU.
+Long answer : You cannot (you can in some cases like Intel and AMD), because that'd mean the GPU vendor revelaing their secrets to you. Each graphic card manufacturer try to make their product faster than their competetors and in that pursuit they research a lot and make their own methods to do stuffs faster and those methods are to be kept confidential. That is why we have a graphics driver. It is a platform and graphics card dependent library which contains the functions that [Vulkan Spec](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html) defines and we link to that library to interact with the GPU.
 
 To get an idea of how Intel driver works see the [Anvil source code](https://gitlab.freedesktop.org/mesa/mesa/-/tree/main/src/intel/vulkan) and [RADV source code](https://gitlab.freedesktop.org/mesa/mesa/-/tree/main/src/amd/vulkan) for AMD.
 
