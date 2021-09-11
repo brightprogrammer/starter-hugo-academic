@@ -18,6 +18,8 @@ image:
   focal_point: Smart
   preview_only: false
 ---
+image credit : ozzy10 from wallpapers.com
+
 This post will be on introduction to Vulkan API. We will setup our initiialization code and make our new window. Let's begin!
 
 ### What is Vulkan ?
@@ -56,7 +58,7 @@ This way the loader allows you to use multiple `ICD`s at a time! You just need t
 
 ![High Level View of Loader](https://github.com/KhronosGroup/Vulkan-Loader/raw/master/loader/images/high_level_loader.png)source : Khronos Group
 
-### Vulkan Layers
+### Vulkan Validation Layers
 
 Layers are helper libraries that intercept your application's communication with the GPU (Vulkan Physical Device or `VkPhysicalDevice`). They help you in detecting bugs and errors in your program for easy debugging. They are an optional feature and hence can be removed anytime. This plugin type behaviour helps when you are deploying your game. In the debug builds, you can enable them to look for errors and in the release builds you can turn them off. This way, there won't be any error checking in release builds of your game and it will run faster as compared to the debug builds. In APIs like OpenGL, error checking is done all the time which adds an extra performance drop in the application. Layers sometimes also modify your function calls just in order to make them work.In the above image, you can see the connection between loader and the layer is a two way communication channel.
 
