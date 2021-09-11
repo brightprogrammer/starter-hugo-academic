@@ -8,11 +8,11 @@ tags:
   - GameEngine
   - ComputerGraphics
   - C/C++
-  - Series
+  - Infinity
 categories:
   - GameEngine
-  - Series
   - ComputerGraphics
+  - Infinity
 projects: []
 image:
   filename: featured.jpg
@@ -174,7 +174,7 @@ Resolving deltas: 100% (51979/51979), done.
 ➜  dependencies git:(master) ✗ 
 ```
 
-This will add the above repositories as `submodules` in our project. Next we need to setup deps.sh script to automate this task from next time.
+This will add the above repositories as `submodules` in our project. Next we need to setup `deps.sh` script to automate this task from next time.
 
 ```shell
 #!/bin/zsh
@@ -257,7 +257,7 @@ BuildSubmodule Vulkan-Loader -DCMAKE_INSTALL_PREFIX=$PROJECT_ROOT_DIRECTORY -DVU
 BuildSubmodule SDL -DCMAKE_INSTALL_PREFIX=$PROJECT_ROOT_DIRECTORY
 ```
 
-This will clone our submodules if not cloned yet, build them and then place the build files in their right directories. The profit of setting up your project this way is that you can clone this repo on any project and then build it there without worrying about setting up dependencies.
+This will clone our submodules if not cloned yet, build them and then place the build files in their right directories. The profit of setting up your project this way is that you can clone this repo on any system and then build it there without worrying about setting up dependencies.
 
 Make a file named `/.gitignore` and add the following lines into it
 
