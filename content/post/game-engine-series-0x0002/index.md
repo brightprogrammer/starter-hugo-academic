@@ -18,7 +18,7 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-This post will be on introduction to Vulkan API. We will setup our initiialization code and make our new window. Let's begin!
+This post will be on introduction to Vulkan API. We will try to get an idea of how Vulkan Loader works, look at some common definitions and some other interesting things! So, let's begin by asking what is Vulkan?
 
 ### What is Vulkan ?
 
@@ -38,11 +38,11 @@ To get an idea of how Intel driver works see the [Anvil source code](https://git
 
 ### But, how exactly do we talk to GPU?
 
-As stated above, we link our program with the graphics driver in order to make it talk to GPU. But wouldn't that mean that we have to have graphics driver for every vendor our there? No, you don't need to do that! This is where the interface comes in. Since, Vulkan is an interface between our program and GPU, as long as both the hardware vendor and the developer follow the rules defined by Vulkan API to use it's interface, then they don't need to care about each other. You can just assume that the system that your program will run in will already have the graphics drivers in place and then we can just link to it dynamically at runtime because ofcourse static linking will not be possible here. 
+As stated above, we link our program with the graphics driver in order to make it talk to GPU. But wouldn't that mean that we have to have graphics driver for every vendor our there? No, you don't need to do that! This is where the interface comes in. Since, Vulkan is an interface between our program and GPU, as long as both the hardware vendor and the developer follow the rules defined by Vulkan API to use it's interface, then they don't need to care about each other. You can just assume that the system that your program will run in will already have the graphics drivers in place and then we can just link to it dynamically at runtime because ofcourse static linking will not be possible here. After we load the `ICD` at runtime, we do a sybmol lookup and fill up our function symbols with pointers to the actual functions in memory.
 
 ### How exactly will I link to driver dynamically?
 
-You use the [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) developed by the Khronos Group. You can link to this loader either dynamically (like what volk does or the normal way like we will follow) or statically. For help with the former method, refer to the following resources (if you want to make your own loader instead of using [volk](https://github.com/zeux/volk) or [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader)) : 
+You use the [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) developed by the Khronos Group. As mentioned earlier, the Loader will search for available `ICD`s present on host machine and will try to load them by using library functions like [`dlopen`](https://man7.org/linux/man-pages/man3/dlopen.3.html) on Linux or [`LoadLibraryA`](https://docs.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya) on Windows. You can link to this loader either dynamically at runtime(like what volk does) or the usual way that we will follow because by default libraries are linked dynamically or we statically link the loader with our program. For help with the former method, refer to the following resources (if you want to make your own loader instead of using [volk](https://github.com/zeux/volk) or [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader)) : 
 
 * For Linux or other Unix based systems : <https://tldp.org/HOWTO/Program-Library-HOWTO/dl-libraries.html>
 * For Windows : <https://docs.microsoft.com/en-us/windows/win32/dlls/using-run-time-dynamic-linking>
@@ -66,7 +66,9 @@ So notice that when no layers are enabled, you'll be directly talking to the `IC
 
 ### How does the loader work?
 
-The main task of loader is to search for the graphics driver, also called `Installable Client Driver` (`ICD`) and then get pointers to all or some functions from the library file after loading it into memory. Say you are calling some function named `doSomething(xyz)`. Now, this function has to be defined somewhere otherwise your program will show a `segfault` or some other linking error. When a loader links with your program, it contains the symbols of all or some Vulkan functions. When your program will execute, the loader will search for a valid `ICD` on your system (eg : `/usr/lib/libvulkan_intel.so.` in linux for intel integrated graphics) . Once, a valid `ICD` is found, the loader loads it using the system libraries like `dl` on linux. It loads the file in the memory and then get's the memory address of functions using their names. Once we have the address, these addresses are stored in those symbols defined by the loader earlier. This way when you call the function `doSomething(xyz)`, your request is first recieved by the loader and then redirected to the `ICD`, or more precisely the graphics driver that the hardware vendor developed for you to talk to their hardware.
+The main task of loader is to search for the graphics driver, also called `Installable Client Driver` (`ICD`) and then get pointers to all or some functions from the library file after loading it into memory. List of installed `ICD`s can be found in a `json` file that is stored in a specific place during Vulkan SDK installation. In Linux you can usually find this `json` file in `/usr/share/vulkan/icd.d`.
+
+Say you are calling some function named `doSomething(xyz)`. Now, this function has to be defined somewhere otherwise your program will show a `segfault` or some other linking error. When a loader links with your program, it contains the symbols of all or some Vulkan functions. When your program will execute, the loader will search for a valid `ICD` on your system (eg : `/usr/lib/libvulkan_intel.so.` in linux for intel integrated graphics) . Once, a valid `ICD` is found, the loader loads it using the system libraries like `dl` on linux. It loads the file in the memory and then get's the memory address of functions using their names. Once we have the address, these addresses are stored in those symbols defined by the loader earlier. This way when you call the function `doSomething(xyz)`, your request is first recieved by the loader and then redirected to the `ICD`, or more precisely the graphics driver that the hardware vendor developed for you to talk to their hardware.
 
 This way the loader allows you to use multiple `ICD`s at a time! You just need to have the driver and the `ICD` present on your system. Below is an image to show how loader works
 
@@ -493,11 +495,102 @@ struct vk_physical_device {
 
 A logical device is exactly what it's name represents. It is not a real device like [`VkPhysicalDevice`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkPhysicalDevice.html). We define what features we want to use from the physical device and create a logical device from it. This logical device will contain the state of our interaction with the GPU we are using. This also means that we can have multiple logical devices for the same physical device, each one using either same or different features of the physical device. This way you can actually select the best physical device out of all the available ones and use it for heavy tasks and use a less performant one for smaller tasks. 
 
+Here is Anvil's implementation of `VkDevice` :
+
+```cpp
+// defined in anv_private.h
+struct anv_device {
+    struct vk_device                            vk;
+
+    struct anv_physical_device *                physical;
+    struct intel_device_info                      info;
+    struct isl_device                           isl_dev;
+    int                                         context_id;
+    int                                         fd;
+    bool                                        can_chain_batches;
+    bool                                        robust_buffer_access;
+    bool                                        has_thread_submit;
+
+    pthread_mutex_t                             vma_mutex;
+    struct util_vma_heap                        vma_lo;
+    struct util_vma_heap                        vma_cva;
+    struct util_vma_heap                        vma_hi;
+
+    /** List of all anv_device_memory objects */
+    struct list_head                            memory_objects;
+
+    struct anv_bo_pool                          batch_bo_pool;
+
+    struct anv_bo_cache                         bo_cache;
+
+    struct anv_state_pool                       general_state_pool;
+    struct anv_state_pool                       dynamic_state_pool;
+    struct anv_state_pool                       instruction_state_pool;
+    struct anv_state_pool                       binding_table_pool;
+    struct anv_state_pool                       surface_state_pool;
+
+    struct anv_state_reserved_pool              custom_border_colors;
+
+    /** BO used for various workarounds
+     *
+     * There are a number of workarounds on our hardware which require writing
+     * data somewhere and it doesn't really matter where.  For that, we use
+     * this BO and just write to the first dword or so.
+     *
+     * We also need to be able to handle NULL buffers bound as pushed UBOs.
+     * For that, we use the high bytes (>= 1024) of the workaround BO.
+     */
+    struct anv_bo *                             workaround_bo;
+    struct anv_address                          workaround_address;
+
+    struct anv_bo *                             trivial_batch_bo;
+    struct anv_state                            null_surface_state;
+
+    struct anv_pipeline_cache                   default_pipeline_cache;
+    struct blorp_context                        blorp;
+
+    struct anv_state                            border_colors;
+
+    struct anv_state                            slice_hash;
+
+    uint32_t                                    queue_count;
+    struct anv_queue  *                         queues;
+
+    struct anv_scratch_pool                     scratch_pool;
+    struct anv_bo                              *rt_scratch_bos[16];
+
+    struct anv_shader_bin                      *rt_trampoline;
+    struct anv_shader_bin                      *rt_trivial_return;
+
+    pthread_mutex_t                             mutex;
+    pthread_cond_t                              queue_submit;
+    int                                         _lost;
+    int                                         lost_reported;
+
+    struct intel_batch_decode_ctx               decoder_ctx;
+    /*
+     * When decoding a anv_cmd_buffer, we might need to search for BOs through
+     * the cmd_buffer's list.
+     */
+    struct anv_cmd_buffer                      *cmd_buffer_being_decoded;
+
+    int                                         perf_fd; /* -1 if no opened */
+    uint64_t                                    perf_metric; /* 0 if unset */
+
+    struct intel_aux_map_context                *aux_map_ctx;
+
+    const struct intel_l3_config                *l3_config;
+
+    struct intel_debug_block_frame              *debug_frame_desc;
+};
+
+```
+
 ### Dispatchable and Non-Dispatchable Objects
 
 First understand what dispatch table means by reading [this](https://blog.alicegoldfuss.com/function-dispatch-tables/) blog. Then [take a look at what vulkan spec says](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/vkspec.html#fundamentals-objectmodel-overview). After this read the following : 
 
-From an application's point of view, a `dispatchable` handle is just a pointer to an underlying struct in the device driver. A non `dispatchable` handle is a `uint64_t` on `x86-64` platforms (major difference on `x86` platforms) but from the loader's point of view, a `dispatchable` handle contains a pointer to a dispatch table full of function pointers. When you make a `dispatchable` handle, for e.g. the `VkInstance` the loader will first create a  `loader_instance` and then will forward this call to all `ICD`s present on the system, then create the implementation level instance (eg : `anv_instance`, `radv_instance`), store their pointer and then will use it to get all instance related functions from the `ICD`s. If you make a logical device, then the loader will spawn a logical device for you and will get the respective functions from the `ICD`s in same way it was done for the instance. 
+From an application's point of view, a `dispatchable` handle is just an opaque handle to an underlying struct in the device driver. A non `dispatchable` handle is a `uint64_t` on `x86-64` platforms (major difference on `x86` platforms) but from the loader's point of view, a `dispatchable` handle contains a pointer to a dispatch table full of function pointers. When you make a `dispatchable` handle, for e.g. the `VkInstance` the loader will first create a  `loader_instance` (wrapper for Vulkan instance at loader level) and then will forward this call to all `ICD`s present on the system, then create the implementation level instance (eg : `anv_instance`, `radv_instance`), store their pointer and then will use it to get all instance related functions from the `ICD`s. The loader will then search for next `ICD` on the system and then do the same with that `ICD` too. If you take a good look at the loader level Vulkan instance wrapper, you will find that it is forming a linked list of all instances from various `ICD`s. If you make a logical device, then the loader will spawn a logical device for you and will get the respective functions from the `ICD`s in same way it was done for the instance. 
 
 A `non-dispatchable` handle is just an opaque handle and it is never used to retrieve function pointers.
 
@@ -571,10 +664,10 @@ VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkFramebuffer)
 VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkCommandPool)
 ```
 
-Clearly from above code, [`VkInstance`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkInstance.html), [`VkDevice`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkDevice.html), [`VkPhysicalDevice`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkPhysicalDevice.html), [`VkQueue`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkQueue.html) and [`VkCommandBuffer`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkCommandBuffer.html) are `dispatchable` handles. So these all will be used to get dispatch tables to get function pointers.
+Clearly from above code, [`VkInstance`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkInstance.html), [`VkDevice`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkDevice.html), [`VkPhysicalDevice`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkPhysicalDevice.html), [`VkQueue`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkQueue.html) and [`VkCommandBuffer`](https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkCommandBuffer.html) are `dispatchable` handles. So these all will be used to get dispatch tables to get function pointers. You will also see structures named dispatch table in the instance, physical device, logical device structure provided above.
 
 So, this is it for this post. There is much more to learn in the Vulkan API. This is all what will need in the next few posts. I will explain other left out things when needed. 
 
-Note that I'm just providing you this code snippets in order to get an idea of what is being done on the inside. You mustn't think that this is how all hardware vendors do it. When I started learning Vulkan, I just had this itching sensation to know what exactly does this instance or physical device represent in code? You can easily skip these codes as we won't be using them anywhere but understanding this won't harm you. Instead this will help you when you read some low level implementation code like this.
+Note that I'm just providing you these code snippets in order to get an idea of what is being done on the inside. You mustn't think that this is how all hardware vendors do it. When I started learning Vulkan, I just had this itching sensation to know what exactly does this instance or physical device represent in code? You can easily skip these codes as we won't be using them anywhere but understanding this won't harm you. Instead this will help you when you read some low level implementation code like this. The main purpose of me providing you these internal definitions is because you might not understand every concept right now and in future you might need to refer to this and when you do that, you'll have a more better understanding. Infact you must consider reading some previous blogs if you don't understand a concept. If you understand the inner workings then the API will be quite is easy to learn. Ofcourse you won't be needing these internal implementations but it just helps (you will see).
 
 See you in next post ;-)
