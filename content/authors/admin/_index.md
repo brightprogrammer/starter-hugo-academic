@@ -1,5 +1,4 @@
 ---
-title: Siddharth Mishra
 role: Computer Science Enthusiast
 avatar_filename: avatar.png
 bio: My interests include CyberSecurity, Machine Learning and Computer Graphics
@@ -36,8 +35,9 @@ education:
     - course: CBSE XIIth Boards
       institution: Dhanbad Public School
       year: 2020
-email: bshock665@gmail.com
 superuser: true
 highlight_name: true
+title: Siddharth Mishra
+email: bshock665@gmail.com
 ---
-Siddharth Mishra completed his high school in the year 2020 and at the moment is preparing for college entrace exams. He as 4 years progressive experience in C++ as he used it in amlost all projects that he made in the school. He started programming at the age of 14 and He has experience in Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Engine Development, GUI Programming and Computer Vision.
+Siddharth Mishra completed his high school in the year 2020 and at the moment is preparing for college entrace exams. He has 4 years progressive experience in C++ as he used it in amlost all projects that he made in the school. He started programming at the age of 14 and He has experience in Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Engine Development, GUI Programming and Computer Vision.
