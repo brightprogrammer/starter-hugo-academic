@@ -22,7 +22,7 @@ This post will be on introduction to Vulkan API. We will try to get an idea of h
 
 ### What is Vulkan ?
 
-Vulkan is a fast, new and modern 3D graphics programming API. The initial release was about 5 years ago and it is now used my many games and game engines. Vulkan is largely based on the Mantle API, which was initially made by AMD. It is written purely in C and supports many platforms like : Android, Linux, Fuschia, BSD Unix, QNX, Windows, Nintendo Switch, Staida, Tizen, macOS, iOS, Raspberry Pi. It is licensed on [Apache License](https://www.google.com/search?client=firefox-b-d&sxsrf=AOaemvJ0adMSWlfVR9scr93Ko9YiffsEIA:1631340626919&q=Apache+License&stick=H4sIAAAAAAAAAONgVuLUz9U3MDTKjrdcxMrnWJCYnJGq4JOZnJpXnAoAzGCpBx4AAAA&sa=X&ved=2ahUKEwijnsy0ofbyAhXymeYKHYs3CygQmxMoAXoECEgQAw) 2.0 which means we can use it too.
+Vulkan is a fast, new and modern 3D graphics programming API. The initial release was about 5 years ago and it is now used my many games and game engines. Vulkan is largely based on the Mantle API, which was initially made by AMD. It is written purely in C and supports many platforms like : Android, Linux, Fuschia, BSD Unix, QNX, Windows, Nintendo Switch, Staida, Tizen, macOS, iOS, Raspberry Pi. It is licensed on [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) which means we can use it too.
 
 ### But why is it called an API?
 
