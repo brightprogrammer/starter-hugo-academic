@@ -50,7 +50,7 @@ You use the [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) devel
 
 For the latter method, we just have to download [Vulkan Loader](https://github.com/KhronosGroup/Vulkan-Loader) and link to it statically or dynamically however you like. This is the method I will choose. There is a small performance gain if you use a custom loader instead, I, however at this moment just want to see something on my screen ASAP.
 
-Volk (and similar implementations) get's it's perfomance boost because it skips the [trampoline](http://kylehalladay.com/blog/2020/11/13/Hooking-By-Example.html) (also known as hooking) part in Vulkan Loader. An example image retrieved from khronos site is :
+Volk (and similar implementations) gets it's perfomance boost because it skips the [trampoline](http://kylehalladay.com/blog/2020/11/13/Hooking-By-Example.html) (also known as hooking) part in Vulkan Loader. An example image retrieved from khronos site is :
 
 ![Webinar Recap: Vulkan Loader Deep Dive](https://www.khronos.org/assets/uploads/blogs/2017-Webinar-Recap-Vulkan-Loader-Deep-Dive.jpg)Here is a paragraph from a [vulkan.lunarg.com post](https://vulkan.lunarg.com/doc/view/1.2.170.0/windows/loader_and_layer_interface.html) : 
 
@@ -68,7 +68,7 @@ So notice that when no layers are enabled, you'll be directly talking to the `IC
 
 The main task of loader is to search for the graphics driver, also called `Installable Client Driver` (`ICD`) and then get pointers to all or some functions from the library file after loading it into memory. List of installed `ICD`s can be found in a `json` file that is stored in a specific place during Vulkan SDK installation. In Linux you can usually find this `json` file in `/usr/share/vulkan/icd.d`.
 
-Say you are calling some function named `doSomething(xyz)`. Now, this function has to be defined somewhere otherwise your program will show a `segfault` or some other linking error. When a loader links with your program, it contains the symbols of all or some Vulkan functions. When your program will execute, the loader will search for a valid `ICD` on your system (eg : `/usr/lib/libvulkan_intel.so.` in linux for intel integrated graphics) . Once, a valid `ICD` is found, the loader loads it using the system libraries like `dl` on linux. It loads the file in the memory and then get's the memory address of functions using their names. Once we have the address, these addresses are stored in those symbols defined by the loader earlier. This way when you call the function `doSomething(xyz)`, your request is first recieved by the loader and then redirected to the `ICD`, or more precisely the graphics driver that the hardware vendor developed for you to talk to their hardware.
+Say you are calling some function named `doSomething(xyz)`. Now, this function has to be defined somewhere otherwise your program will show a `segfault` or some other linking error. When a loader links with your program, it contains the symbols of all or some Vulkan functions. When your program will execute, the loader will search for a valid `ICD` on your system (eg : `/usr/lib/libvulkan_intel.so.` in linux for intel integrated graphics) . Once, a valid `ICD` is found, the loader loads it using the system libraries like `dl` on linux. It loads the file in the memory and then gets the memory address of functions using their names. Once we have the address, these addresses are stored in those symbols defined by the loader earlier. This way when you call the function `doSomething(xyz)`, your request is first recieved by the loader and then redirected to the `ICD`, or more precisely the graphics driver that the hardware vendor developed for you to talk to their hardware.
 
 This way the loader allows you to use multiple `ICD`s at a time! You just need to have the driver and the `ICD` present on your system. Below is an image to show how loader works
 
@@ -583,7 +583,6 @@ struct anv_device {
 
     struct intel_debug_block_frame              *debug_frame_desc;
 };
-
 ```
 
 ### Dispatchable and Non-Dispatchable Objects
