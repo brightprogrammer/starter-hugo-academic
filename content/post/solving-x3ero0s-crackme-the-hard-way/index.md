@@ -449,7 +449,27 @@ Next to see the disassembly, type `v`! after which you will see a window similar
 The big window on left is the one that contains our disassembly code. One in the top right corner contains function names/symbols and in bottom right contains symbol names.\
 At the very beginning you see the `entry` function, this is the very first function that is called when our program executes! and this function calls `main()`(indirectly). This function passes those `argc` and `argv` values to `main()`! Let's take a look at this function and try to find our `main()` from here :
 
-![](radare2-2.png)
+```
+            ;-- section..text:
+            ;-- rip:
+/ 47: entry0 (int64_t arg3);
+|           ; arg int64_t arg3 @ rdx
+|           0x00001500      f30f1efa       endbr64                     ; [16] -r-x section size 20869 named .text
+|           0x00001504      31ed           xor ebp, ebp
+|           0x00001506      4989d1         mov r9, rdx                 ; arg3
+|           0x00001509      5e             pop rsi
+|           0x0000150a      4889e2         mov rdx, rsp
+|           0x0000150d      4883e4f0       and rsp, 0xfffffffffffffff0
+|           0x00001511      50             push rax
+|           0x00001512      54             push rsp
+|           0x00001513      4c8d05665100.  lea r8, [fcn.00006680]      ; 0x6680
+|           0x0000151a      488d0def5000.  lea rcx, [0x00006610]
+|           0x00001521      488d3dc10000.  lea rdi, [main]             ; 0x15e9
+|           0x00001528      ff15b28a0000   call qword [reloc.__libc_start_main] ; [0x9fe0:8]=0
+|           ; DATA XREF from fcn.00005b4c @ 0x5e83
+\           0x0000152e      f4             hlt
+
+```
 
 Let's understand this one by one : 
 
