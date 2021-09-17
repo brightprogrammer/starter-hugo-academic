@@ -468,7 +468,6 @@ At the very beginning you see the `entry` function, this is the very first funct
 |           0x00001528      ff15b28a0000   call qword [reloc.__libc_start_main] ; [0x9fe0:8]=0
 |           ; DATA XREF from fcn.00005b4c @ 0x5e83
 \           0x0000152e      f4             hlt
-
 ```
 
 Let's understand this one by one : 
@@ -3617,6 +3616,248 @@ SectionHeader* makeSectionHeader(StructThree* pStructThree, char* pSectionHeader
         }
     }
 }
+```
+
+Next function in the list is `fcn_4c61`.
+
+```
+            ; CALL XREF from fcn.0000422f @ 0x4560
+            ; CALL XREF from fcn.00004dce @ 0x4e0e
+            ; CALL XREF from fcn.0000578d @ 0x584d
+            ; CALL XREF from fcn.00005897 @ 0x591f
+/ 122: fcn.00004c61 (uint32_t arg1, int64_t arg2);
+|           ; var int64_t var_ch @ rbp-0xc
+|           ; var uint32_t var_8h @ rbp-0x8
+|           ; arg uint32_t arg1 @ rdi
+|           ; arg int64_t arg2 @ rsi
+|           0x00004c61      f30f1efa       endbr64
+|           0x00004c65      55             push rbp
+|           0x00004c66      4889e5         mov rbp, rsp
+|           0x00004c69      4883ec10       sub rsp, 0x10
+|           0x00004c6d      48897df8       mov qword [var_8h], rdi     ; arg1
+|           0x00004c71      89f0           mov eax, esi                ; arg2
+|           0x00004c73      8845f4         mov byte [var_ch], al
+|           0x00004c76      488b45f8       mov rax, qword [var_8h]
+|           0x00004c7a      8b5020         mov edx, dword [rax + 0x20]
+|           0x00004c7d      488b45f8       mov rax, qword [var_8h]
+|           0x00004c81      8b4010         mov eax, dword [rax + 0x10]
+|           0x00004c84      39c2           cmp edx, eax
+|       ,=< 0x00004c86      7221           jb 0x4ca9
+|       |   0x00004c88      488b45f8       mov rax, qword [var_8h]
+|       |   0x00004c8c      8b5014         mov edx, dword [rax + 0x14] ; uint32_t arg3
+|       |   0x00004c8f      488b45f8       mov rax, qword [var_8h]
+|       |   0x00004c93      8b4020         mov eax, dword [rax + 0x20]
+|       |   0x00004c96      01c2           add edx, eax
+|       |   0x00004c98      488b45f8       mov rax, qword [var_8h]
+|       |   0x00004c9c      4889c6         mov rsi, rax                ; int64_t arg2
+|       |   0x00004c9f      bf03000000     mov edi, 3                  ; int64_t arg1
+|       |   0x00004ca4      e813180000     call fcn.000064bc
+|       |   ; CODE XREF from fcn.00004c61 @ 0x4c86
+|       `-> 0x00004ca9      488b45f8       mov rax, qword [var_8h]
+|           0x00004cad      488b5008       mov rdx, qword [rax + 8]
+|           0x00004cb1      488b45f8       mov rax, qword [var_8h]
+|           0x00004cb5      8b4020         mov eax, dword [rax + 0x20]
+|           0x00004cb8      89c0           mov eax, eax
+|           0x00004cba      4801c2         add rdx, rax
+|           0x00004cbd      0fb645f4       movzx eax, byte [var_ch]
+|           0x00004cc1      8802           mov byte [rdx], al
+|           0x00004cc3      488b45f8       mov rax, qword [var_8h]
+|           0x00004cc7      8b4020         mov eax, dword [rax + 0x20]
+|           0x00004cca      8d5001         lea edx, [rax + 1]
+|           0x00004ccd      488b45f8       mov rax, qword [var_8h]
+|           0x00004cd1      895020         mov dword [rax + 0x20], edx
+|           0x00004cd4      b801000000     mov eax, 1
+|           0x00004cd9      c9             leave
+\           0x00004cda      c3             ret
+```
+
+Okay, this looks comparatively small. Let's decompile it :  
+
+```cpp
+// struct for reference
+typedef struct SectionHeader{
+    char* pName;                    // 0x00
+    uint64_t f8;                    // 0x08
+    uint32_t bcd1;                  // 0x10
+    uint32_t bcd2;                  // 0x14
+    uint32_t f18;                   // 0x18
+    uint32_t bcd3;                  // 0x1c
+    uint32_t f20;                   // 0x20
+    uint32_t f24;                   // 0x24
+    struct SectionHeader* pNext;    // 0x28
+} SectionHeader;                    // total = 0x30
+
+
+// arg2 is uint8_t because effectively al is being stored
+// also, we know the function signature from it's call in
+// function "readByteCodeData"
+uint32_t fcn_4c61(SectionHeader* pSectionHeader, uint8_t arg2){
+    // var_8h is arg1 or pSectionHeader
+    // var_ch is arg2
+
+    // edx = pSectionHeader->f20;
+    // eax = pSectionHeader->bcd1;
+    // then compare
+    if(pSectionHeader->f20 >= pSectionHeader->bcd1){
+        // edx = pSectionHeader->f20 + pSectionHeader->bcd2;
+        fcn_64bc(3, pSectionHeader, pSectionHeader->f20 + pSectionHeader->bcd2);
+    }
+
+    // rdx = pSectionHeader->f8;
+    // eax = pSectionHeader->f20;
+    // rdx += pSectionHeader->f20 (eax)
+    // this implues : rdx = pSectionHeader->f8 + pSectionHeader->f20;
+    
+    ((uint8_t*)(pSectionHeader->f8 + pSectionHeader->f20))[0] = arg2;
+
+    // don't mind the lea edx, [rax+1]
+    // because rax contains a uint32_t value if you see it carefully 
+    pSectionHeader->f20 = pSectionHeader->f20 + 1;
+    
+    return 1;
+}
+```
+
+This looks good. Let's decompile this function being called here : 
+
+```
+            ; XREFS: CALL 0x0000490b  CALL 0x0000493c  CALL 0x000049a2  CALL 0x000049d6  CALL 0x00004a3c  CALL 0x00004a70  
+            ; XREFS: CALL 0x00004ad6  CALL 0x00004b09  CALL 0x00004ca4  CALL 0x00004d1f  CALL 0x00004d98  CALL 0x00004e78  
+            ; XREFS: CALL 0x00004eb4  CALL 0x00004f12  CALL 0x00004f4f  CALL 0x00004faa  CALL 0x00004fe5  CALL 0x00005659  
+            ; XREFS: CALL 0x000056ce  
+/ 441: fcn.000064bc (int64_t arg1, uint32_t arg2, uint32_t arg3);
+|           ; arg int64_t arg1 @ rdi
+|           ; arg uint32_t arg2 @ rsi
+|           ; arg uint32_t arg3 @ rdx
+|           0x000064bc      f30f1efa       endbr64
+|           0x000064c0      55             push rbp
+|           0x000064c1      4889e5         mov rbp, rsp
+|           0x000064c4      4883ec10       sub rsp, 0x10
+|           0x000064c8      897dfc         mov dword [rbp - 4], edi    ; arg1
+|           0x000064cb      488975f0       mov qword [rbp - 0x10], rsi ; arg2
+|           0x000064cf      8955f8         mov dword [rbp - 8], edx    ; arg3
+|           0x000064d2      488b05673b00.  mov rax, qword [obj.stderr] ; [0xa040:8]=0
+|           0x000064d9      4889c1         mov rcx, rax                ; FILE *stream
+|           0x000064dc      ba22000000     mov edx, 0x22               ; '"' ; size_t nitems
+|           0x000064e1      be01000000     mov esi, 1                  ; size_t size
+|           0x000064e6      488d3d1b0f00.  lea rdi, str._e_31m_e_0m__Segmentation_Fault_:_ ; 0x7408 ; "[\x1b[31m-\x1b[0m] Segmentation Fault : " ; const void *ptr
+|           0x000064ed      e8ceafffff     call sym.imp.fwrite         ; size_t fwrite(const void *ptr, size_t size, size_t nitems, FILE *stream)
+|           0x000064f2      48837df000     cmp qword [rbp - 0x10], 0
+|       ,=< 0x000064f7      7433           je 0x652c
+|       |   0x000064f9      488b45f0       mov rax, qword [rbp - 0x10]
+|       |   0x000064fd      8b7014         mov esi, dword [rax + 0x14]
+|       |   0x00006500      488b45f0       mov rax, qword [rbp - 0x10]
+|       |   0x00006504      8b481c         mov ecx, dword [rax + 0x1c]
+|       |   0x00006507      488b45f0       mov rax, qword [rbp - 0x10]
+|       |   0x0000650b      488b10         mov rdx, qword [rax]
+|       |   0x0000650e      488b052b3b00.  mov rax, qword [obj.stderr] ; [0xa040:8]=0
+|       |   0x00006515      4189f0         mov r8d, esi
+|       |   0x00006518      488d350c0f00.  lea rsi, str._s__d_0x_x_:_  ; str._s__d_0x_x_:_
+|       |                                                              ; 0x742b ; "%s-%d-0x%x : " ; const char *format
+|       |   0x0000651f      4889c7         mov rdi, rax                ; FILE *stream
+|       |   0x00006522      b800000000     mov eax, 0
+|       |   0x00006527      e8e4aeffff     call sym.imp.fprintf        ; int fprintf(FILE *stream, const char *format,   ...)
+|       |   ; CODE XREF from fcn.000064bc @ 0x64f7
+|       `-> 0x0000652c      837dfc03       cmp dword [rbp - 4], 3
+|       ,=< 0x00006530      742b           je 0x655d
+|       |   0x00006532      837dfc03       cmp dword [rbp - 4], 3
+|      ,==< 0x00006536      0f87a4000000   ja 0x65e0
+|      ||   0x0000653c      837dfc02       cmp dword [rbp - 4], 2
+|     ,===< 0x00006540      747e           je 0x65c0
+|     |||   0x00006542      837dfc02       cmp dword [rbp - 4], 2
+|    ,====< 0x00006546      0f8794000000   ja 0x65e0
+|    ||||   0x0000654c      837dfc00       cmp dword [rbp - 4], 0
+|   ,=====< 0x00006550      742e           je 0x6580
+|   |||||   0x00006552      837dfc01       cmp dword [rbp - 4], 1
+|  ,======< 0x00006556      7448           je 0x65a0
+| ,=======< 0x00006558      e983000000     jmp 0x65e0
+| |||||||   ; CODE XREF from fcn.000064bc @ 0x6530
+| ||||||`-> 0x0000655d      488b05dc3a00.  mov rax, qword [obj.stderr] ; [0xa040:8]=0
+| ||||||    0x00006564      8b55f8         mov edx, dword [rbp - 8]
+| ||||||    0x00006567      488d35cb0e00.  lea rsi, str.Invalid_Address___0x_x_n ; str.Invalid_Address___0x_x_n
+| ||||||                                                               ; 0x7439 ; "Invalid Address @ 0x%x\n" ; const char *format
+| ||||||    0x0000656e      4889c7         mov rdi, rax                ; FILE *stream
+| ||||||    0x00006571      b800000000     mov eax, 0
+| ||||||    0x00006576      e895aeffff     call sym.imp.fprintf        ; int fprintf(FILE *stream, const char *format,   ...)
+| ||||||,=< 0x0000657b      e981000000     jmp 0x6601
+| |||||||   ; CODE XREF from fcn.000064bc @ 0x6550
+| ||`-----> 0x00006580      488b05b93a00.  mov rax, qword [obj.stderr] ; [0xa040:8]=0
+| || ||||   0x00006587      8b55f8         mov edx, dword [rbp - 8]
+| || ||||   0x0000658a      488d35c00e00.  lea rsi, str.Invalid_Read___0x_x_n ; str.Invalid_Read___0x_x_n
+| || ||||                                                              ; 0x7451 ; "Invalid Read @ 0x%x\n" ; const char *format
+| || ||||   0x00006591      4889c7         mov rdi, rax                ; FILE *stream
+| || ||||   0x00006594      b800000000     mov eax, 0
+| || ||||   0x00006599      e872aeffff     call sym.imp.fprintf        ; int fprintf(FILE *stream, const char *format,   ...)
+| ||,=====< 0x0000659e      eb61           jmp 0x6601
+| |||||||   ; CODE XREF from fcn.000064bc @ 0x6556
+| |`------> 0x000065a0      488b05993a00.  mov rax, qword [obj.stderr] ; [0xa040:8]=0
+| | |||||   0x000065a7      8b55f8         mov edx, dword [rbp - 8]
+| | |||||   0x000065aa      488d35b50e00.  lea rsi, str.Invalid_Write___0x_x_n ; str.Invalid_Write___0x_x_n
+| | |||||                                                              ; 0x7466 ; "Invalid Write @ 0x%x\n" ; const char *format
+| | |||||   0x000065b1      4889c7         mov rdi, rax                ; FILE *stream
+| | |||||   0x000065b4      b800000000     mov eax, 0
+| | |||||   0x000065b9      e852aeffff     call sym.imp.fprintf        ; int fprintf(FILE *stream, const char *format,   ...)
+| |,======< 0x000065be      eb41           jmp 0x6601
+| |||||||   ; CODE XREF from fcn.000064bc @ 0x6540
+| ||||`---> 0x000065c0      488b05793a00.  mov rax, qword [obj.stderr] ; [0xa040:8]=0
+| |||| ||   0x000065c7      8b55f8         mov edx, dword [rbp - 8]
+| |||| ||   0x000065ca      488d35ab0e00.  lea rsi, str.Invalid_Code___0x_x_n ; str.Invalid_Code___0x_x_n
+| |||| ||                                                              ; 0x747c ; "Invalid Code @ 0x%x\n" ; const char *format
+| |||| ||   0x000065d1      4889c7         mov rdi, rax                ; FILE *stream
+| |||| ||   0x000065d4      b800000000     mov eax, 0
+| |||| ||   0x000065d9      e832aeffff     call sym.imp.fprintf        ; int fprintf(FILE *stream, const char *format,   ...)
+| ||||,===< 0x000065de      eb21           jmp 0x6601
+| |||||||   ; CODE XREFS from fcn.000064bc @ 0x6536, 0x6546, 0x6558
+| `--`-`--> 0x000065e0      488b05593a00.  mov rax, qword [obj.stderr] ; [0xa040:8]=0
+|  || | |   0x000065e7      4889c1         mov rcx, rax                ; FILE *stream
+|  || | |   0x000065ea      ba10000000     mov edx, 0x10               ; size_t nitems
+|  || | |   0x000065ef      be01000000     mov esi, 1                  ; size_t size
+|  || | |   0x000065f4      488d3d960e00.  lea rdi, str.XVM_BRUH_MOMENT_n ; 0x7491 ; "XVM BRUH MOMENT\n" ; const void *ptr
+|  || | |   0x000065fb      e8c0aeffff     call sym.imp.fwrite         ; size_t fwrite(const void *ptr, size_t size, size_t nitems, FILE *stream)
+|  || | |   0x00006600      90             nop
+|  || | |   ; CODE XREFS from fcn.000064bc @ 0x657b, 0x659e, 0x65be, 0x65de
+|  ``-`-`-> 0x00006601      8b45fc         mov eax, dword [rbp - 4]
+|           0x00006604      89c7           mov edi, eax
+|           0x00006606      e895aeffff     call sym.imp.exit
+|           0x0000660b      0f1f440000     nop dword [rax + rax]
+|           ; DATA XREF from entry0 @ 0x151a
+|           0x00006610      f30f1efa       endbr64
+|           0x00006614      4157           push r15
+|           0x00006616      4c8d3d733600.  lea r15, segment.GNU_RELRO  ; 0x9c90
+|           0x0000661d      4156           push r14
+|           0x0000661f      4989d6         mov r14, rdx
+|           0x00006622      4155           push r13
+|           0x00006624      4989f5         mov r13, rsi
+|           0x00006627      4154           push r12
+|           0x00006629      4189fc         mov r12d, edi
+|           0x0000662c      55             push rbp
+|           0x0000662d      488d2d643600.  lea rbp, section..fini_array ; 0x9c98
+|           0x00006634      53             push rbx
+|           0x00006635      4c29fd         sub rbp, r15
+|           0x00006638      4883ec08       sub rsp, 8
+|           0x0000663c      e8bfa9ffff     call fcn.00001000
+|           0x00006641      48c1fd03       sar rbp, 3
+|       ,=< 0x00006645      741f           je 0x6666
+|       |   0x00006647      31db           xor ebx, ebx
+|       |   0x00006649      0f1f80000000.  nop dword [rax]
+|       |   ; CODE XREF from fcn.000064bc @ 0x6664
+|      .--> 0x00006650      4c89f2         mov rdx, r14
+|      :|   0x00006653      4c89ee         mov rsi, r13
+|      :|   0x00006656      4489e7         mov edi, r12d
+|      :|   0x00006659      41ff14df       call qword [r15 + rbx*8]
+|      :|   0x0000665d      4883c301       add rbx, 1
+|      :|   0x00006661      4839dd         cmp rbp, rbx
+|      `==< 0x00006664      75ea           jne 0x6650
+|       |   ; CODE XREF from fcn.000064bc @ 0x6645
+|       `-> 0x00006666      4883c408       add rsp, 8
+|           0x0000666a      5b             pop rbx
+|           0x0000666b      5d             pop rbp
+|           0x0000666c      415c           pop r12
+|           0x0000666e      415d           pop r13
+|           0x00006670      415e           pop r14
+|           0x00006672      415f           pop r15
+\           0x00006674      c3             ret
+
 ```
 
 This article is a work in progress, I keep changing my projects to not get roasted by the pressure to complete it. This work is just like my other projects because you can see how much effort we are putting into it.
