@@ -3970,6 +3970,8 @@ void fcn_64bc(uint32_t arg1, SectionHeader *pSectionHeader, uint32_t arg3){
 }
 ```
 
-Clearly `arg1` is an error code here! I guess that `pSectionHeader->f20` is the base of the given section and f20
+Clearly `arg1` is an error code here! `arg3` is the byte address. This means that `bcd2` is the offset of this section. We will make necessary changes in the code and rename `fcn_64bc` to `printError`. [Here](https://pastebin.com/2X74vNpT) is the change state.
+
+<iframe src="https://pastebin.com/embed_iframe/2X74vNpT?theme=dark" style="border:none;width:100%"></iframe>
 
 ***This article is a work in progress, I keep changing my projects to not get roasted by the pressure to complete it. This work is just like my other projects because you can see how much effort we are putting into it.***
