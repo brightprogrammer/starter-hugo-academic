@@ -3706,8 +3706,9 @@ uint32_t fcn_4c61(SectionHeader* pSectionHeader, uint8_t arg2){
     // rdx = pSectionHeader->f8;
     // eax = pSectionHeader->f20;
     // rdx += pSectionHeader->f20 (eax)
-    // this implues : rdx = pSectionHeader->f8 + pSectionHeader->f20;
+    // this implies : rdx = pSectionHeader->f8 + pSectionHeader->f20;
     
+    // looks like pSectionHeade->f8 is a uint8_t array
     ((uint8_t*)(pSectionHeader->f8 + pSectionHeader->f20))[0] = arg2;
 
     // don't mind the lea edx, [rax+1]
@@ -3718,7 +3719,26 @@ uint32_t fcn_4c61(SectionHeader* pSectionHeader, uint8_t arg2){
 }
 ```
 
-This looks good. Let's decompile this function being called here : 
+This looks good. If you observe this function's call in `readByteCodeData` function, you might notice that `pSectionHeader->f8` is indeed our byte-code. This field stores the `uint8_t` values retrieved from file. This means that `pSectionHeader->f20` represents our current read position in this function and at the end of the while loop in `readByteCodeData`, we will have the size of this segment's code in this field. This intelligence also suggests that `pSectionHeader->bcd1` also represents the total size of this segment. Let's rename the fields as the code suggests.
+
+```cpp
+// renamed from fcn_4c61
+uint32_t updateByteCode(SectionHeader* pSectionHeader, uint8_t arg2){
+    if(pSectionHeader->currentReadAddress >= pSectionHeader->size){
+        fcn_64bc(3, pSectionHeader, pSectionHeader->currentReadAddress + pSectionHeader->bcd2);
+    }
+
+    pSectionHeader->pByteCode[pSectionHeader->currentReadAddress] = arg2;
+    pSectionHeader->currentReadAddress = pSectionHeader->currentReadAddress + 1;
+    return 1;
+}
+```
+
+At this point I made changes everywhere in the code and since we are understanding code more and more and the size of code is increasing too, the entropy of the code is also increasing. To look at the state of code at this moment, take a look at [this pastebin](https://pastebin.com/DiUnkY3q) and you can also see the scrollable code below
+
+<script src="https://pastebin.com/embed_js/DiUnkY3q?theme=dark"></script>
+
+Next, we decompile this next function being called here (i.e `fcn_64bc`) : 
 
 ```
             ; XREFS: CALL 0x0000490b  CALL 0x0000493c  CALL 0x000049a2  CALL 0x000049d6  CALL 0x00004a3c  CALL 0x00004a70  
@@ -3857,7 +3877,99 @@ This looks good. Let's decompile this function being called here :
 |           0x00006670      415e           pop r14
 |           0x00006672      415f           pop r15
 \           0x00006674      c3             ret
-
 ```
 
-This article is a work in progress, I keep changing my projects to not get roasted by the pressure to complete it. This work is just like my other projects because you can see how much effort we are putting into it.
+This is a bit large but on skimming through it, it seems like it contains some nice reversing information! Let's decompile that : 
+
+```cpp
+void fcn_64bc(uint32_t arg1, SectionHeader *pSectionHeader, uint32_t arg3){
+    // arg1 = [rbp - 0x4]
+    // arg2 = [rbp - 0x10]
+    // arg3 = [rbp - 0x8]
+
+    // write to stderr
+    // this means that this function will be called when
+    // the program encounters an error
+    fwrite("[\x1b[31m-\x1b[0m] Segmentation Fault : ", 1, 0x22, stderr);
+
+    if(pSectionHeader != NULL){
+        // esi = pSectionHeader->bcd2
+        // ecx = pSectionHeader->bcd3
+        // rdx = pSectionHeader->pName
+        // r8d = esi (lower 32-bit part of r8)
+
+        fprintf(stderr, "%s-%d-0x%x : ", (const char*)pSectionHeader->pNext, pSectionHeader->bcd3, pSectionHeader->bcd2);
+    }
+
+    if(arg1 != 3){
+        // here it must not be "<=" because we already checked
+        // that it is not equal to 3
+        if(arg1 < 3){
+            if(arg1 != 2){
+                // same here, we already checked it is not 2
+                if(arg1 < 2){
+                    if(arg1 != 0){
+                        if(arg1 != 1){
+                            // 65e0
+                            fwrite("XVM BRUH MOMENT\n", 1, 0x10, stderr);
+                        }else{ // arg1 == 1
+                            // 65a0
+                            // so arg3 is an address in our xvm bytecode!
+                            // one also, not that useful information is revealed here
+                            // it's that our bytecode is a 32 bit program
+                            // not useful because you might've already guessed
+                            // it's bytecode!
+                            fprintf(stderr, "Invalid Write @ 0x%x\n", arg3);
+                        }
+                    }else{ // arg1 == 0
+                        // 6580
+                        fprintf(stderr, "Invalid Read @ 0x%x\n", arg3);
+                    }
+                }else{ // arg1 > 2
+                    // 65e0
+                    fwrite("XVM BRUH MOMENT\n", 1, 0x10, stderr);
+                }
+            }else{ // arg1 == 2
+                // 65c0
+                fprintf(stderr, "Invalid Code @ 0x%x\n", arg3);
+            }
+        }else{ // arg1 > 3 
+            // 65e0
+            fwrite("XVM BRUH MOMENT\n", 1, 0x10, stderr);
+        }
+    }else{ // arg1 == 3
+        // 655d
+        // looks like this function might be called from many functions
+        // so just in case let's store the function where it is called
+        // with the arguments and which block will get executed
+        //
+        // 1 > CALLED FROM : fcn_4c61
+        //         fcn_64bc(3, pSectionHeader, pSectionHeader->f20 + pSectionHeader->bcd2);
+        //
+        fprintf(stderr, "Invalid Address @ 0x%x\n", arg3);
+    }
+
+    // arg1 == 3    [means invalid address]
+    // arg1 > 3     prints "bruh moment"
+    // arg1 < 3     checks further
+    // arg1 == 2    [means invalid code]
+    // arg1 > 2     prints "bruh moment"
+    // arg1 < 2     checks further
+    // arg1 == 0    [means invalid read]
+    // arg1 == 1    [means invalid write]
+    // arg1 != 1    prints bruh moment
+
+    // exit
+    // this means that arg1 is our error code
+    exit(arg1);
+    
+    // below is the exit sequence I guess
+    // .
+    // .
+    // .
+}
+```
+
+Clearly `arg1` is an error code here! I guess that `pSectionHeader->f20` is the base of the given section and f20
+
+***This article is a work in progress, I keep changing my projects to not get roasted by the pressure to complete it. This work is just like my other projects because you can see how much effort we are putting into it.***
