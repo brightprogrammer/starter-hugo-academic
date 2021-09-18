@@ -3736,7 +3736,7 @@ uint32_t updateByteCode(SectionHeader* pSectionHeader, uint8_t arg2){
 
 At this point I made changes everywhere in the code and since we are understanding code more and more and the size of code is increasing too, the entropy of the code is also increasing. To look at the state of code at this moment, take a look at [this pastebin](https://pastebin.com/DiUnkY3q) and you can also see the scrollable code below
 
-<iframe src="https://pastebin.com/embed_iframe/DiUnkY3q?theme=dark" style="border:none;width:200%"></iframe>
+<iframe src="https://pastebin.com/embed_iframe/DiUnkY3q?theme=dark" style="border:none;width:100%;height:200px"></iframe>
 
 Next, we decompile this next function being called here (i.e `fcn_64bc`) : 
 
