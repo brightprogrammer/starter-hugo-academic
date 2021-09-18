@@ -3970,8 +3970,323 @@ void fcn_64bc(uint32_t arg1, SectionHeader *pSectionHeader, uint32_t arg3){
 }
 ```
 
-Clearly `arg1` is an error code here! `arg3` is the byte address. This means that `bcd2` is the offset of this section. We will make necessary changes in the code and rename `fcn_64bc` to `printError`. [Here](https://pastebin.com/2X74vNpT) is the change state.
+Clearly `arg1` is an error code here, `arg3` is the byte address. This means that `bcd2` is the offset of this section. We will make necessary changes in the code and rename `fcn_64bc` to `printError`. [Here](https://pastebin.com/2X74vNpT) is the change state.
 
 <iframe src="https://pastebin.com/embed_iframe/2X74vNpT?theme=dark" style="border:none;width:100%"></iframe>
+
+Great! this leaves only two more functions (`fcn_55db` and `fcn_3b29`) left to reverse the function `readByteCodeData` completely! Let's start with `fcn_55db`.
+
+```
+            ; CALL XREF from fcn.00003beb @ 0x3c0d
+            ; CALL XREF from fcn.0000422f @ 0x45c7
+            ; CALL XREFS from fcn.00005b4c @ 0x5e8d, 0x5eab, 0x5ec9
+/ 138: fcn.000055db (int64_t arg1, char *arg2);
+|           ; var char *s2 @ rbp-0x20
+|           ; var int64_t var_18h @ rbp-0x18
+|           ; var char **s1 @ rbp-0x8
+|           ; arg int64_t arg1 @ rdi
+|           ; arg char *arg2 @ rsi
+|           0x000055db      f30f1efa       endbr64
+|           0x000055df      55             push rbp
+|           0x000055e0      4889e5         mov rbp, rsp
+|           0x000055e3      4883ec20       sub rsp, 0x20
+|           0x000055e7      48897de8       mov qword [var_18h], rdi    ; arg1
+|           0x000055eb      488975e0       mov qword [s2], rsi         ; arg2
+|           0x000055ef      488b45e8       mov rax, qword [var_18h]
+|           0x000055f3      488b00         mov rax, qword [rax]
+|           0x000055f6      488945f8       mov qword [s1], rax
+|       ,=< 0x000055fa      eb47           jmp 0x5643
+|       |   ; CODE XREF from fcn.000055db @ 0x5648
+|      .--> 0x000055fc      488b45f8       mov rax, qword [s1]
+|      :|   0x00005600      488b00         mov rax, qword [rax]
+|      :|   0x00005603      4885c0         test rax, rax
+|     ,===< 0x00005606      742f           je 0x5637
+|     |:|   0x00005608      488b45e0       mov rax, qword [s2]
+|     |:|   0x0000560c      4889c7         mov rdi, rax                ; const char *s
+|     |:|   0x0000560f      e81cbdffff     call sym.imp.strlen         ; size_t strlen(const char *s)
+|     |:|   0x00005614      4889c2         mov rdx, rax                ; size_t n
+|     |:|   0x00005617      488b45f8       mov rax, qword [s1]
+|     |:|   0x0000561b      488b00         mov rax, qword [rax]
+|     |:|   0x0000561e      488b4de0       mov rcx, qword [s2]
+|     |:|   0x00005622      4889ce         mov rsi, rcx                ; const char *s2
+|     |:|   0x00005625      4889c7         mov rdi, rax                ; const char *s1
+|     |:|   0x00005628      e8b3bcffff     call sym.imp.strncmp        ; int strncmp(const char *s1, const char *s2, size_t n)
+|     |:|   0x0000562d      85c0           test eax, eax
+|    ,====< 0x0000562f      7506           jne 0x5637
+|    ||:|   0x00005631      488b45f8       mov rax, qword [s1]
+|   ,=====< 0x00005635      eb2c           jmp 0x5663
+|   |||:|   ; CODE XREFS from fcn.000055db @ 0x5606, 0x562f
+|   |``---> 0x00005637      488b45f8       mov rax, qword [s1]
+|   |  :|   0x0000563b      488b4028       mov rax, qword [rax + 0x28]
+|   |  :|   0x0000563f      488945f8       mov qword [s1], rax
+|   |  :|   ; CODE XREF from fcn.000055db @ 0x55fa
+|   |  :`-> 0x00005643      48837df800     cmp qword [s1], 0
+|   |  `==< 0x00005648      75b2           jne 0x55fc
+|   |       0x0000564a      ba00000000     mov edx, 0                  ; uint32_t arg3
+|   |       0x0000564f      be00000000     mov esi, 0                  ; int64_t arg2
+|   |       0x00005654      bf03000000     mov edi, 3                  ; int64_t arg1
+|   |       0x00005659      e85e0e0000     call fcn.000064bc
+|   |       0x0000565e      b800000000     mov eax, 0
+|   |       ; CODE XREF from fcn.000055db @ 0x5635
+|   `-----> 0x00005663      c9             leave
+\           0x00005664      c3             ret
+```
+
+This is a short one and easy to understand just by looking. The function is iterating over the linked list and searching for the section named `.data`! Awesome! Let's decompile it : 
+
+```
+// fcn_55db
+SectionHeader* getSectionHeaderByName(StructThree* pStructThree, const char* sectionName){
+    // s1 is first set to pSectionHeader and then set to pName in the while loop
+    // this decompilation might not be exactly same as that in assembly
+    // as here I know what this function is trying to do!
+    // so I will add my knowledge while reversing instead of just decompiling
+    SectionHeader* pSectionHeader = pStructThree->pSectionHeader;
+
+    // iterate over the linked list
+    while(pSectionHeader != NULL){
+        if(pSectionHeader->pName != NULL){
+            // if we found the section header with given name then return it 
+            if(strncmp((const char*)pSectionHeader->pName, sectionName, strlen(sectionName)) == 0){
+                return pSectionHeader;
+            }
+        }else{
+            pSectionHeader = pSectionHeader->pNext; // get next section header in the linked list
+        }
+    }
+
+    return NULL;
+}
+```
+
+If you've been following me this whole time then alteast this part is too easy for you. Now if you go down our decompiled `readByteCodeData` function, you'll notice this code : 
+
+```
+    uint32_t k = 0;
+    while(k < pXVMHeader->magicValue[2]){
+        // type of var_18h is ambiguous at this point because
+        // it's sometimes used as a pointer to uint64_t 
+        // and sometimes uint32_t
+        // it will be clear once we start decoding other functions!
+        // so let it be as it is for now
+        if(var_18h[2*k] > var_10h[4]){
+            fprintf(stderr, "[\x1b[31m-\x1b[0m] Corrupted section headers: symbol offset (0x%x) is out of bounds for \".data\" section\n", var_18h[k]);
+            exit(-1);
+        }
+
+        fcn_3b29(pXVMHeader->arr1, var_18h[k] + var_10h[1], var_18h[2*k+1]);
+
+        k++;
+    }
+```
+
+We were not able to decide the type of `var_18h`, well we know that now! Also I forgot to change these `var_10h` data access to struct members. We now know that `var_10h` is section header for `.data` section. And now by reading the `printf` string, we notice that `var_18h` contains symbol offsets for `.data` section. So, `var_10h` will be renamed to `pDataSegmentHeader` and `var_18h` will be renamed to `dataSegmentSymbolOffsets`. Let's make those changes now :
+
+```
+// renamed fcn_422f to readByteCodeData;
+int32_t readByteCodeData(XVMHeader* pXVMHeader, const char* filename){
+    if(pXVMHeader == NULL){
+        return -1;        
+    }
+
+    // fcn_46f4
+    if(checkIfFileIsOpen(pXVMHeader, filename) == -1){
+        fprintf(stderr, "[\x1b[31m-\x1b[0m] Cannot open \"%s\"\n", filename);
+        exit(-1);
+    }
+
+    // fcn_3fff
+    checkValidXVMByteCode(pXVMHeader);
+
+    // at this point idk why it's allocating memory this way
+    uint32_t* dataSegmentSymbolOffsets = (uint32_t*)malloc(pXVMHeader->magicValue[2] << 3);
+    uint32_t i = 0;
+
+    while(i < pXVMHeader->magicValue[2]){
+        fread((void*)&(dataSegmentSymbolOffsets[2*i]), 4, 1, pXVMHeader->pFile);
+        i++;
+    }
+
+    // pDataSegmentHeader is pointer to a uint64_t array as seen by it's use below
+    SectionHeader* pDataSegmentHeader = NULL;
+    char* pSectionHeaderName = NULL;
+    size_t length = 0;
+    
+    uint32_t sectionSize = 0;
+    uint32_t sectionOffset = 0;
+    uint32_t sectionHeaderData3 = 0;
+    uint32_t sectionHeaderData4 = 0;
+    uint32_t sectionHeaderMagic = 0;
+    uint32_t j = 0;
+
+    while(j < pXVMHeader->magicValue[2]){
+        fread((void*)(&sectionHeaderMagic), 4, 1, pXVMHeader->pFile);
+        
+        // if you look at the hexdump of "pyaz.xvm", you will find "beef dead" in it
+        // in the beginning
+        if(sectionHeaderMagic != 0xdeadbeef){
+            fwrite("[\x1b[31m-\x1b[0m] Corrupted Section Headers\n", 1, 0x27, stderr);
+            exit(1);
+        }
+
+        // reads section header name
+        if(getdelim(&pSectionHeaderName, &length, 0, pXVMHeader->pFile) < 0){
+            fwrite("[\x1b[31m-\x1b[0m] Corrupted Section Headers\n", 1, 0x27, stderr);
+            exit(1);
+        }
+
+        fread((void*)(&sectionSize), 4, 1, pXVMHeader->pFile);
+        fread((void*)(&sectionOffset), 4, 1, pXVMHeader->pFile);
+        fread((void*)(&sectionHeaderData3), 4, 1, pXVMHeader->pFile);
+        fread((void*)(&sectionHeaderData4), 4, 1, pXVMHeader->pFile);
+
+        if(sectionSize > 0x10000){
+            sectionSize = 0x10000;
+        }
+
+        if(sectionHeaderData4 > 0x10000){
+            sectionHeaderData4 = 0x10000;
+        }
+
+        // this means value of sectionHeaderData4 lies between
+        // sectionSize and 0x10000
+        if(sectionHeaderData4 <= sectionSize){
+            sectionHeaderData4 = sectionSize;
+        }
+
+        pDataSegmentHeader = makeSectionHeader(pXVMHeader->pStructThree, pSectionHeaderName, sectionSize, sectionOffset, sectionHeaderData3);
+        if(pDataSegmentHeader == NULL){
+            fprintf(stderr, "[\x1b[31m-\x1b[0m] Cannot Load Section (\"%s\") : FATAL @ 0x%x\n", pSectionHeaderName, sectionOffset);
+            exit(-1);
+        }
+
+        uint32_t vAddr = 0; // virtual address of this segment
+        uint8_t c = 0;
+
+        // 0xff is same as -1 when casted from uint8 to int8
+        while(c != 0xff){
+            // c is treated as character value here
+            updateByteCode(pDataSegmentHeader, c);
+            vAddr++;
+
+            if(vAddr < sectionHeaderData4){
+                c = fgetc(pXVMHeader->pFile);
+            }
+        }
+
+        j++;
+    }
+
+    // free must be called after calling getdelim
+    free((void*)pSectionHeaderName);
+    pSectionHeaderName = NULL;
+
+    // guess this is reading data section
+    // this might be our clue to find the password
+    pDataSegmentHeader = getSectionHeaderByName(pXVMHeader->pStructThree, ".data");
+    if(pDataSegmentHeader == NULL){
+        fwrite("[\x1b[31m-\x1b[0m] Corrupted section headers: \".data\" Not Found\n", 1, 0x3a, stderr);
+        exit(-1);
+    }
+
+    uint32_t k = 0;
+    while(k < pXVMHeader->magicValue[2]){
+        if(dataSegmentSymbolOffsets[2*k] > pDataSegmentHeader->size){
+            fprintf(stderr, "[\x1b[31m-\x1b[0m] Corrupted section headers: symbol offset (0x%x) is out of bounds for \".data\" section\n", dataSegmentSymbolOffsets[2*k]);
+            exit(-1);
+        }
+
+        fcn_3b29(pXVMHeader->arr1, dataSegmentSymbolOffsets[2*k] + pDataSegmentHeader->pByteCode, dataSegmentSymbolOffsets[2*k+1]);
+
+        k++;
+    }
+
+    free((void*)dataSegmentSymbolOffsets);
+    dataSegmentSymbolOffsets = NULL;
+
+    // stack check
+
+    return 0;
+}
+```
+
+There are still some things left to reverse in there. Let's decompile `fcn_3b29` :
+
+```
+            ; CALL XREF from fcn.0000422f @ 0x46a9
+/ 190: fcn.00003b29 (int64_t arg1, size_t arg2, int64_t arg3);
+|           ; var int64_t var_24h @ rbp-0x24
+|           ; var size_t var_20h @ rbp-0x20
+|           ; var int64_t var_18h @ rbp-0x18
+|           ; var int64_t var_8h @ rbp-0x8
+|           ; arg int64_t arg1 @ rdi
+|           ; arg size_t arg2 @ rsi
+|           ; arg int64_t arg3 @ rdx
+|           0x00003b29      f30f1efa       endbr64
+|           0x00003b2d      55             push rbp
+|           0x00003b2e      4889e5         mov rbp, rsp
+|           0x00003b31      4883ec30       sub rsp, 0x30
+|           0x00003b35      48897de8       mov qword [var_18h], rdi    ; arg1
+|           0x00003b39      488975e0       mov qword [var_20h], rsi    ; arg2
+|           0x00003b3d      8955dc         mov dword [var_24h], edx    ; arg3
+|           0x00003b40      488b45e8       mov rax, qword [var_18h]
+|           0x00003b44      8b4008         mov eax, dword [rax + 8]
+|           0x00003b47      8d5001         lea edx, [rax + 1]
+|           0x00003b4a      488b45e8       mov rax, qword [var_18h]
+|           0x00003b4e      895008         mov dword [rax + 8], edx
+|           0x00003b51      488b45e8       mov rax, qword [var_18h]
+|           0x00003b55      488b00         mov rax, qword [rax]
+|           0x00003b58      4885c0         test rax, rax
+|       ,=< 0x00003b5b      7531           jne 0x3b8e
+|       |   0x00003b5d      b800000000     mov eax, 0
+|       |   0x00003b62      e828feffff     call fcn.0000398f
+|       |   ; DATA XREF from fcn.000064bc @ 0x64d2
+|       |   0x00003b67      488b55e8       mov rdx, qword [var_18h]
+|       |   0x00003b6b      488902         mov qword [rdx], rax
+|       |   0x00003b6e      488b45e8       mov rax, qword [var_18h]
+|       |   0x00003b72      488b00         mov rax, qword [rax]
+|       |   0x00003b75      8b55dc         mov edx, dword [var_24h]
+|       |   0x00003b78      488b4de0       mov rcx, qword [var_20h]
+|       |   0x00003b7c      4889ce         mov rsi, rcx
+|       |   0x00003b7f      4889c7         mov rdi, rax
+|       |   0x00003b82      e858feffff     call fcn.000039df
+|       |   0x00003b87      b800000000     mov eax, 0
+|      ,==< 0x00003b8c      eb57           jmp 0x3be5
+|      ||   ; CODE XREF from fcn.00003b29 @ 0x3b5b
+|      |`-> 0x00003b8e      488b45e8       mov rax, qword [var_18h]
+|      |    0x00003b92      488b00         mov rax, qword [rax]
+|      |    0x00003b95      488945f8       mov qword [var_8h], rax
+|      |,=< 0x00003b99      eb0c           jmp 0x3ba7
+|      ||   ; CODE XREF from fcn.00003b29 @ 0x3bb2
+|     .---> 0x00003b9b      488b45f8       mov rax, qword [var_8h]
+|     :||   0x00003b9f      488b4010       mov rax, qword [rax + 0x10]
+|     :||   0x00003ba3      488945f8       mov qword [var_8h], rax
+|     :||   ; CODE XREF from fcn.00003b29 @ 0x3b99
+|     :|`-> 0x00003ba7      488b45f8       mov rax, qword [var_8h]
+|     :|    0x00003bab      488b4010       mov rax, qword [rax + 0x10]
+|     :|    0x00003baf      4885c0         test rax, rax
+|     `===< 0x00003bb2      75e7           jne 0x3b9b
+|      |    0x00003bb4      b800000000     mov eax, 0
+|      |    0x00003bb9      e8d1fdffff     call fcn.0000398f
+|      |    0x00003bbe      488b55f8       mov rdx, qword [var_8h]
+|      |    0x00003bc2      48894210       mov qword [rdx + 0x10], rax
+|      |    0x00003bc6      488b45f8       mov rax, qword [var_8h]
+|      |    0x00003bca      488b4010       mov rax, qword [rax + 0x10]
+|      |    0x00003bce      8b55dc         mov edx, dword [var_24h]
+|      |    0x00003bd1      488b4de0       mov rcx, qword [var_20h]
+|      |    0x00003bd5      4889ce         mov rsi, rcx
+|      |    0x00003bd8      4889c7         mov rdi, rax
+|      |    0x00003bdb      e8fffdffff     call fcn.000039df
+|      |    0x00003be0      b800000000     mov eax, 0
+|      |    ; CODE XREF from fcn.00003b29 @ 0x3b8c
+|      `--> 0x00003be5      c9             leave
+\           0x00003be6      c3             ret
+```
+
+This further calls two more functions. First one looks like constructor and next one looks like modifying the constructed value. Let's decompile this one first : 
+
+```
+
+```
 
 ***This article is a work in progress, I keep changing my projects to not get roasted by the pressure to complete it. This work is just like my other projects because you can see how much effort we are putting into it.***
