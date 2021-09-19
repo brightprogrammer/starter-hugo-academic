@@ -114,7 +114,7 @@ Next, go to `./source/CMakeLists.txt` and add `target_link_libraries(${PROJECT_N
 
 Try to run the executable now! You will see only the version string getting printed on our screen and no window appears. Some of you may notice the window pop up and go out! This happens because our main thread must be open for as long as we want the window to be displayed onto the screen. To do this we use a while loop. This loop is also called the game loop  as all our game or game engine's logic will be here. Let's add that loop here so we can see our window : 
 
-```
+```cpp
 // game loop
 SDL_Event event;
 bool keepRunning = true;
