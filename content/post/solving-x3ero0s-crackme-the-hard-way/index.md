@@ -14,7 +14,7 @@ categories:
   - reversing
   - crackme
 image:
-  filename: featured.jpg
+  filename: preview.png
   focal_point: Smart
   preview_only: false
 ---
