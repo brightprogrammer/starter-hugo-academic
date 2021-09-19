@@ -1450,7 +1450,7 @@ XVMHeader* xvmHeaderCtor(){
 
 After this main changes to :
 
-```
+```cpp
 int main(int argc , char** argv){
     int32_t var14_h = argc;
     int64_t var20_h = (uint64_t)argv;
