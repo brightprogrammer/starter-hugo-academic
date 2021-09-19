@@ -4,8 +4,19 @@ subtitle: Simple SDL Window Setup
 date: 2021-09-15T15:20:00.372Z
 draft: false
 featured: false
+tags:
+  - GameEngine
+  - GraphicsProgramming
+  - SDL
+categories:
+  - GameEngine
+  - Infinity
+  - GraphicsProgramming
+  - Vulkan
+projects:
+  - Infinity
 image:
-  filename: featured
+  filename: preview.png
   focal_point: Smart
   preview_only: false
 ---
@@ -35,7 +46,7 @@ int main(){
 }
 ```
 
-The `SDL2/SDL.h` is for [SDL](https://libsdl.org/) functions and ...
+The `SDL2/SDL.h` is for [SDL](https://libsdl.org/) functions and `SDL2/SDL_vulkan.h` is for vulkan helper functions. This header will provide us functions for creating a Vulkan surface, searching for required surface extensions etc...
 
 ```cpp
 // stdlib includes
@@ -77,11 +88,53 @@ int main(){
 
     // check if window was created
     if(window == nullptr){
-        std::cout << "Window creation failed : " << SDL_GetError() << std::endl;
+        std::cerr << "Window creation failed : " << SDL_GetError() << std::endl;
     }
 
     return EXIT_SUCCESS;
 }
 ```
 
-WORK IN PROGRESS
+We won't try to hard code any thing until unless needed. Using variables instead of definitions (`#define`) is generally recommended. So, we will store width, height, name etc... in one place. In case in future we wanted to change some parameter for testing purposes, we will have to change it only in one place. These variables are now in `main.cpp` but in future can be shifted to header to contain parameters only. I usually name that `Common.hpp` as it includes headers and defines parameters that are needed by almost all other source files.
+
+`SDL_WasInit(<init_flag>)` is used to check whether a group of particular subsystem was initialized. In this case, we want to check whether video subsystem was initialized or not. If it is not initialized already, we initialize it. Note that this is just for showing how to do it because here there is no need to check whether it is initialized or not. But in some parts of code we will need to check that, so it's just to show that such function exists in [SDL](https://libsdl.org/).
+
+`SDL_Window*` is pointer to internal window struct. We won't have access to it as it is platform dependent and again here the API thing comes into play. So all functions in [SDL](https://libsdl.org/) are like : `SDL_<function_name>`, for e.g. : To create an [SDL](https://libsdl.org/) window, we make a guess that function name can be  ***CreateWindow*** and yes it is! There is a function named [`SDL_CreateWindow`](https://wiki.libsdl.org/SDL_CreateWindow) to create an [SDL](https://libsdl.org/) window, as you can see that in the above code snippet also. [`SDL_CreateWindow`](https://wiki.libsdl.org/SDL_CreateWindow) declaration looks something like this : 
+
+```cpp
+SDL_Window * SDL_CreateWindow(const char *title,
+                              int x, int y, int w,
+                              int h, Uint32 flags);
+```
+
+So, it takes the titile of our window, X & Y cooridinate of window's position, width and height of window and the [flags](https://wiki.libsdl.org/SDL_CreateWindow#remarks) that will be used to create it! In our case we want the window to be visible and to be compatible for use with Vulkan, so we give `SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN`. The function returns `SDL_Window*`, i.e. pointer to the created window. In order to check whether the window creation was successful or not, we can check whether the window pointer returned is a `nullptr` or not. If `nullptr` is returned then there was an error and we print the error in `stderr`. To get the error message by [SDL](https://libsdl.org/), we use [`SDL_GetError()`](https://wiki.libsdl.org/SDL_GetError), which will return a string that contains the error message. 
+
+Next, go to `./source/CMakeLists.txt` and add `target_link_libraries(${PROJECT_NAME} SDL2)` after `add_executable(${PROJECT_NAME} "source/main.cpp")` to link SDL2 with our main executable otherwise you will see some linker errors. 
+
+Try to run the executable now! You will see only the version string getting printed on our screen and no window appears. Some of you may notice the window pop up and go out! This happens because our main thread must be open for as long as we want the window to be displayed onto the screen. To do this we use a while loop. This loop is also called the game loop  as all our game or game engine's logic will be here. Let's add that loop here so we can see our window : 
+
+```
+// game loop
+SDL_Event event;
+bool keepRunning = true;
+while(keepRunning){
+    // handle all events like jump, run, resize, close, etc.. here
+    while(SDL_PollEvent(&event) != 0){
+        if(event.type == SDL_QUIT){
+           keepRunning = false;
+        }
+    }
+    
+    // draw graphics etc...
+}
+```
+
+Note that this is our game engine's loop here and not a game's main loop. The main difference is that here that Inifinity will be in control of this loop and will decide when to call which function. This will hide low level stuffs from our game.
+
+Try to run this now and you will see a window on your screen!
+
+Since there is no surface in this window, it will be like a transparent window but soon we will create a surface for our window.
+
+This concludes our window setup and in the next part, we will setup our ***TestGame***. This TestGame will be used to check our Infinity's functionalities and working. See you in next post 😉. Have a good day/afternoon/evening/night!
+
+If you have any queries, you can ping me on my [Instagram](https://instagram.com/imsiddharthmishra) or [Twitter](https://twitter.com/brightprogramer) ID 😄!
