@@ -19,7 +19,7 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-![](infinity-1400x1050.png)
+![](infinity-1400x1050.png "Infinity Engine")
 
 In this post we will setup our project directory for development. There is no *hard and fast rule* to setup project directory structure and this one will be based on my past experiences. We will be using the following things (for now) : 
 
