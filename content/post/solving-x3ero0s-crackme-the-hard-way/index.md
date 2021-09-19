@@ -1144,26 +1144,121 @@ int main(int argc , char** argv){
 	setbuf(stdin, NULL);
     setbuf(stdout, NULL); 
 
-    // constructors
-    StructOne* pStructOne = structOneCtor();
-    XVMHeader* pXVMHeader = xvmHeaderCtor();
+    struct StructOne* pStructOne = structOneCtor();
+    uint64_t var_8h = fcn_41ce();
 
-    fcn_422f(pXVMHeader, argv[1]);
+    fcn_422f(var8_h, argv[1]);
 
-    fcn_5315(pXVMHeader[0].arr2, "stack", 0x3000, 0xcafe3000, 3);
+    fcn_5315(var_8h[0][2], "stack", 0x3000, 0xcafe3000, 3);
 
-    pStructOne->uint64arr[1] = pXVMHeader->magicValue[1];
+    pStructOne->uint64arr[1] = var_8h[0][1];
     pStructOne->uint64arr[3] = 0xcafe3ffc;
-    fcn_1997(pStructOne->uint64arr, pXVMHeader->magicValue);
+    fcn_1997(pStructOne->uint64arr, var_8h[0]);
 
-
-    // I suspect these may be destructors!
 	fcn_19de(pStructOne);
     pStructOne = NULL;
-    fcn_47b3(pXVMHeader);
-    pXVMHeader = NULL;
+    fcn_47b3(var_8h);
+    var_8h = 0;
 }
+
 ```
+
+Wow! take a look at this, we started from nothing and now we are starting to understand the code bit by bit. Our next task will be to understand and decompile function `fcn_41ce()` which I guess is similar to `fcn_18a4()` as it does not take an argument similar to `fcn_18a4()` and returns a `uint64_t` value. In C, there is no concept of object oriented programming. So there are no constructors within structs and constructors are defined as separate function, i.e why you see functions like `createObjectXXXX()` in some pure C libraries. Let’s take a look at the disassembly of `fcn_41ce` :
+
+```
+            ; CALL XREF from main @ 0x1667
+/ 97: fcn.000041ce ();
+|           ; var int64_t var_8h @ rbp-0x8
+|           0x000041ce      f30f1efa       endbr64
+|           0x000041d2      55             push rbp
+|           0x000041d3      4889e5         mov rbp, rsp
+|           0x000041d6      4883ec10       sub rsp, 0x10
+|           0x000041da      bf20000000     mov edi, 0x20               ; "@"
+|           ; DATA XREF from fcn.00001f5e @ 0x2f22
+|           0x000041df      e83cd2ffff     call sym.imp.malloc
+|           0x000041e4      488945f8       mov qword [var_8h], rax
+|           0x000041e8      b800000000     mov eax, 0
+|           0x000041ed      e8d9fcffff     call fcn.00003ecb
+|           0x000041f2      488b55f8       mov rdx, qword [var_8h]
+|           0x000041f6      488902         mov qword [rdx], rax
+|           0x000041f9      b800000000     mov eax, 0
+|           0x000041fe      e8e2f8ffff     call fcn.00003ae5
+|           0x00004203      488b55f8       mov rdx, qword [var_8h]
+|           0x00004207      48894208       mov qword [rdx + 8], rax
+|           0x0000420b      b800000000     mov eax, 0
+|           0x00004210      e8ca100000     call fcn.000052df
+|           0x00004215      488b55f8       mov rdx, qword [var_8h]
+|           0x00004219      48894210       mov qword [rdx + 0x10], rax
+|           0x0000421d      488b45f8       mov rax, qword [var_8h]
+|           0x00004221      48c740180000.  mov qword [rax + 0x18], 0
+|           0x00004229      488b45f8       mov rax, qword [var_8h]
+|           0x0000422d      c9             leave
+\           0x0000422e      c3             ret
+
+```
+
+and this one calls 3 more functions! Imagine the task that decompilers do for us! and imagine those who writes these decompilers and disassemblers! *Hats Off* to all of them 🤠.
+
+Let’s decompile this function!
+
+```cpp
+uint64_t* fcn_41ce(){
+    uint64_t* var_8h = (uint64_t*)malloc(0x20); // array of 4 uint64_t values
+    var_8h[0] = fcn_3ecb();
+    var_8h[1] = fcn_3ae5();
+    var_8h[2] = fcn_52df();
+    var_8h[3] = 0;
+    return var_8h;
+}
+
+```
+
+I guess this time it’s again a struct but let’s not get ahead of oursleves and take a look at what those functions are doing. Below is the disassembly of `fcn.00003ecb()`
+
+```
+            ; CALL XREF from fcn.000041ce @ 0x41ed
+/ 86: fcn.00003ecb ();
+|           ; var int64_t var_8h @ rbp-0x8
+|           0x00003ecb      f30f1efa       endbr64
+|           0x00003ecf      55             push rbp
+|           0x00003ed0      4889e5         mov rbp, rsp
+|           0x00003ed3      4883ec10       sub rsp, 0x10
+|           0x00003ed7      bf14000000     mov edi, 0x14
+|           0x00003edc      e83fd5ffff     call sym.imp.malloc
+|           0x00003ee1      488945f8       mov qword [var_8h], rax
+|           0x00003ee5      488b45f8       mov rax, qword [var_8h]
+|           0x00003ee9      c70078766d03   mov dword [rax], 0x36d7678  ; [0x36d7678:4]=-1
+|           0x00003eef      488b45f8       mov rax, qword [var_8h]
+|           0x00003ef3      c74004001037.  mov dword [rax + 4], 0x13371000 ; [0x13371000:4]=-1
+|           0x00003efa      488b45f8       mov rax, qword [var_8h]
+|           0x00003efe      c74008000000.  mov dword [rax + 8], 0
+|           0x00003f05      488b45f8       mov rax, qword [var_8h]
+|           0x00003f09      c74010000000.  mov dword [rax + 0x10], 0
+|           0x00003f10      488b45f8       mov rax, qword [var_8h]
+|           0x00003f14      c7400c000000.  mov dword [rax + 0xc], 0
+|           0x00003f1b      488b45f8       mov rax, qword [var_8h]
+|           0x00003f1f      c9             leave
+\           0x00003f20      c3             ret
+
+```
+
+This one’s again mallocing something without taking any parameter. As I mentioned earlier that in C there is no concept of class object constructor and destructor, you just malloc and return pointer or create an object the regular way. Since pointers are lightweight, it’s generally preferred over the whole struct as parameter in a function. I guess this is what is being done in here. These functions that don’t take any argument and are returning some mallocated variables are indeed pointers to these structs created. Imagine yourself who would use such a complex array we found in `fnc_18a4()`?. Let’s decompile this one too :
+
+```cpp
+uint64_t fcn_3ecb(){
+    // this is a uint32 array because values filled in this memory location are of size = 4 bytes
+    // which is same as size of a uint32_t
+    uint32_t* var_8h = (uint32_t*)(malloc(0x14)); // 20 bytes of memory meaning 5 int32_t
+    var_8h[0] = 0x036d7678; // this one's actually "xvm" written backwars, i.e "mvx"
+    var_8h[1] = 0x13371000;
+    var_8h[2] = 0;
+    var_8h[3] = 0;
+    var_8h[4] = 0;
+}
+
+```
+
+Maybe this one’s not a struct and just a simple array of uint32_t values because this is not as complex as previous one. This also looks like some type of magic value found in the beginning of executable formats like `ELF`, `PE` etc… Remember that the program asked for the bytecode, so maybe that `pyaz.xvm` contains code that this program will execute. But that is surely not a native executable file like an `elf` or `PE` executable because the `file` program wasn’t able to identify it as a know format. This means that this `xvm` executable is a vm for that bytecode. That’s awesome! 😍. This means that the allocated variable in function `fcn_41ce()` must be some type of a struct that will store `xvm` bytecode header information. If this hypothesis is true then observing the usage of this struct will show us exactly how that bytecode is being run! This is nice, and now we have a vector to work with 🧐😉! Okay, next function :
 
 Wow, take a look at this! and take a look at the `main()` we decompiled before! So effectively we have only 3 functions to reverse
 
