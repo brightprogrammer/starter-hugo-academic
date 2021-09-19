@@ -1260,6 +1260,230 @@ uint64_t fcn_3ecb(){
 
 Maybe this one’s not a struct and just a simple array of uint32_t values because this is not as complex as previous one. This also looks like some type of magic value found in the beginning of executable formats like `ELF`, `PE` etc… Remember that the program asked for the bytecode, so maybe that `pyaz.xvm` contains code that this program will execute. But that is surely not a native executable file like an `elf` or `PE` executable because the `file` program wasn’t able to identify it as a know format. This means that this `xvm` executable is a vm for that bytecode. That’s awesome! 😍. This means that the allocated variable in function `fcn_41ce()` must be some type of a struct that will store `xvm` bytecode header information. If this hypothesis is true then observing the usage of this struct will show us exactly how that bytecode is being run! This is nice, and now we have a vector to work with 🧐😉! Okay, next function :
 
+```
+            ; CALL XREF from fcn.000041ce @ 0x41fe
+/ 68: fcn.00003ae5 ();
+|           ; var uint32_t var_8h @ rbp-0x8
+|           0x00003ae5      f30f1efa       endbr64
+|           0x00003ae9      55             push rbp
+|           0x00003aea      4889e5         mov rbp, rsp
+|           0x00003aed      4883ec10       sub rsp, 0x10
+|           0x00003af1      bf10000000     mov edi, 0x10
+|           0x00003af6      e825d9ffff     call sym.imp.malloc
+|           ; DATA XREF from fcn.00001f5e @ 0x3606
+|           0x00003afb      488945f8       mov qword [var_8h], rax
+|           0x00003aff      48837df800     cmp qword [var_8h], 0
+|       ,=< 0x00003b04      7507           jne 0x3b0d
+|       |   0x00003b06      b800000000     mov eax, 0
+|      ,==< 0x00003b0b      eb1a           jmp 0x3b27
+|      ||   ; CODE XREF from fcn.00003ae5 @ 0x3b04
+|      |`-> 0x00003b0d      488b45f8       mov rax, qword [var_8h]
+|      |    0x00003b11      48c700000000.  mov qword [rax], 0
+|      |    0x00003b18      488b45f8       mov rax, qword [var_8h]
+|      |    0x00003b1c      c74008000000.  mov dword [rax + 8], 0
+|      |    0x00003b23      488b45f8       mov rax, qword [var_8h]
+|      |    ; CODE XREF from fcn.00003ae5 @ 0x3b0b
+|      `--> 0x00003b27      c9             leave
+\           0x00003b28      c3             ret
+```
+
+Decompile :
+
+```ags
+uint64_t* fcn_3ae5(){
+    uint64_t* var_8h = (uint64_t*)(malloc(0x10)); // 16 bytes of memory for 2 uint64_t values
+    
+    // checking if value at var_8h is 0 is same as checking it it's nullptr (C++) or NULL (C)
+    if(var_8h == NULL){
+        return NULL;
+    }
+
+    var_8h[0] = 0;
+    var_8h[1] = 0;
+
+    return var_8h;
+}
+
+```
+
+This was a simple one 🤓! Next one 🧐 :
+
+```
+            ; CALL XREF from fcn.000041ce @ 0x4210
+/ 54: fcn.000052df ();
+|           ; var int64_t var_8h @ rbp-0x8
+|           0x000052df      f30f1efa       endbr64
+|           0x000052e3      55             push rbp
+|           0x000052e4      4889e5         mov rbp, rsp
+|           0x000052e7      4883ec10       sub rsp, 0x10
+|           0x000052eb      bf10000000     mov edi, 0x10
+|           0x000052f0      e82bc1ffff     call sym.imp.malloc
+|           0x000052f5      488945f8       mov qword [var_8h], rax
+|           0x000052f9      488b45f8       mov rax, qword [var_8h]
+|           0x000052fd      48c700000000.  mov qword [rax], 0
+|           0x00005304      488b45f8       mov rax, qword [var_8h]
+|           0x00005308      c74008000000.  mov dword [rax + 8], 0
+|           0x0000530f      488b45f8       mov rax, qword [var_8h]
+|           0x00005313      c9             leave
+\           0x00005314      c3             ret
+
+```
+
+Decompile :
+
+```ags
+uint64_t* fcn_52df(){
+    uint64_t* var_8h = (uint64_t*)(malloc(0x10));
+    var_8h[0] = 0;
+    var_8h[1] = 0;
+    return var_8h;
+}
+```
+
+Okay so here is the decompilation in total :
+
+```ags
+// allocates an array of uint32_t values
+// first 2 values are set to some non zero values
+// last 3 values are set to 0
+uint64_t fcn_3ecb(){
+    uint32_t* var_8h = (uint32_t*)(malloc(0x14)); // 20 bytes of memory meaning 5 int32_t
+    var_8h[0] = 0x036d7678; // this one's actually "xvm" written backwars, i.e "mvx"
+    var_8h[1] = 0x13371000;
+    var_8h[2] = 0;
+    var_8h[3] = 0;
+    var_8h[4] = 0;
+}
+
+// allocates an array of uint64_t values of size = 2
+// checks if the memory is allocated or not
+// if not then returns NULL
+// else fills 0 in all places
+// returns pointer to allocated array
+uint64_t* fcn_3ae5(){
+    uint64_t* var_8h = (uint64_t*)(malloc(0x10)); // 16 bytes of memory for 2 uint64_t values
+    
+    // checking if value at var_8h is 0 is same as checking it it's nullptr (C++) or NULL (C)
+    if(var_8h == NULL){
+        return NULL;
+    }
+
+    var_8h[0] = 0;
+    var_8h[1] = 0;
+
+    return var_8h;
+}
+
+// allocates an array of uint64_t values of size = 2
+// fills 0 in all places
+// returns pointer to allocated array
+uint64_t* fcn_52df(){
+    uint64_t* var_8h = (uint64_t*)(malloc(0x10));
+    var_8h[0] = 0;
+    var_8h[1] = 0;
+    return var_8h;
+}
+
+// allocates an array of uint64_t values
+// 
+uint64_t* fcn_41ce(){
+    uint64_t* var_8h = (uint64_t*)malloc(0x20); // array of 4 uint64_t values
+    var_8h[0] = fcn_3ecb();
+    var_8h[1] = fcn_3ae5();
+    var_8h[2] = fcn_52df();
+    var_8h[3] = 0;
+    return var_8h;
+}
+```
+
+One more point I would like to point out here is that we are not trying to get the acutal code that the author write. The author may have used pure arrays but we can use structures or classes based on our convinience as long as the code does the same thing.
+
+> Reversing is not a reversible function - by stupid me
+
+`Calculus 101 : A reversible function is one to one and onto`
+
+Okay, so here is the summary :
+
+* `fcn_41ce` may be allocating a struct in which first field is a pointer to an array of 5 `uint32_t` values
+* the first field looks like some magic value to identify valid xvm headers like done in `ELF`
+* the last field is set to 0 and the second and third field is set to two different pointers to array of uint64_t values which may be real numbers or pointers again. If they are used as pointers anywhere then they prove the suspicion that this allocated memory is a struct.
+
+All of this is a hypothesis for now and is yet to be proven but let’s convert the array in `fcn_41ce` to a struct (I'll take my chances 😈) :
+
+```cpp
+// I suspect this to be the xvm header holder
+typedef struct{
+    uint32_t* magicValue;
+    uint64_t* arr1;
+    uint64_t* arr2;
+    uint64_t val1;
+} XVMHeader;
+
+// I rename fcn_41ce to xvmHeaderCtor and merge functions 52d5, 3ae5 and 3ecb in it!
+XVMHeader* xvmHeaderCtor(){
+    // create struct
+    XVMHeader* pXVMHeader = (XVMHeader*)(malloc(sizeof(XVMHeader)));
+    
+    // fill values in all fields
+    pXVMHeader->magicValue = (uint32_t*)(malloc(sizeof(uint32_t) * 5));
+    pXVMHeader->magicValue[0] = 0x036d7678;
+    pXVMHeader->magicValue[0] = 0x13371000;
+    pXVMHeader->magicValue[0] = 0;
+    pXVMHeader->magicValue[0] = 0;
+    pXVMHeader->magicValue[0] = 0;
+
+    pXVMHeader->arr1 = (uint64_t*)(malloc(sizeof(uint64_t) * 2));
+    if(pXVMHeader->arr1 != NULL){
+        pXVMHeader->arr1[0] = 0;
+        pXVMHeader->arr1[1] = 0;
+    }
+
+    pXVMHeader->arr2 = (uint64_t*)(malloc(sizeof(uint64_t) * 2));
+    pXVMHeader->arr2[0] = 0;
+    pXVMHeader->arr2[1] = 0;
+
+    pXVMHeader->val1 = 0;
+
+    return pXVMHeader;
+}
+```
+
+After this main changes to :
+
+```
+int main(int argc , char** argv){
+    int32_t var14_h = argc;
+    int64_t var20_h = (uint64_t)argv;
+    
+    if(var14_h != 2){
+        fwrite("xvm <bytecode>\n" , 1, 0x16 , stderr);
+        exit(-1);
+    }
+
+	setbuf(stdin, NULL);
+    setbuf(stdout, NULL); 
+
+    // constructors
+    StructOne* pStructOne = structOneCtor();
+    XVMHeader* pXVMHeader = xvmHeaderCtor();
+
+    fcn_422f(pXVMHeader, argv[1]);
+
+    fcn_5315(pXVMHeader[0].arr2, "stack", 0x3000, 0xcafe3000, 3);
+
+    pStructOne->uint64arr[1] = pXVMHeader->magicValue[1];
+    pStructOne->uint64arr[3] = 0xcafe3ffc;
+    fcn_1997(pStructOne->uint64arr, pXVMHeader->magicValue);
+
+
+    // I suspect these may be destructors!
+	fcn_19de(pStructOne);
+    pStructOne = NULL;
+    fcn_47b3(pXVMHeader);
+    pXVMHeader = NULL;
+}
+```
+
 Wow, take a look at this! and take a look at the `main()` we decompiled before! So effectively we have only 3 functions to reverse
 
 * `fcn_422f` : Note that it takes xvm header and filename as it's arguments, so it might be reading the file and storing information in header!
