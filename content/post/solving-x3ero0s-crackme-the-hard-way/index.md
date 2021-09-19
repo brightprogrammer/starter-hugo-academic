@@ -502,44 +502,42 @@ void entry(int64_t rdx){
 }
 ```
 
-You can click on sybmols and go to their disassembly so click on `main` and this will take you to disassembly of `main`.
+You can click on symbols and go to their disassembly so click on `main` and this will take you to disassembly of `main` or you can seek to a main by doing `s main` and then print the disassembly of `main` by doing entering `pdf` (*Print Disassembly of Function*) into the Radare2 command line.
 
 ```
-[0x00001500]> s main
-[0x000015e9]> pd
             ; DATA XREF from entry0 @ 0x1521
-/ 294: main (uint32_t arg1, int64_t arg2);
-|           ; var int64_t var_20h @ rbp-0x20
+/ 294: int main (uint32_t argc, char **argv);
+|           ; var char **var_20h @ rbp-0x20
 |           ; var uint32_t var_14h @ rbp-0x14
 |           ; var int64_t var_10h @ rbp-0x10
 |           ; var int64_t var_8h @ rbp-0x8
-|           ; arg uint32_t arg1 @ rdi
-|           ; arg int64_t arg2 @ rsi
+|           ; arg uint32_t argc @ rdi
+|           ; arg char **argv @ rsi
 |           0x000015e9      f30f1efa       endbr64
 |           0x000015ed      55             push rbp
 |           0x000015ee      4889e5         mov rbp, rsp
 |           0x000015f1      4883ec20       sub rsp, 0x20
-|           0x000015f5      897dec         mov dword [var_14h], edi    ; arg1
-|           0x000015f8      488975e0       mov qword [var_20h], rsi    ; arg2
+|           0x000015f5      897dec         mov dword [var_14h], edi    ; argc
+|           0x000015f8      488975e0       mov qword [var_20h], rsi    ; argv
 |           0x000015fc      837dec02       cmp dword [var_14h], 2
 |       ,=< 0x00001600      742a           je 0x162c
 |       |   0x00001602      488b05378a00.  mov rax, qword [obj.stderr] ; [0xa040:8]=0
-|       |   0x00001609      4889c1         mov rcx, rax
-|       |   0x0000160c      ba16000000     mov edx, 0x16
-|       |   0x00001611      be01000000     mov esi, 1
-|       |   0x00001616      488d3de75900.  lea rdi, str.Usage:_xvm__bytecode__n ; 0x7004 ; "Usage: xvm <bytecode>\n"
-|       |   0x0000161d      e89efeffff     call sym.imp.fwrite
+|       |   0x00001609      4889c1         mov rcx, rax                ; FILE *stream
+|       |   0x0000160c      ba16000000     mov edx, 0x16               ; size_t nitems
+|       |   0x00001611      be01000000     mov esi, 1                  ; size_t size
+|       |   0x00001616      488d3de75900.  lea rdi, str.Usage:_xvm__bytecode__n ; 0x7004 ; "Usage: xvm <bytecode>\n" ; const void *ptr
+|       |   0x0000161d      e89efeffff     call sym.imp.fwrite         ; size_t fwrite(const void *ptr, size_t size, size_t nitems, FILE *stream)
 |       |   0x00001622      bfffffffff     mov edi, 0xffffffff         ; -1
 |       |   0x00001627      e874feffff     call sym.imp.exit
 |       |   ; CODE XREF from main @ 0x1600
 |       `-> 0x0000162c      488b05fd8900.  mov rax, qword [obj.stdin]  ; [0xa030:8]=0
-|           0x00001633      be00000000     mov esi, 0
-|           0x00001638      4889c7         mov rdi, rax
-|           0x0000163b      e810fdffff     call sym.imp.setbuf
+|           0x00001633      be00000000     mov esi, 0                  ; char *buf
+|           0x00001638      4889c7         mov rdi, rax                ; FILE *stream
+|           0x0000163b      e810fdffff     call sym.imp.setbuf         ; void setbuf(FILE *stream, char *buf)
 |           0x00001640      488b05d98900.  mov rax, qword [obj.stdout] ; [0xa020:8]=0
-|           0x00001647      be00000000     mov esi, 0
-|           0x0000164c      4889c7         mov rdi, rax
-|           0x0000164f      e8fcfcffff     call sym.imp.setbuf
+|           0x00001647      be00000000     mov esi, 0                  ; char *buf
+|           0x0000164c      4889c7         mov rdi, rax                ; FILE *stream
+|           0x0000164f      e8fcfcffff     call sym.imp.setbuf         ; void setbuf(FILE *stream, char *buf)
 |           0x00001654      b800000000     mov eax, 0
 |           0x00001659      e846020000     call fcn.000018a4
 |           0x0000165e      488945f0       mov qword [var_10h], rax
@@ -550,16 +548,16 @@ You can click on sybmols and go to their disassembly so click on `main` and this
 |           0x00001674      4883c008       add rax, 8
 |           0x00001678      488b10         mov rdx, qword [rax]
 |           0x0000167b      488b45f8       mov rax, qword [var_8h]
-|           0x0000167f      4889d6         mov rsi, rdx
-|           0x00001682      4889c7         mov rdi, rax
+|           0x0000167f      4889d6         mov rsi, rdx                ; int64_t arg2
+|           0x00001682      4889c7         mov rdi, rax                ; void *arg1
 |           0x00001685      e8a52b0000     call fcn.0000422f
 |           0x0000168a      488b45f8       mov rax, qword [var_8h]
 |           0x0000168e      488b4010       mov rax, qword [rax + 0x10]
-|           0x00001692      41b803000000   mov r8d, 3
-|           0x00001698      b90030feca     mov ecx, 0xcafe3000
-|           0x0000169d      ba00300000     mov edx, 0x3000             ; "\n\xba"
-|           0x000016a2      488d35725900.  lea rsi, [0x0000701b]       ; "stack"
-|           0x000016a9      4889c7         mov rdi, rax
+|           0x00001692      41b803000000   mov r8d, 3                  ; void **arg5
+|           0x00001698      b90030feca     mov ecx, 0xcafe3000         ; void **arg4
+|           0x0000169d      ba00300000     mov edx, 0x3000             ; "\n\xba" ; size_t *arg3
+|           0x000016a2      488d35725900.  lea rsi, [0x0000701b]       ; "stack" ; size_t *arg2
+|           0x000016a9      4889c7         mov rdi, rax                ; uint32_t arg1
 |           0x000016ac      e8643c0000     call fcn.00005315
 |           0x000016b1      488b45f8       mov rax, qword [var_8h]
 |           0x000016b5      488b00         mov rax, qword [rax]
@@ -570,20 +568,23 @@ You can click on sybmols and go to their disassembly so click on `main` and this
 |           0x000016c6      c7403cfc3ffe.  mov dword [rax + 0x3c], 0xcafe3ffc ; [0xcafe3ffc:4]=-1
 |           0x000016cd      488b55f8       mov rdx, qword [var_8h]
 |           0x000016d1      488b45f0       mov rax, qword [var_10h]
-|           0x000016d5      4889d6         mov rsi, rdx
-|           0x000016d8      4889c7         mov rdi, rax
+|           0x000016d5      4889d6         mov rsi, rdx                ; int64_t arg2
+|           0x000016d8      4889c7         mov rdi, rax                ; int64_t arg1
 |           0x000016db      e8b7020000     call fcn.00001997
 |           0x000016e0      488b45f0       mov rax, qword [var_10h]
-|           0x000016e4      4889c7         mov rdi, rax
+|           0x000016e4      4889c7         mov rdi, rax                ; void *arg1
 |           0x000016e7      e8f2020000     call fcn.000019de
 |           0x000016ec      48c745f00000.  mov qword [var_10h], 0
 |           0x000016f4      488b45f8       mov rax, qword [var_8h]
-|           0x000016f8      4889c7         mov rdi, rax
+|           0x000016f8      4889c7         mov rdi, rax                ; void *arg1
 |           0x000016fb      e8b3300000     call fcn.000047b3
-[0x000015e9]> 
+|           0x00001700      48c745f80000.  mov qword [var_8h], 0
+|           0x00001708      b800000000     mov eax, 0
+|           0x0000170d      c9             leave
+\           0x0000170e      c3             ret
 ```
 
-We start decompiling main as the code for this program is very large and we cannot just remember which function does what, so better to make atleast a pseudocode in order to understand what the function is doing. I will create a file called `solution.c` as the author mentioned that this program's written in C.  
+We start by decompiling `main` but since the code for this program is very large and we just cannot just remember which function does what, so it's better to make atleast a pseudocode in order to understand what the function is doing. I will create a file called `solution.c`. 
 
 At the very beginning we again see `endbr64`. then we have function prologue to save stack pointer of caller :
 
@@ -603,7 +604,7 @@ Next the program is allocating a memory space of 32 bytes in instruction `sub rs
 
 In every function there are multiple temporary variables used, they are allocated on the stack. Let's say you are using 5 variables which sum up to memory of 100 bytes (20 bytes each), then the program will allocate that much memory all at once and then use first 20 bytes for 1st variable, next 20 bytes for 2nd variable and so on. This is what we mean when we say we loose all information of data structures and algorithm in assembly. That 20 bytes can be a struct, a class, an array of 20 characters, an array of 5 integers, anything!
 
-After doing : \[ sub rsp, 20 ], we have the following situation : 
+After doing : [ `sub rsp, 20` ], we have the following situation : 
 
 ```
 ; address shown are last 32 bits of a 64-bit memory address
@@ -923,7 +924,7 @@ The very first unknown function we have here is `fcn_18a4()` which takes no argu
 * Function is just to mislead us and it does nothing.
 * Function is creating something and returning it's address (because it's returning 64bit variable).
 
-But as we see in the main function, the value returned by this function is acting as an array of uint64_t values. Whenver there is a uint64_t value, it can either be a pointer or an acutal value! Remember that!
+But as we see in the main function, the value returned by this function is acting as an array of uint64_t values. Whenever there is a uint64_t value, it can either be a pointer or an acutal uint64_t value! Remember that!
 
 Let's take a look at the disassembly of this function : 
 
@@ -1125,388 +1126,6 @@ StructOne* structOneCtor(void){
     pStructOne->uint8arr[0] = 4;
 
     return pStructOne;
-}
-```
-
-We start decompiling main as the code for this program is very large and we cannot just remember which function does what, so better to make atleast a pseudocode in order to understand what the function is doing. I will create a file called `solution.c` as the author mentioned that this program's written in C.  
-
-At the very beginning we again see `endbr64`. then we have function prologue to save stack pointer of caller :
-
-```
-; this is called prologue
- 0x000015ed      55             push rbp        ; stores stack's base on stack
- 0x000015ee      4889e5         mov rbp, rsp    ; set's stack's top as base
- ; this will set the top of stack as base of stack for the callee function (main in this case)
-```
-
-Next the program is allocating a memory space of 32 bytes in instruction `sub rsp, 0x20`. Why `sub`?, well because the stack grows down and not up. So when you need to allocate x bytes of space on stack, you subtract x from top of stack (actually bottom of stack). Here is how this works : 
-
-```
-; address shown are last 32 bits of a 64-bit memory address
-0x00000000 ;--------;  <- rbp = rsp (initially)
-```
-
-In every function there are multiple temporary variables used, they are allocated on the stack. Let's say you are using 5 variables which sum up to memory of 100 bytes (20 bytes each), then the program will allocate that much memory all at once and then use first 20 bytes for 1st variable, next 20 bytes for 2nd variable and so on. This is what we mean when we say we loose all information of data structures and algorithm in assembly. That 20 bytes can be a struct, a class, an array of 20 characters, an array of 5 integers, anything!
-
-After doing : \[ sub rsp, 20 ], we have the following situation : 
-
-```
-; address shown are last 32 bits of a 64-bit memory address
-0x00000000 ;--------;  <- rbp remains same (base pointer)
-0x00000001 ;        ;      |
-0x00000002 ;        ;      |
-.        . .        .      |
-.        . .        .      | stack growing down
-.        . .        .      |
-0x0000001d ;        ;      |
-0x0000001e ;        ;      |
-0x0000001f ;        ;      v
-0x00000020 ;--------;  <- rsp changed (stack pointer)
-; So effectively rsp is the top of stack in sense of direction of growth
-```
-
-Then here we are moving the `argv` and `argc` params in variables, we just allocated and then comparing whether argc is 2. If it's not 2 then it continues, else it jumps to the given address.
-
-```
-0x000015f5      897dec         mov dword [var_14h], edi    ; arg1
-0x000015f8      488975e0       mov qword [var_20h], rsi    ; arg2
-0x000015fc      837dec02       cmp dword [var_14h], 2
-0x00001600      742a           je 0x162c
-```
-
-Let's take a look at the whole jump context.
-
-```
-    0x000015f5      897dec         mov dword [var_14h], edi    ; arg1
-    0x000015f8      488975e0       mov qword [var_20h], rsi    ; arg2
-    0x000015fc      837dec02       cmp dword [var_14h], 2
-,=< 0x00001600      742a           je 0x162c
-|   0x00001602      488b05378a00.  mov rax, qword [obj.stderr] ; [0xa040:8]=0
-|   0x00001609      4889c1         mov rcx, rax
-|   0x0000160c      ba16000000     mov edx, 0x16
-|   0x00001611      be01000000     mov esi, 1
-|   0x00001616      488d3de75900.  lea rdi, str.Usage:_xvm__bytecode__n ; 0x7004 ; "Usage: xvm <bytecode>\n"
-|   0x0000161d      e89efeffff     call sym.imp.fwrite
-|   0x00001622      bfffffffff     mov edi, 0xffffffff         ; -1
-|   0x00001627      e874feffff     call sym.imp.exit
-|   ; CODE XREF from main @ 0x1600
-`-> 0x0000162c      488b05fd8900.  mov rax, qword [obj.stdin]  ; [0xa030:8]=0
-```
-
-The above code decompiles to the following : 
-
-```c
-int main(int argc /*edi*/ , char** argv /*rsi*/){
-    int32_t var14_h = argc; // because dword in 32 bits
-    int64_t var20_h = (uint64_t)argv; // because qword is 64 bits
-    // note that I've used uint64_t for var20_h, instead it must be char**
-    // I did this because char** is a pointer and all pointers are 64 bit
-    // sized in a 64-bit os
-
-    // check if argc is 2
-    if(var14_h != 2){
-        // symbol str.Usage:_xvm__bytecode__n stores the string 
-        // as shown in comment in disassembly
-        // refer : https://www.cplusplus.com/reference/cstdio/fwrite/
-        fwrite("xvm <bytecode>\n" /*rdi*/, 1 /*rsi*/, 0x16 /*rdx*/, stderr/*rcx*/);
-    
-        // then -1 is passed as parameter to exit function
-        exit(-1);
-    }
-
-    // some other code that we jumped to ...
-    .
-    .
-    .
-}
-```
-
-Let's jump to `0x162c` and check it's disassembly too : 
-
-```
-|   ; CODE XREF from main @ 0x1600
-`-> 0x0000162c      488b05fd8900.  mov rax, qword [obj.stdin]  ; [0xa030:8]=0
-    0x00001633      be00000000     mov esi, 0
-    0x00001638      4889c7         mov rdi, rax
-    0x0000163b      e810fdffff     call sym.imp.setbuf
-    0x00001640      488b05d98900.  mov rax, qword [obj.stdout] ; [0xa020:8]=0
-    0x00001647      be00000000     mov esi, 0
-    0x0000164c      4889c7         mov rdi, rax
-    0x0000164f      e8fcfcffff     call sym.imp.setbuf
-    0x00001654      b800000000     mov eax, 0
-```
-
-This part is setting the buffering of `stdin` and `stdout` to no buffering. The decompiled code of this part is : 
-
-```c
-int main(int argc, char** argv){
-    // other code
-    if(...){
-        .
-        .
-        .
-    }
-
-    // new code
-    setbuf(stdin, NULL);    // \0 is same as NULL in C and nullptr in C++
-    setbuf(stdout, NULL); 
-    // these functions do not return or their return values are not used
-    // because the value in rax/eax is never used by the program
-    // return values of functions are stored in rax before ret is called
-}
-```
-
-Next we see that `main` is calling some user defined functions. Some are with arguments and some are not : 
-
-```
-0x00001659      e846020000     call fcn.000018a4
-0x0000165e      488945f0       mov qword [var_10h], rax
-0x00001662      b800000000     mov eax, 0
-0x00001667      e8622b0000     call fcn.000041ce
-0x0000166c      488945f8       mov qword [var_8h], rax
-0x00001670      488b45e0       mov rax, qword [var_20h]
-0x00001674      4883c008       add rax, 8
-0x00001678      488b10         mov rdx, qword [rax]
-0x0000167b      488b45f8       mov rax, qword [var_8h]
-0x0000167f      4889d6         mov rsi, rdx
-0x00001682      4889c7         mov rdi, rax
-0x00001685      e8a52b0000     call fcn.0000422f
-0x0000168a      488b45f8       mov rax, qword [var_8h]
-```
-
-Decompilation : 
-
-```c
-int main(int argc, char** argv){
-    // other code
-    if(...){
-        .
-        .
-        .
-    }
-
-    .
-    .
-    .
-    
-    // new code
-    // I will use "_" instead of "." inc function names
-    uint64_t var_10h = fcn_18a4();
-    uint64_t var_8h = fcn_41ce();
-
-    // ;--------------------------;
-    // ; mov qword [var_8h], rax  ;
-    // ; mov rax, qword [var_20h] ;
-    // ; add rax, 8               ;
-    // ; mov rdx, qword [rax]     ;
-    // ;--------------------------;
-    // var20_h holds address of argv, we get the first 8 bytes of
-    // array pointed by var20_h. In this case the array contains only one
-    // element, i.e the address of argv and i.e why there is no offset
-    // argv is stored in rax and then rax is incremented by 8
-    // then first 8 bytes of array pointed by memory address in rax
-    // is stored in rdx
-    // this is same as storing argv[1] in rdx
-    // this is also same as rdx = (char*)(argv + 8)
-    fcn_422f(var8_h, argv[1]);
-    // again return value is ignored or this function does not return.
-}
-```
-
-Next we have :
-
-```
-0x0000168a      488b45f8       mov rax, qword [var_8h]
-0x0000168e      488b4010       mov rax, qword [rax + 0x10]
-0x00001692      41b803000000   mov r8d, 3
-0x00001698      b90030feca     mov ecx, 0xcafe3000
-0x0000169d      ba00300000     mov edx, 0x3000             ; "\n\xba"
-0x000016a2      488d35725900.  lea rsi, [0x0000701b]       ; "stack"
-0x000016a9      4889c7         mov rdi, rax
-0x000016ac      e8643c0000     call fcn.00005315
-0x000016b1      488b45f8       mov rax, qword [var_8h]
-```
-
-Decompilation : 
-
-```c
-int main(int argc, char** argv){
-    // other code
-    if(...){
-        .
-        .
-        .
-    }
-
-    .
-    .
-    .
-    
-    // new code
-    // lea will just store the address and not the value at the address in rsi
-    // is 3 here the file descriptor we saw in strace? 
-    fcn_5315(var_8h[2], "stack", 0x3000, 0xcafe3000, 3);
-}
-```
-
-Next function call :
-
-```
-0x000016b1      488b45f8       mov rax, qword [var_8h]
-0x000016b5      488b00         mov rax, qword [rax]
-0x000016b8      8b5004         mov edx, dword [rax + 4]
-0x000016bb      488b45f0       mov rax, qword [var_10h]
-0x000016bf      895034         mov dword [rax + 0x34], edx
-0x000016c2      488b45f0       mov rax, qword [var_10h]
-0x000016c6      c7403cfc3ffe.  mov dword [rax + 0x3c], 0xcafe3ffc ; [0xcafe3ffc:4]=-1
-0x000016cd      488b55f8       mov rdx, qword [var_8h]
-0x000016d1      488b45f0       mov rax, qword [var_10h]
-0x000016d5      4889d6         mov rsi, rdx
-0x000016d8      4889c7         mov rdi, rax
-0x000016db      e8b7020000     call fcn.00001997
-0x000016e0      488b45f0       mov rax, qword [var_10h]
-```
-
-Decompilation :
-
-```c
-int main(int argc, char** argv){
-    // other code
-    if(...){
-        .
-        .
-        .
-    }
-
-    .
-    .
-    .
-    
-    // new code
-    // this part is a homework
-    // most probably var_8h is an array of array of pointers
-    // or some other thing 😉 as we'll see after we start decompiling
-    // these functions
-    *(int32_t*)(var_10+0x34) = var_8h[0][1];
-    *(int32_t*)(var_10+0x3c) = 0xcafe3ffc;
-    fcn_1997(var_10h, var_8h);
-}
-```
-
-Next part : 
-
-```
-0x000016e0      488b45f0       mov rax, qword [var_10h]
-0x000016e4      4889c7         mov rdi, rax
-0x000016e7      e8f2020000     call fcn.000019de
-0x000016ec      48c745f00000.  mov qword [var_10h], 0
-0x000016f4      488b45f8       mov rax, qword [var_8h]
-0x000016f8      4889c7         mov rdi, rax
-0x000016fb      e8b3300000     call fcn.000047b3
-```
-
-Decompile : 
-
-```c
-int main(int argc, char** argv){
-    // other code
-    if(...){
-        .
-        .
-        .
-    }
-
-    .
-    .
-    .
-    
-    // new code
-    fcn_19de(var_10h);
-    var_10h = 0;
-    fcn_47b3(var_8h);
-}   
-```
-
-Phew! that was huge!. After doing all this, your `main()` will look something like this : 
-
-```c
-int main(int argc , char** argv){
-    int32_t var14_h = argc;
-    int64_t var20_h = (uint64_t)argv;
-    
-    if(var14_h != 2){
-        fwrite("xvm <bytecode>\n" , 1, 0x16 , stderr);
-        exit(-1);
-    }
-
-	setbuf(stdin, NULL);
-    setbuf(stdout, NULL); 
-
-    uint64_t var_10h = fcn_18a4();
-    uint64_t var_8h = fcn_41ce();
-
-    fcn_422f(var8_h, argv[1]);
-
-    // lea rsi, [0x0000701b]
-    // value at address 0x0000701b is stored in rsi
-    // which our sweet radare says to be the string "stack"!
-    fcn_5315(var_8h[2], "stack", 0x3000, 0xcafe3000, 3);
-
-    *(int32_t*)(var_10+0x34) = var_8h[0][1];
-    *(int32_t*)(var_10+0x3c) = 0xcafe3ffc;
-    fcn_1997(var_10h[0], var_8h[0]);
-
-	fcn_19de(var_10h);
-    var_10h = 0;
-    fcn_47b3(var_8h);
-    var_8h = 0;
-}
-```
-
-The very first unknown function we have here is `fcn_18a4()` which takes no argument but returns something! This is quite odd! This can be possible in the following few cases : 
-
-* Function is just to mislead us and it does nothing.
-* Function is creating something and returning it's address (because it's returning 64bit variable).
-
-But as we see in the main function, the value returned by this function is acting as an array of uint64_t values. Whenver there is a uint64_t value, it can either be a pointer or an acutal value! Remember that!
-
-Let's take a look at the disassembly of this function : 
-
-```
-            ; CALL XREF from main @ 0x1659
-/ 60: fcn.000018a4 ();
-|           ; var int64_t var_8h @ rbp-0x8
-|           0x000018a4      f30f1efa       endbr64
-|           0x000018a8      55             push rbp
-|           0x000018a9      4889e5         mov rbp, rsp
-|           0x000018ac      4883ec10       sub rsp, 0x10
-|           0x000018b0      bf44000000     mov edi, 0x44               ; 'D'
-|           0x000018b5      e866fbffff     call sym.imp.malloc
-|           0x000018ba      488945f8       mov qword [var_8h], rax
-|           0x000018be      488b45f8       mov rax, qword [var_8h]
-|           0x000018c2      4889c7         mov rdi, rax
-|           0x000018c5      e845feffff     call fcn.0000170f
-|           0x000018ca      488b45f8       mov rax, qword [var_8h]
-|           0x000018ce      4883c040       add rax, 0x40               ; elf_phdr
-|           0x000018d2      4889c7         mov rdi, rax
-|           0x000018d5      e87ffeffff     call fcn.00001759
-|           0x000018da      488b45f8       mov rax, qword [var_8h]
-|           0x000018de      c9             leave
-\           0x000018df      c3             ret
-```
-
-From now on, I won't be explaining everything, just the hard parts. Here is the decompiled program : 
-
-```c
-uint64_t fcn_18a4(void){
-    // allocate 68 bytes of memory
-    int64_t var_8h = malloc(0x44);
-
-
-    fcn_170f(var_8h);
-    fcn_1759(var_8h+0x40); // skip 8 uint64_t values
-
-    return var_8h;
 }
 ```
 
@@ -4331,9 +3950,9 @@ We have now some more information about how things work here. Now, why I think `
 ```cpp
 struct SymbolTable
 {
-          char label[10];
-          uint32_t address;
-          struct SymbolTable *pNext;
+    char label[10];
+    uint32_t address;
+    struct SymbolTable *pNext;
 };
 ```
 
@@ -4371,7 +3990,7 @@ struct SymbolTable
 
 This function is probably the constructor of the `SymbolTable` struct. Decompiling this will give information about how data is arranged in the struct. Let's do that : 
 
-```
+```cpp
 uint64_t fcn_398f(){
     // okay so this is probably not the constructor of arr1
     // arr1 contains 2 pointers
@@ -4424,5 +4043,68 @@ Let's decompile next function to see what each field means.
 \           0x00003a28      c3             ret
 
 ```
+
+Decompile : 
+
+```cpp
+void fcn_39df(uint64_t arr1_0, uint8_t* symbol, uint32_t symbolEndAddress){
+    // var_8h = arr1_0 or arr1[0]
+    // src = symbol
+    // var_14h = symbolEndAddress
+
+    // first field is symbol name
+    // we will have to change symbol from uint8_t* to const char*
+    ((uint64_t*)arr1_0)[0] = (uint64_t)strdup((const char*)symbol);
+
+    // second field is address
+    ((uint64_t*)arr1_0)[1] = symbolEndAddress;
+
+    // third field is nullptr, reserved for pNext
+    ((uint64_t*)arr1_0)[2] = 0;
+}
+```
+
+So, `arr1` might be containing pointer to first and last symbol. Let's create a struct for representing the symbol list and convert `arr1` to symbol table.
+
+```cpp
+// linked list of symbols
+typedef struct{
+    char label[10];
+    uint32_t address;
+    struct Symbol *pNext;
+} Symbol;
+
+// for arr1
+typedef struct{
+    Symbol *pFirst;
+    Symbol *pLast;
+} SymbolTable;
+
+```
+
+Note that we arr1 had a separate constructor function which we removed and merged into a single function! Let's bring that function back again!
+
+```cpp
+SymbolTable* symbolTableCtor(){
+    SymbolTable* pTable = (SymbolTable*)(malloc(sizeof(SymbolTable)));
+    pTable->pFirst = NULL;
+    pTable->pLast = NULL;
+
+    return pTable;
+}
+```
+
+So, now our `XVMHeader` struct looks like this : 
+
+```cpp
+typedef struct{
+    uint32_t* magicValue;
+    SymbolTable *pSymbolTable;
+    StructThree *pStructThree;
+    FILE* pFile;
+} XVMHeader;
+```
+
+Make necessary changes throughout the file.
 
 ***This article is a work in progress, I keep changing my projects to not get roasted by the pressure to complete it. This work is just like my other projects because you can see how much effort we are putting into it.***
