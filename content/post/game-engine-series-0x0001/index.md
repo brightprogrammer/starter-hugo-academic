@@ -7,7 +7,7 @@ featured: false
 tags:
   - GameEngine
   - ComputerGraphics
-  - C/C++
+  - ProjectSetup
   - Infinity
 categories:
   - GameEngine
@@ -15,10 +15,12 @@ categories:
   - Infinity
 projects: []
 image:
-  filename: featured.jpg
+  filename: ""
   focal_point: Smart
   preview_only: false
 ---
+![](infinity-1400x1050.png)
+
 In this post we will setup our project directory for development. There is no *hard and fast rule* to setup project directory structure and this one will be based on my past experiences. We will be using the following things (for now) : 
 
 * [Vulkan Graphics API](https://www.vulkan.org/)
@@ -79,10 +81,15 @@ cmake_minimum_required(VERSION 3.5)
 
 # project settings
 project(infinity VERSION 0 LANGUAGES CXX)
+# set cmake standard to std++17
 set(CMAKE_CXX_STANDARD 17)
+# make this standard necessary for build
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# output created binaries in this directory
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
-include_directories("lib")
+# take *.so files from this directory
+link_directories("lib")
 
 # subdirectories setup
 add_subdirectory("source")
@@ -93,6 +100,7 @@ and the `/source/CMakeLists.txt` will contain :
 ```cmake
 # main executable
 add_executable(${PROJECT_NAME} "source/main.cpp")
+#more to comere here ...
 ```
 
 After this create a `/source/source/main.cpp` file and enter the following contents into it :
@@ -102,17 +110,17 @@ After this create a `/source/source/main.cpp` file and enter the following conte
 
 int main(){
     // print something
-    puts("infinity engine version 0.0");
+    puts("Infinity Engine [Version 0.0]");
 
     return 0;
 }
 ```
 
-If you are using VSCode like me then you can do `Ctrl`+`Shift`+`P` and search for `CMake: Configure` to generate build files or you can go to the `/build` and execute `cmake .. -G Ninja`. After this you can run `ninja` from build directory and then execute `/build/source/infinity`. 
+If you are using VSCode like me then you can do `Ctrl`+`Shift`+`P` and search for `CMake: Configure` to generate build files or you can go to the `/build` and execute `cmake .. -G Ninja`. After this you can run `ninja` from build directory and then execute `./build/infinity`. 
 
 ```shellsession
-➜  build source/infinity 
-infinity engine version 0.0
+➜  build ./infinity 
+Infinity Engine [Version 0.0]
 ➜  build 
 ```
 
@@ -262,15 +270,15 @@ This will clone our submodules if not cloned yet, build them and then place the 
 Make a file named `/.gitignore` and add the following lines into it
 
 ```
-/build
-/bin
-/include
-/lib
-/share
-/.cache
+build/
+bin/
+include/
+lib/
+share/
+.cache/
 ```
 
-Next, create a new GitHub repository and then link this project with that : 
+Note that the "**/**" means this is a directory! Next, create a new GitHub repository and then link this project with that : 
 
 ```
 ➜  infinity git:(master) ✗ git remote add origin https://github.com/brightprogrammer/Infinity-Engine
