@@ -15,7 +15,7 @@ categories:
   - Infinity
 projects: []
 image:
-  filename: ""
+  filename: infinity-1400x1050.png
   focal_point: Smart
   preview_only: false
 ---
