@@ -18,8 +18,6 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-
-
 ![](preview.png)
 
 - - -
@@ -4289,7 +4287,141 @@ There are still some things left to reverse in there. Let's decompile `fcn_3b29`
 
 This further calls two more functions. First one looks like constructor and next one looks like modifying the constructed value. Let's decompile this one first : 
 
+```cpp
+void fcn_3b29(uint64_t* arr1, uint8_t* sybmol, uint32_t symbolEndAddress){
+    // var_18h = arr1
+    // var_20h = sybmol
+    // var_24h = symbolEndAddress
+
+    // clearly arr1 is a struct too
+    // edx = ((uint32_t*)arr1[1])[0] + 1
+    // ((uint32_t*)arr1[1])[0] = edx
+    // guess this contains the number of symbols
+    ((uint32_t*)arr1[1])[0] = ((uint32_t*)arr1[1])[0] + 1;
+    
+    if(arr1[0] == 0){
+        // you probably know what this means
+        arr1[0] = fcn_398f();
+
+        fcn_39df(arr1[0], sybmol, symbolEndAddress);        
+    }else{
+        uint64_t var_8h = arr1[0];
+        
+        while(((uint64_t*)var_8h)[2] != 0){
+            var_8h = ((uint64_t*)var_8h)[2];
+        }
+
+        ((uint64_t*)var_8h)[2] = fcn_398f();
+
+        fcn_39df(((uint64_t*)var_8h)[2], sybmol, symbolEndAddress);
+    
+        // this looks like a linked list!
+        // this will append new symbol at the end of the list
+        // also arr1 now looks like some type of symbol table
+    
+        // eax is set to 0 here
+        // but since the caller doesn't take return value
+        // we will assume that this function returns void!
+    }
+}
 ```
+
+We have now some more information about how things work here. Now, why I think `arr1` is a symbol table? The most strong sign of this being a symbol table is that this is behaving as a linked list here and it is accepting the name of symbol and it's address! A typical symbol table looks something like this : 
+
+```cpp
+struct SymbolTable
+{
+          char label[10];
+          uint32_t address;
+          struct SymbolTable *pNext;
+};
+```
+
+ If this hypothesis turns out to be true then we will almost get the complete structure of `XVMHeader` struct. Also, assuming that this hypothesis ***is*** true, we can predict the use of those two functions. First one is probably the contructor for a `SymbolTable` and second one might be copying new data into the newly created `SymbolTable`. This function first increases the total number of symbols and then allocates a new `SymbolTable` and then fills it! Let's decompile the other two functions being called here to verify that!
+
+```
+            ; CALL XREFS from fcn.00003b29 @ 0x3b62, 0x3bb9
+/ 80: fcn.0000398f ();
+|           ; var void *var_8h @ rbp-0x8
+|           0x0000398f      f30f1efa       endbr64
+|           0x00003993      55             push rbp
+|           0x00003994      4889e5         mov rbp, rsp
+|           0x00003997      4883ec10       sub rsp, 0x10
+|           0x0000399b      bf18000000     mov edi, 0x18               ; size_t size
+|           0x000039a0      e87bdaffff     call sym.imp.malloc         ;  void *malloc(size_t size)
+|           0x000039a5      488945f8       mov qword [var_8h], rax
+|           0x000039a9      48837df800     cmp qword [var_8h], 0
+|       ,=< 0x000039ae      7507           jne 0x39b7
+|       |   0x000039b0      b800000000     mov eax, 0
+|       |   ; DATA XREF from fcn.00001f5e @ 0x374c
+|      ,==< 0x000039b5      eb26           jmp 0x39dd
+|      ||   ; CODE XREF from fcn.0000398f @ 0x39ae
+|      |`-> 0x000039b7      488b45f8       mov rax, qword [var_8h]
+|      |    0x000039bb      c74008000000.  mov dword [rax + 8], 0
+|      |    0x000039c2      488b45f8       mov rax, qword [var_8h]
+|      |    0x000039c6      48c700000000.  mov qword [rax], 0
+|      |    0x000039cd      488b45f8       mov rax, qword [var_8h]
+|      |    0x000039d1      48c740100000.  mov qword [rax + 0x10], 0
+|      |    0x000039d9      488b45f8       mov rax, qword [var_8h]
+|      |    ; CODE XREF from fcn.0000398f @ 0x39b5
+|      `--> 0x000039dd      c9             leave
+\           0x000039de      c3             ret
+
+```
+
+This function is probably the constructor of the `SymbolTable` struct. Decompiling this will give information about how data is arranged in the struct. Let's do that : 
+
+```
+uint64_t fcn_398f(){
+    // okay so this is probably not the constructor of arr1
+    // arr1 contains 2 pointers
+    // this means maybe arr1 is contains the start and end sybmol
+    uint64_t var_8h = (uint64_t)malloc(0x18);
+
+    if(var_8h == 0){
+        return 0;
+    }
+
+    ((uint64_t*)var_8h)[1] = 0;
+    ((uint64_t*)var_8h)[0] = 0;
+    ((uint64_t*)var_8h)[2] = 0;
+
+    return var_8h;
+}
+```
+
+Let's decompile next function to see what each field means.
+
+```
+            ; CALL XREFS from fcn.00003b29 @ 0x3b82, 0x3bdb
+/ 74: fcn.000039df (char **arg1, char *arg2, char **arg3);
+|           ; var char **var_14h @ rbp-0x14
+|           ; var char *src @ rbp-0x10
+|           ; var char **var_8h @ rbp-0x8
+|           ; arg char **arg1 @ rdi
+|           ; arg char *arg2 @ rsi
+|           ; arg char **arg3 @ rdx
+|           0x000039df      f30f1efa       endbr64
+|           0x000039e3      55             push rbp
+|           0x000039e4      4889e5         mov rbp, rsp
+|           0x000039e7      4883ec20       sub rsp, 0x20
+|           0x000039eb      48897df8       mov qword [var_8h], rdi     ; arg1
+|           0x000039ef      488975f0       mov qword [src], rsi        ; arg2
+|           0x000039f3      8955ec         mov dword [var_14h], edx    ; arg3
+|           0x000039f6      488b45f0       mov rax, qword [src]
+|           0x000039fa      4889c7         mov rdi, rax                ; const char *src
+|           0x000039fd      e8cedaffff     call sym.imp.strdup         ; char *strdup(const char *src)
+|           0x00003a02      4889c2         mov rdx, rax
+|           0x00003a05      488b45f8       mov rax, qword [var_8h]
+|           0x00003a09      488910         mov qword [rax], rdx
+|           0x00003a0c      488b45f8       mov rax, qword [var_8h]
+|           0x00003a10      8b55ec         mov edx, dword [var_14h]
+|           0x00003a13      895008         mov dword [rax + 8], edx
+|           0x00003a16      488b45f8       mov rax, qword [var_8h]
+|           0x00003a1a      48c740100000.  mov qword [rax + 0x10], 0
+|           0x00003a22      b800000000     mov eax, 0
+|           0x00003a27      c9             leave
+\           0x00003a28      c3             ret
 
 ```
 
