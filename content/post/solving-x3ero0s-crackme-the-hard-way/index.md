@@ -4233,18 +4233,26 @@ typedef struct{
 // for arr1
 typedef struct{
     Symbol *pFirst;
-    Symbol *pLast;
+    // the next 8 bytes were treated as a pointer to uint32_t array
+    // but I converted it to this as that contained only two values
+    uint32_t numSymbols; // this field was used to store size of LL
+    uint32_t unknownField; // idk about this one,
 } SymbolTable;
 
 ```
 
-Note that we arr1 had a separate constructor function which we removed and merged into a single function! Let's bring that function back again!
+Note that `arr1` had a separate constructor function which we removed and merged into a single function (in `xvmHeaderCtor`)! Let's bring that function back again!
 
 ```cpp
 SymbolTable* symbolTableCtor(){
     SymbolTable* pTable = (SymbolTable*)(malloc(sizeof(SymbolTable)));
     pTable->pFirst = NULL;
-    pTable->pLast = NULL;
+
+    // here a direct 0 was substitued for the next 8 bytes
+    // but since we modified the actual structure
+    // let's change this accordingly
+    pTable->numSymbols = 0;
+    pTable->unknownField = 0;
 
     return pTable;
 }
@@ -4261,6 +4269,33 @@ typedef struct{
 } XVMHeader;
 ```
 
-Make necessary changes throughout the file.
+Okay, so after this a lot of things is changed in the file. First I made necessary changes for above code and then a few structs are changed too. 
+
+In `StructThree` I changed `arrUint32` field to two `uint32_t` values in the struct itself. And renamed it to . 
+
+```cpp
+// renamed StructThree to SectionHeaderList
+typedef struct{
+    // this is actually a linked list
+    struct SectionHeader *pSectionHeader;
+    
+    // here, a uint32_t array of size 2
+    // is replaced by these two uint32_t fields
+    
+    // why I named this numSections?
+    // well, for that you will have to notice it's usage
+    // in "makeSectionHeader" function.
+    uint32_t numSections;
+
+    // this field isn't used anywhere in the code!
+    uint32_t unknownField;
+}SectionHeaderList;
+```
+
+Rename the function `makeSectionHeader` to `updateSectionHeaderList`.
+
+Make these changes in the whole file and your file will look like this : 
+
+
 
 ***This article is a work in progress, I keep changing my projects to not get roasted by the pressure to complete it. This work is just like my other projects because you can see how much effort we are putting into it.***
