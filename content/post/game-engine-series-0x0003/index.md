@@ -1,5 +1,5 @@
 ---
-title: Game Engine Series - 0x0003
+title: Game Engine Series [0x0003] - Creating A Simple Window
 subtitle: Simple SDL Window Setup
 date: 2021-09-15T15:20:00.372Z
 draft: false
