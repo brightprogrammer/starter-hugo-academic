@@ -1,5 +1,5 @@
 ---
-title: Game Engine Series 0x0002
+title: Game Engine Series [0x0002] - Introduction To Vulkan API
 subtitle: Introduction To Vulkan
 date: 2021-09-11T14:12:31.326Z
 draft: false
@@ -14,10 +14,12 @@ categories:
   - ComputerGraphics
   - Infinity
 image:
-  filename: featured.jpg
+  filename: ""
   focal_point: Smart
   preview_only: false
 ---
+![](infinity-1400x1050.png)
+
 This post will be on introduction to Vulkan API. We will try to get an idea of how Vulkan Loader works, look at some common definitions and some other interesting things! So, let's begin by asking what is Vulkan?
 
 ### What is Vulkan ?
