@@ -1,5 +1,5 @@
 ---
-title: Game Engine Series 0x0001
+title: Game Engine Series [0x0001] - Project Setup
 subtitle: Project Setup
 date: 2021-09-10T13:10:16.921Z
 draft: false
