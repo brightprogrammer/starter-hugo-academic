@@ -8,11 +8,12 @@ tags:
   - GameEngine
   - GraphicsProgramming
   - SDL
+  - Vulkan
+  - Infinity
 categories:
   - GameEngine
   - Infinity
   - GraphicsProgramming
-  - Vulkan
 projects:
   - Infinity
 image:
