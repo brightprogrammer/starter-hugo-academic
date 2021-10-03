@@ -218,3 +218,5 @@ I hope you enjoyed reading this post. I thank all the members of the conference 
 So this was it!. This year's winner is amphibia. I look forward to participate next year and hit em with the strongest bot out there 😎.
 
 See you in next post 😄.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">New post! Read it, review it and drop your comments here.<br> <br>Participating in r2wars - r2con 2021 <a href="https://t.co/kKRHE9B6rL">https://t.co/kKRHE9B6rL</a></p>&mdash; Siddharth Mishra (@brightprogramer) <a href="https://twitter.com/brightprogramer/status/1444741428425334786?ref_src=twsrc%5Etfw">October 3, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
