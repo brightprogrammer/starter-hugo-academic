@@ -9,8 +9,6 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-
-
 So I participated in this year's online [r2con](https://rada.re/con/2021/)'s [r2wars](https://rada.re/con/2021/#r2wars) event. It was amazing. Me and my friend (**[X3eRo0](https://twitter.com/X3eRo0)**) participated in this years [r2con](https://rada.re/con/2021/). I never heard of this event before and it was introduced to me by **[X3eRo0](https://twitter.com/X3eRo0)** himself. Also this type of event was completely new to me.
 
 ![r2wars image](https://github.com/radareorg/r2wars/blob/master/csharp/resources/r2wars_logo_transparent.png?raw=true "Source : https://github.com/radareorg/r2wars ")
@@ -93,7 +91,6 @@ loop:
 	mov [eax], 0xffffffff;					invalid opcode
 	inc eax;								move forward
 	jmp loop;								do it again
-
 ```
 
 You can read the comments and understand. After writing this bot, I asked **[X3eRo0](https://twitter.com/X3eRo0)** for a match between our bots. This bot was too slow and almost all other bot's beat this one. Still it perfomed better against some bots because some of them were so fast that they curropted themselves 🤣. Bots can be funny once you start wrting them. 
@@ -168,4 +165,4 @@ This time  **[X3eRo0](https://twitter.com/X3eRo0)** made a bot in `arm-32` code.
 
 ### Day 3
 
-This was the final day. Day 1 and Day 2 were just test rounds and 2 test matches were conducted on each day but today it was just gonna be only one single round! ***THE FINAL ROUND***! I woke up and started to read [this awesome blog post](https://modexp.wordpress.com/2018/10/30/arm64-assembly/) on `aarch64` assembly. I just started reading the post and then my discord notification popped out. A team member requested me to help him solve a CTF challenge. I got involved in that for more than half of the day.
+This was the final day. Day 1 and Day 2 were just test rounds and 2 test matches were conducted on each day but today it was just gonna be only one single round! ***THE FINAL ROUND***! I woke up and started to read [this awesome blog post](https://modexp.wordpress.com/2018/10/30/arm64-assembly/) on `aarch64` assembly. I just started reading the post and then my discord notification popped out. A team member requested me to help him solve a CTF challenge. I got involved in that for more than half of the day. Next it was gym time from 4:30 to 6:30 and I came home at 6:50. **[X3eRo0](https://twitter.com/X3eRo0)** was already ready with his new improved bot! It was monstrous! The bot won against Day2's best bot amphibia sometimes! I got fresh till 7:00 and we joined vc at 7:05. Then we began running final tests for our bots. I had to write a new one so I made a new bot named newbot 😆.
