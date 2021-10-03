@@ -212,3 +212,9 @@ mov edi, 0x0f60fc83
 pusha
 jmp esp
 ```
+
+I hope you enjoyed reading this post. I thank all the members of the conference who made this possible and interesting and I want to thank **[X3eRo0](https://twitter.com/X3eRo0)** for his help but I can do that personally 🤣.
+
+So this was it!. This year's winner is amphibia. I look forward to participate next year and hit em with the strongest bot out there 😎.
+
+See you in next post 😄.
