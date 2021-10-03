@@ -35,7 +35,7 @@ The competing bots will be initialized in a common memory space of 1024 (0x400 o
 
 So as you can see above, the coloured (yellow, red, blue, pink etc...) region in the middle is a pictorial representation of memory region allocated to the two bot's. In the image you can see that almost every thing is open source here. You can see the god damn assembly instructions of each bot in there! Which means you can reverse the bot by just looking at the match! Here **[X3eRo0](https://twitter.com/X3eRo0)**'s bot is competing against a bot named **old-flacucho.** This bot was reversed by **[X3eRo0](https://twitter.com/X3eRo0)** after [day1's match](https://youtu.be/yv4vuXrbt0M?t=19274). Blue means the executable code for left bot and Red means the executable code for right bot. Also the |R|W| colors shown beside the name of each bot is the colour of read and written memory for each bot. So, for eg: orange coloured memory region is written by **[X3eRo0](https://twitter.com/X3eRo0)**'s bot and the region in pink is written by **old-flacucho.**
 
-#### Day 1
+### Day 1
 
 [Day1's match](https://youtu.be/yv4vuXrbt0M?t=19274) got be got me demotivated a little bit. This was becuase I was completely new to this type of warfare. **[X3eRo0](https://twitter.com/X3eRo0)** had his bot almost already so he sumbitted his bot. There were 4 participants only. Two bot's were from the same author (as we come to know in the end). I didn't understand a bit! Nothing made sense except the scoreboard. **[X3eRo0](https://twitter.com/X3eRo0)** too participated in this for the first time.
 
