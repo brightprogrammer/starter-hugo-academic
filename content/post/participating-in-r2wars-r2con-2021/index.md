@@ -197,4 +197,18 @@ start:
     jmp esp
 ```
 
-Why is this bot so good? Well it's because you can see that this program is hardcoding it's main program in the general purpose registers and pushing them onto the stack, jumps onto the stack and then starts executing from there. This way the program is making multiple copies of itself (which is still invalid code for other bot) and is always moving it's executable code. This way it has less chances of getting curropted!. The only thing that can beat this bot is a beast that can write faster than this one. Try running this bot. Finally only 1hr was left and we exit the vc. I wrote a new bot named kamehameha 😆. Yes, it is named after the kamehameha wave that Goku uses in [Dragon Ball Z](https://en.wikipedia.org/wiki/Dragon_Ball_Z).
+Why is this bot so good? Well it's because you can see that this program is hardcoding it's main program in the general purpose registers and pushing them onto the stack, jumps onto the stack and then starts executing from there. This way the program is making multiple copies of itself (which is still invalid code for other bot) and is always moving it's executable code. This way it has less chances of getting curropted!. The only thing that can beat this bot is a beast that can write faster than this one. Try running this bot. Finally only 1hr was left and we exit the vc. I wrote a new bot named kamehameha 😆. Yes, it is named after the kamehameha wave that Goku uses in [Dragon Ball Z](https://en.wikipedia.org/wiki/Dragon_Ball_Z). 
+
+The main idea behind this bot was that it needs to hide itself at the top of program and keep making copies of itself! Most bots start writing from the end and this will provide my bot to make atleast one extra copy of itself. This increased its chances of survival than kamikaze! This little improvization landed my bot in the 4th position on the final day. I submitted 3 bots in total. Let's see if you can identify those 😃 on [Day3's match](https://youtu.be/UuEwWluGUYA?t=10250). The event started late and I was getting sleepy already but as soon as it started I was awake as if I wasn't sleepy at all! Adrenaline Rush.
+
+Here is kamehameha's source code : 
+
+```
+mov eax, 0x100
+mov esp, eax
+mov ebp, 0xe4ff6060
+mov esi, 0x6060e046
+mov edi, 0x0f60fc83
+pusha
+jmp esp
+```
