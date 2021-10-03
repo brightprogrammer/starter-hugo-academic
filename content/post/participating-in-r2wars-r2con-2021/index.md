@@ -160,4 +160,12 @@ start:
 
 But this was a failure too. I sumbitted this on for [Day2 match](https://youtu.be/UgJhN3dt9yU?t=8715). It came last 😆. It was fun though seeing it fight. This time since I wrote a bot myself I felt that current of excitement running through my body, giving me goosebumps.
 
-![](https://tenor.com/view/spiderman-infinity-war-goose-bumps-avengers-gif-10398337)
+![](spiderman-infinity-war.gif "source : tenor")
+
+We both were constantly modifying our code and testing against other bots from github. It was was a blast. I had my setup for r2wars already done so **[X3eRo0](https://twitter.com/X3eRo0)** sent me his bots to test and run. I screencasted  my pc and we enjoyed a lot.
+
+This time  **[X3eRo0](https://twitter.com/X3eRo0)** made a bot in `arm-32` code. His bot was nailing it! But still ***amaterasu*** was able to defeat it sometimes! I planned to learn `arm-32` the next day and this marked the end of Day 2.
+
+### Day 3
+
+This was the final day. Day 1 and Day 2 were just test rounds and 2 test matches were conducted on each day but today it was just gonna be only one single round! ***THE FINAL ROUND***! I woke up and started to read [this awesome blog post](https://modexp.wordpress.com/2018/10/30/arm64-assembly/) on `aarch64` assembly. I just started reading the post and then my discord notification popped out. A team member requested me to help him solve a CTF challenge. I got involved in that for more than half of the day.
