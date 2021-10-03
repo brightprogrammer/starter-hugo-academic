@@ -15,7 +15,9 @@ So I participated in this year's online [r2con](https://rada.re/con/2021/)'s [r2
 
 ### Beginning
 
-My exams were already over and I was sitting waiting for a nice thing to happen in my life  (working on my side projects). As I've mentioned in my earlier post ([Solving **X3eRo0**'s CrackME The Hard Way](https://brightprogrammer.netlify.app/post/solving-x3ero0s-crackme-the-hard-way/)) **[X3eRo0](https://twitter.com/X3eRo0)** challeged me to solve his CrackMe and he'll invite me to his **[ctf-team](https://medium.com/zh3r0)**. This acted as a motivation to me. At the time of writing this post, the CrackMe is still unsolved (I am still at reversing stage, the read time is 109mins and I guess it will probably increase to 400mins+ after I'm done with it). After a month approx he sent me an invitation to join his **[ctf-team](https://medium.com/zh3r0)** (probably by seeing how foolish I am and that I won't be able to complete his crackme in an eternity 😂 🤣). Everyone is polite and helpful I feel comfortable in the team 😄.
+My exams were already over and I was sitting waiting for a nice thing to happen in my life  (working on my side projects). As I've mentioned in my earlier post ([Solving **X3eRo0**'s CrackME The Hard Way](https://brightprogrammer.netlify.app/post/solving-x3ero0s-crackme-the-hard-way/)) **[X3eRo0](https://twitter.com/X3eRo0)** challeged me to solve his CrackMe and he'll invite me to his **[ctf-team](https://medium.com/zh3r0)**. This acted as a motivation to me. At the time of writing this post, the CrackMe is still unsolved (I am still at reversing stage, the read time is 109mins and I guess it will probably increase to 400mins+ after I'm done with it). After a month approx he sent me an invitation to join his **[ctf-team](https://medium.com/zh3r0)** (probably by seeing how foolish I am and that I won't be able to complete his crackme in an eternity 😂 🤣). Everyone is polite and helpful in the team I feel comfortable with them 😄.
+
+![](chat_ss.png "😂😂😂😂")
 
 So, I was there checking my notifications, reading some ctf writeups, waiting for a nice team event to occur and on the 2nd day of joining the team, **[X3eRo0](https://twitter.com/X3eRo0)** invited me and some other team members to participate in this event. Some members we busy with their college life and other stuffs so in the end only me and **[X3eRo0](https://twitter.com/X3eRo0)** were participating.
 
@@ -23,6 +25,24 @@ So, I was there checking my notifications, reading some ctf writeups, waiting fo
 
 At the time of joining, I didn't even knew what we have to do there. I just jumped in because of my excitement. I had this feeling that it will be amazing so let's just do whatever has to be done to get involved. 
 
-[r2wars](https://rada.re/con/2021/#r2wars) is a game like [corewars](https://www.corewars.org/) in which participants write bots that fight in an arena and winner bots get some amazing prizes. Bots compete against each other in a round robinn tournament. The competing bots are assigned same memory space and the main goal of each bot is to crash the other or to survive till the other bot crashes on it's own.
+[r2wars](https://rada.re/con/2021/#r2wars) is a game like [corewars](https://www.corewars.org/) in which participants write bots that fight in an arena and winner bots get some amazing prizes. Bots compete against each other in a round robin tournament in which every bot get's a change to compete agains every other bot. The competing bots are assigned same memory space and the main goal of each bot is to crash the other or to survive till the other bot crashes on it's own.
+
+The competing bots will be initialized in a common memory space of 1024 (0x400 or `pow(2,10)`) bytes. The bots are initialzed at random memory locations and they don't know where they are initialzed. They can be placed in the beginning of this memory region, at the end or in the middle or somewhere random. Running your bot outside this memory region will crash your bot. There are two rounds held in every match (generally). If your bot wins both the rounds then your bot wins the match and you recieve a higher score. You can write your bot in x86-64, x86-32, arm, aarch64, mips etc... architectures. The reason this wide rnage of ISAs are supported is because of [radare's ESIL](https://github.com/radareorg/radare2/blob/master/doc/esil.md). The main motto of this event is to ***improve*** [radare's ESIL](https://github.com/radareorg/radare2/blob/master/doc/esil.md).
 
 [r2wars](https://rada.re/con/2021/#r2wars) is held once every year. It is a part of [r2con](https://rada.re/con/2021) which usually happened (before [covid19](https://en.wikipedia.org/wiki/COVID-19)) like a normal conference but since the last two years [it was held online](https://www.youtube.com/results?search_query=r2con).
+
+![](r2wars_ui.png "a look at r2wars arena")
+
+So as you can see above, the coloured (yellow, red, blue, pink etc...) region in the middle is a pictorial representation of memory region allocated to the two bot's. In the image you can see that almost every thing is open source here. You can see the god damn assembly instructions of each bot in there! Which means you can reverse the bot by just looking at the match! Here **[X3eRo0](https://twitter.com/X3eRo0)**'s bot is competing against a bot named **old-flacucho.** This bot was reversed by **[X3eRo0](https://twitter.com/X3eRo0)** after [day1's match](https://youtu.be/yv4vuXrbt0M?t=19274).
+
+#### Day 1
+
+[Day1's match](https://youtu.be/yv4vuXrbt0M?t=19274) got be got me demotivated a little bit. This was becuase I was completely new to this type of warfare. **[X3eRo0](https://twitter.com/X3eRo0)** had his bot almost already so he sumbitted his bot. There were 4 participants only. Two bot's were from the same author (as we come to know in the end). I didn't understand a bit! Nothing made sense except the scoreboard. **[X3eRo0](https://twitter.com/X3eRo0)** too participated in this for the first time.
+
+According to Indian Standard Time (IST) the matches where held between 12:00 A.M to 12:30 A.M. I was pretty exhausted because before this day I usually was fast asleep till 11:00 - 11:30 P.M but the story after this day was about to change. You an find the schedule r2con2021 [here](https://rada.re/con/2021/#schedule).
+
+### Day 2
+
+I had plans this day to go outside for some work but it got cancelled so I had the whole day ahead of me to work on my bot. I didn't knew where to start so **[X3eRo0](https://twitter.com/X3eRo0)** gave me some resources to begin with. He showed me some previously written bots and helped me understand them. Here are those resources : 
+
+*
