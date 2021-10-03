@@ -88,11 +88,76 @@ start:
 ; if it's not zero then store invalid opcode there
 
 loop:
-	cmp [eax], edx;							check if eax is 0
+	cmp [eax], 0;							check if eax is 0
 	je loop;								if eax is 0 then jump to loop
 	mov [eax], 0xffffffff;					invalid opcode
-    inc eax;                                move forward
+	inc eax;								move forward
 	jmp loop;								do it again
+
 ```
 
-You can read the comments and understand. After writing this bot, I asked **[X3eRo0](https://twitter.com/X3eRo0)** for a match between our bots. This bot was too slow and almost all other bot's beat this one. Still it perfomed better against some bots because some of them were so fast that they curropted themselves 🤣. Bots can be funny once you start wrting them.
+You can read the comments and understand. After writing this bot, I asked **[X3eRo0](https://twitter.com/X3eRo0)** for a match between our bots. This bot was too slow and almost all other bot's beat this one. Still it perfomed better against some bots because some of them were so fast that they curropted themselves 🤣. Bots can be funny once you start wrting them. 
+
+So after failing a lot, I wrote another bot named `amaterasu` named after [The Japanese Sun Goddess](https://www.britannica.com/topic/Amaterasu). It was also mentioned in [Naruto](https://en.wikipedia.org/wiki/Naruto)'s S6E25 where Sasuke's brother Itachi uses Amaterasu for the first time. The code for this bot is : 
+
+```
+start:
+    mov ebp, 0x3e0
+    mov esp, 0x3e0
+    ; lea eax, [end + 0x20]
+    ; lea ebx, [start - 0x20]
+    mov eax, 0xffffffff
+    mov ebx, 0xffffffff
+    mov ecx, 0xffffffff
+    mov edx, 0xffffffff
+    mov edi, 0xffffffff
+    mov esi, 0xffffffff
+
+bot_loop:
+    ; cmp esp, eax
+    ; cmovbe esp, ebx
+
+    ; push 128 bytes at once
+    pushad
+    pushad
+    pushad
+    pushad
+
+    ; push again
+    pushad
+    pushad
+    pushad
+    pushad
+
+    ; jmp to beginning once again
+    cmp esp, 0x10
+    cmovz esp, ebp
+    jmp bot_loop
+
+end:
+    nop
+```
+
+This bot was actually better than the previous bot. You might be wondering why so many `PUSHAD`s? Well after researching a lot I saw that this instruction actually copies data in the memory super fast! One single instruction pushes a data of 32 bytes onto the stack and 8 `PUSHAD`s will push data of 256 bytes! This is one fourth of available memory! Almost every bot out there used the same apporach. So if you want to write a better bot, find an ISA that supports huge and faster `PUSHAD` like `arm32`. ARM can push 16 registers at once each of 4 bytes in size. This is double than that of Intel `i386` (`x86-32`). This is one of the reasons why top 3 bots this year were written in arm-32.
+
+This also didn't satisfy me so I wrote another bot named `karma`. The main goal was that this bot will just sit at one place and wait for the other bot to crash by itself.
+
+```
+mov ebp, 0x400
+mov esp, ebp
+mov esi, 0x0f0b0f0b
+mov edi, 0x0f0b0f0b
+mov ecx, 0x0f0b0f0b
+mov edx, 0x0f0b0f0b
+mov ebx, 0x0f0b0f0b
+mov eax, 0x0f0b0f0b
+start:
+    pushad
+    sub esp, 0x20
+    and esp, 0x3ff
+    jmp start
+```
+
+But this was a failure too. I sumbitted this on for [Day2 match](https://youtu.be/UgJhN3dt9yU?t=8715). It came last 😆. It was fun though seeing it fight. This time since I wrote a bot myself I felt that current of excitement running through my body, giving me goosebumps.
+
+![](https://tenor.com/view/spiderman-infinity-war-goose-bumps-avengers-gif-10398337)
