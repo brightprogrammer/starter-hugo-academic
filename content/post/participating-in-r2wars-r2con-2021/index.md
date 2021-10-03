@@ -168,5 +168,33 @@ This time  **[X3eRo0](https://twitter.com/X3eRo0)** made a bot in `arm-32` code.
 This was the final day. Day 1 and Day 2 were just test rounds and 2 test matches were conducted on each day but today it was just gonna be only one single round! ***THE FINAL ROUND***! I woke up and started to read [this awesome blog post](https://modexp.wordpress.com/2018/10/30/arm64-assembly/) on `aarch64` assembly. I just started reading the post and then my discord notification popped out. A team member requested me to help him solve a CTF challenge. I got involved in that for more than half of the day. Next it was gym time from 4:30 to 6:30 and I came home at 6:50. **[X3eRo0](https://twitter.com/X3eRo0)** was already ready with his new improved bot! It was monstrous! The bot won against Day2's best bot amphibia sometimes! I got fresh till 7:00 and we joined vc at 7:05. Then we began running final tests for our bots. I had to write a new one so I made a new bot named newbot 😆. At this point there wasn't any new ideas popping in my mind. I saw that other bots were hardcoding assembly code and pushing it onto the stack! so I tried the same. **[X3eRo0](https://twitter.com/X3eRo0)** and I began to write this new bot and it ended up being same as kamikaze 😆. To be honest, we nevert took reference from kamikaze and at this point we realized that kamikaze is the best bot there can be on `x86-32` arch.
 
 ```
+start:
+    mov esp, 0x400
 
+    ; max bound
+    mov eax, esp
+
+    ; another code
+    mov ecx, 0xc3c3c3c3 ; ret - i386
+    mov edx, 0xd65f03c0 ; ret - aarch64  
+    mov ebx, 0xe12fff1e ; bx lr - arm32
+
+    ; main program 
+    mov ebp, 0xe4ff6060
+    mov esi, 0x6060e046
+    mov edi, 0x0f60fc83
+
+; main program
+; 83fc20 - cmp esp, 0x20
+; 0f46e1 - cmovbe esp, eax
+; 60     - pushad
+; 60     - pushad
+; 60     - pushad
+; 60     - pushad
+; ffe4   - jmp esp
+
+    pushad
+    jmp esp
 ```
+
+Why is this bot so good? Well it's because you can see that this program is hardcoding it's main program in the general purpose registers and pushing them onto the stack, jumps onto the stack and then starts executing from there. This way the program is making multiple copies of itself (which is still invalid code for other bot) and is always moving it's executable code. This way it has less chances of getting curropted!. The only thing that can beat this bot is a beast that can write faster than this one. Try running this bot. Finally only 1hr was left and we exit the vc. I wrote a new bot named kamehameha 😆. Yes, it is named after the kamehameha wave that Goku uses in [Dragon Ball Z](https://en.wikipedia.org/wiki/Dragon_Ball_Z).
