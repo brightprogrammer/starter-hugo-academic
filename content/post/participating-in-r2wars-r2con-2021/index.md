@@ -215,7 +215,7 @@ jmp esp
 
 I hope you enjoyed reading this post. I thank all the members of the conference ([Captian Banana](https://twitter.com/CaptnBanana) for his video and amazing [writeup](https://bananamafia.dev/post/r2wars-2019/), [Pancake](https://twitter.com/trufae) for developing this game in the first place, [Abel](https://twitter.com/sanguinawer) for allowing multiple bots and being polite, and other [contributors](https://www.radare.org/con/2021/#contributors) who were in the conference too) who made this possible and interesting and I want to thank **[X3eRo0](https://twitter.com/X3eRo0)** for his help but I can do that personally 🤣.
 
-So this was it!. This year's winner is ***amphibia***. I look forward to participate next year and hit 'em with the strongest bot out there 😎.
+So this was it!. This year's winner is ***amphibia***. I look forward to participate next year and hit 'em with the strongest bot out there 😎. You can find source code for all my bots in [this github repo](https://github.com/brightprogrammer/r2wars-bots). This year's result is also in [that repo](https://github.com/brightprogrammer/r2wars-bots).
 
 See you in next post 😄.
 
