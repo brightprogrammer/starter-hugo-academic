@@ -197,11 +197,11 @@ start:
     jmp esp
 ```
 
-Why is this bot so good? Well it's because you can see that this program is hardcoding it's main program in the general purpose registers and pushing them onto the stack, jumps onto the stack and then starts executing from there. This way the program is making multiple copies of itself (which is still invalid code for other bot) and is always moving it's executable code. This way it has less chances of getting curropted!. The only thing that can beat this bot is a beast that can write faster than this one. Try running this bot. Finally only 1hr was left and we exit the vc. I wrote a new bot named kamehameha 😆. Yes, it is named after the kamehameha wave that Goku uses in [Dragon Ball Z](https://en.wikipedia.org/wiki/Dragon_Ball_Z). 
+Why is this bot so good? Well it's because you can see that this program is hardcoding it's main program in the general purpose registers and pushing them onto the stack, jumps onto the stack and then starts executing from there. This way the program is making multiple copies of itself (which is still invalid code for other bot) and is always moving it's executable code. This way it has less chances of getting curropted!. The only thing that can beat this bot is a beast that can write faster than this one. Try running this bot. Finally only 1hr was left and we exit the vc. I wrote a new bot named ***kamehameha*** 😆. Yes, it is named after the ***kamehameha*** wave that Goku uses in [Dragon Ball Z](https://en.wikipedia.org/wiki/Dragon_Ball_Z). 
 
-The main idea behind this bot was that it needs to hide itself at the top of program and keep making copies of itself! Most bots start writing from the end and this will provide my bot to make atleast one extra copy of itself. This increased its chances of survival than kamikaze! This little improvization landed my bot in the 4th position on the final day. I submitted 3 bots in total. Let's see if you can identify those 😃 on [Day3's match](https://youtu.be/UuEwWluGUYA?t=10250). The event started late and I was getting sleepy already but as soon as it started I was awake as if I wasn't sleepy at all! Adrenaline Rush.
+The main idea behind this bot was that it needs to hide itself at the top of program and keep making copies of itself! Most bots start writing from the end and this will provide my bot to make atleast one extra copy of itself. This increased its chances of survival than ***kamikaze***! This little improvization landed my bot in the 4th position on the final day. I submitted 3 bots in total. Let's see if you can identify those 😃 on [Day3's match](https://youtu.be/UuEwWluGUYA?t=10250). The event started late and I was getting sleepy already but as soon as it started I was awake as if I wasn't sleepy at all! Adrenaline Rush.
 
-Here is kamehameha's source code : 
+Here is ***kamehameha***'s source code : 
 
 ```
 mov eax, 0x100
@@ -213,9 +213,9 @@ pusha
 jmp esp
 ```
 
-I hope you enjoyed reading this post. I thank all the members of the conference who made this possible and interesting and I want to thank **[X3eRo0](https://twitter.com/X3eRo0)** for his help but I can do that personally 🤣.
+I hope you enjoyed reading this post. I thank all the members of the conference ([Captian Banana](https://twitter.com/CaptnBanana) for his video and amazing [writeup](https://bananamafia.dev/post/r2wars-2019/), [Pancake](https://twitter.com/trufae) for developing this game in the first place, [Abel](https://twitter.com/sanguinawer) for allowing multiple bots and being polite, and other [contributors](https://www.radare.org/con/2021/#contributors) who were in the conference too) who made this possible and interesting and I want to thank **[X3eRo0](https://twitter.com/X3eRo0)** for his help but I can do that personally 🤣.
 
-So this was it!. This year's winner is amphibia. I look forward to participate next year and hit em with the strongest bot out there 😎.
+So this was it!. This year's winner is ***amphibia***. I look forward to participate next year and hit 'em with the strongest bot out there 😎.
 
 See you in next post 😄.
 
