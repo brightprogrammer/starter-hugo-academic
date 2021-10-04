@@ -19,13 +19,13 @@ My exams were already over and I was sitting waiting for a nice thing to happen 
 
 ![](chat_ss.png "😂😂😂😂")
 
-So, I was there checking my notifications, reading some ctf writeups, waiting for a nice team event to occur and on the 2nd day of joining the team, **[X3eRo0](https://twitter.com/X3eRo0)** invited me and some other team members to participate in this event. Some members we busy with their college life and other stuffs so in the end only me and **[X3eRo0](https://twitter.com/X3eRo0)** were participating.
+So, I was there checking my notifications, reading some ctf writeups, waiting for a nice team event to occur and on the 2nd day of joining the team, **[X3eRo0](https://twitter.com/X3eRo0)** invited me and some other team members to participate in this event. Some members were busy with their college life and other stuffs so in the end only me and **[X3eRo0](https://twitter.com/X3eRo0)** were participating.
 
 ### What is [r2wars](https://rada.re/con/2021/#r2wars)?
 
 At the time of joining, I didn't even knew what we have to do there. I just jumped in because of my excitement. I had this feeling that it will be amazing so let's just do whatever has to be done to get involved. 
 
-[r2wars](https://rada.re/con/2021/#r2wars) is a game like [corewars](https://www.corewars.org/) in which participants write bots that fight in an arena and winner bots get some amazing prizes. Bots compete against each other in a round robin tournament in which every bot get's a change to compete agains every other bot. The competing bots are assigned same memory space and the main goal of each bot is to crash the other or to survive till the other bot crashes on it's own.
+[r2wars](https://rada.re/con/2021/#r2wars) is a game like [corewars](https://www.corewars.org/) in which participants write bots that fight in an arena and winner bots get some amazing prizes. Bots compete against each other in a round robin tournament in which every bot get's a chance to compete against every other bot. The competing bots are assigned same memory space and the main goal of each bot is to crash the other or to survive till the other bot crashes on it's own.
 
 The competing bots will be initialized in a common memory space of 1024 (0x400 or `pow(2,10)`) bytes. The bots are initialzed at random memory locations and they don't know where they are initialzed. They can be placed in the beginning of this memory region, at the end or in the middle or somewhere random. Running your bot outside this memory region will crash your bot. There are two rounds held in every match (generally). If your bot wins both the rounds then your bot wins the match and you recieve a higher score. You can write your bot in x86-64, x86-32, arm, aarch64, mips etc... architectures. The reason this wide rnage of ISAs are supported is because of [radare's ESIL](https://github.com/radareorg/radare2/blob/master/doc/esil.md). The main motto of this event is to ***improve*** [radare's ESIL](https://github.com/radareorg/radare2/blob/master/doc/esil.md).
 
