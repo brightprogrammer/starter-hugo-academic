@@ -6,4 +6,7 @@ title: Biography
 active: true
 author: admin
 widget_id: "1"
+design:
+  background:
+    image: avatar.png
 ---
