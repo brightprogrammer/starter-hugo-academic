@@ -36,7 +36,7 @@ education:
     - course: CBSE XIIth Boards
       institution: Dhanbad Public School
       year: 2020
-email: bshock665@gmail.com
+email: misra.cxx@gmail.com
 superuser: true
 highlight_name: true
 ---
