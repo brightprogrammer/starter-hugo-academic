@@ -8,5 +8,5 @@ author: admin
 widget_id: "1"
 design:
   background:
-    image: banner.png
+    image: ""
 ---
