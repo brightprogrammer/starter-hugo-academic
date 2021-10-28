@@ -15,19 +15,11 @@ social:
   - icon: twitter
     icon_pack: fab
     link: https://twitter.com/brightprogramer
-  - icon: linkedin
-    icon_pack: fab
-    link: https://www.linkedin.com/in/siddharth-mishra-331940219/
   - display:
       header: false
     link: https://youtube.com/channel/UCaa5_xy0usCnHXNketyHlmQ
     icon_pack: fab
     icon: youtube
-  - display:
-      header: false
-    link: https://instagram.com/imsiddharthmishra/
-    icon_pack: fab
-    icon: instagram
 organizations:
   - name: Dhanbad Public School
     url: https://dhanbadpublicschool.edu.in/
