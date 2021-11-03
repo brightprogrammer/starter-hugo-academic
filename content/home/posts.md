@@ -23,4 +23,5 @@ design:
   background:
     gradient_start: "#100d0d"
     gradient_end: "#3d076d"
+    text_color_light: true
 ---
