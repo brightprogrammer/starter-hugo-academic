@@ -38,3 +38,17 @@ So, the next day I tried searching on how to start binary exploitation and I fou
 After a few days I was frustrated and directly asked 4n0nym4us how to begin binary exploitation.
 
 ![chat with anonymous](selection_022.png)
+
+Then he asked me some questions to know how much I already know and then the next day in approximately 2hrs video session he taught me many concepts : 
+
+* Security permissions in binary like what NX, RelRO etc... meant
+* How buffer overflow actually works
+* How to write payloads
+* How to write your own shellcodes
+* Some basic intro to GEF
+* How things work with `ALSR` (Address Space Layout Randomization) and without `ASLR`
+* Return Oriented Programming (ROP), building ROP chain etc...
+* Return `libc` (all C/C++ programs link to it)
+* Return to `csu` (a function found in all C/C++ programs)
+* How things work when `NX` (No eXecute) is enabled and when it is disabled.
+* How to dyanmically patch a binary (idk the exact term for this but you'll understand when we see this)
