@@ -23,7 +23,7 @@ design:
   background:
     gradient_start: ""
     gradient_end: ""
-    text_color_light: true
+    text_color_light: false
     image: pexels-felix-mittermeier-957024_11zon.jpg
     image_darken: 0.95
 ---
