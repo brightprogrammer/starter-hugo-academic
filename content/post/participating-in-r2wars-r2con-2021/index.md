@@ -4,6 +4,14 @@ subtitle: My first attempt in r2wars
 date: 2021-10-03T14:30:42.013Z
 draft: false
 featured: false
+tags:
+  - r2con
+  - assembly
+  - bots
+  - r2wars
+categories:
+  - conferences
+  - r2con
 image:
   filename: featured
   focal_point: Smart
