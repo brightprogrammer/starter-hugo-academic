@@ -29,5 +29,5 @@ design:
   flip_alt_rows: false
   background:
     image: ""
-    color: "#3c0e3f"
+    color: ""
 ---
