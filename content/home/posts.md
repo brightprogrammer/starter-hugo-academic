@@ -24,6 +24,6 @@ design:
     gradient_start: ""
     gradient_end: ""
     text_color_light: false
-    image: leafy-wall_11zon.jpg
+    image: ""
     image_darken: 0.81
 ---
