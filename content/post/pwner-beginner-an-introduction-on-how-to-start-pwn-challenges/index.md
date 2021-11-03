@@ -37,7 +37,7 @@ So, the next day I tried searching on how to start binary exploitation and I fou
 
 After a few days I was frustrated and directly asked 4n0nym4us how to begin binary exploitation.
 
-![chat with anonymous](selection_022.png)
+![chat with anonymous](selection_022.png "me asking 4n0nym4u5")
 
 Then he asked me some questions to know how much I already know and then the next day in approximately 2hrs video session he taught me many concepts : 
 
