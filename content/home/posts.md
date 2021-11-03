@@ -24,6 +24,6 @@ design:
     gradient_start: ""
     gradient_end: ""
     text_color_light: false
-    image: pexels-felix-mittermeier-957024_11zon.jpg
-    image_darken: 0.95
+    image: leafy-wall_11zon.jpg
+    image_darken: 0.81
 ---
