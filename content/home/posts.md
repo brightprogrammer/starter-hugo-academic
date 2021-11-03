@@ -21,7 +21,8 @@ content:
 design:
   view: 2
   background:
-    gradient_start: "#100d0d"
-    gradient_end: "#3d076d"
-    text_color_light: true
+    gradient_start: ""
+    gradient_end: ""
+    text_color_light: false
+    image: upload.jpg
 ---
