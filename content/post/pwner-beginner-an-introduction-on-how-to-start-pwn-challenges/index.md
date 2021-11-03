@@ -51,4 +51,25 @@ Then he asked me some questions to know how much I already know and then the nex
 * Return `libc` (all C/C++ programs link to it)
 * Return to `csu` (a function found in all C/C++ programs)
 * How things work when `NX` (No eXecute) is enabled and when it is disabled.
-* How to dyanmically patch a binary (idk the exact term for this but you'll understand when we see this)
+* How to dyanmically patch a binary using `read` (idk the exact term for this but you'll understand when we see this)
+
+The list is huge and I regret not recording the session, so, I want to revise everything I learnt in that video and because of that I'm motivated to write this post. Hope this helps you too.
+
+## Some Pre-Knowledge
+
+In cybersec you will hear/read the words ***vulnerability*** and ***exploit*** in most of the related resources. A vulnerability is something that you exploit. An exploit is the algorithm or method that you use to do some things that the developer didn't expect you or anyone to do. For example, you are connected over some server that asks you to enter your name and instead you write something that gives you access to the shell on that server. Since you have access to a remote shell, you can theoretically do almost anything with that server! shut it down, restart it, gain root privileges, get access to some confidential data etc! All of this because you exploited a vulnerability! and this is what real hacking looks like!
+
+Before beginning, you must know how to read assembly code! alteast a little bit. Because sometimes, these programs aren't written in C/C++ that a decompiler can easily understand. They are sometimes written pure assembly. Your decompiler can recognize some stuffs but not all of it! not matter how good it is!
+
+You must know what an ELF file is. If you need an intro to ELF files, you can refer to my notes [here](https://brightprogrammer.github.io/pwn.college/program-interaction/intro-to-elf-files.html). 
+
+
+
+## The Real Stuff
+
+So, in this part we'll only see different ways to exploit stack. There are two ways in which memory can be allocated in a program :
+
+* The Stack (volatile)
+* The Heap (non volatile)
+
+Both can be exploited but here we'll see only how to exploit the stack.
