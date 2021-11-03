@@ -28,5 +28,6 @@ design:
   view: 2
   flip_alt_rows: false
   background:
-    image: pexels-eugene-golovesov-9881652-1-.jpg
+    image: ""
+    color: "#3c0e3f"
 ---
