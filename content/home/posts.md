@@ -24,5 +24,5 @@ design:
     gradient_start: ""
     gradient_end: ""
     text_color_light: false
-    image: upload.jpg
+    image: pexels-egor-kamelev-813870-1-.jpg
 ---
