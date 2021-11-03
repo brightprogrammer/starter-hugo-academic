@@ -26,7 +26,7 @@ image:
 
 So, I started to gain interest in pwn challenges when I saw one of my team-mate (**4n0nym4u5**) solving a pwn challenge from [pwnable.tw](https://pwnable.tw/). I didn't understand a bit but there was this urge in me trying to understand what he was doing. I was able to deduce this much : 
 
-* He was writing an exploit in python using pwntools (I noticed it because X3eRo0 instroduced me to this during r2con)
+* He was writing an exploit in python using pwntools (I noticed it because **X3eRo0** instroduced me to this during r2con)
 * He was continuously using GDB-GEF for that (I saw GEF being used in some of the writeups)
 * He was re-running his exploit again and again, maybe to debug it.
 * It was awesome and felt like real hacking!
@@ -46,11 +46,11 @@ Then he asked me some questions to know how much I already know and then the nex
 * How to write payloads
 * How to write your own shellcodes
 * Some basic intro to GEF
-* How things work with `ALSR` (Address Space Layout Randomization) and without `ASLR`
+* How things work with `ALSR` (**Address Space Layout Randomization**) and without `ASLR`
 * Return Oriented Programming (ROP), building ROP chain etc...
 * Return `libc` (all C/C++ programs link to it)
 * Return to `csu` (a function found in all C/C++ programs)
-* How things work when `NX` (No eXecute) is enabled and when it is disabled.
+* How things work when `NX` (**No eXecute**) is enabled and when it is disabled.
 * How to dyanmically patch a binary using `read` (idk the exact term for this but you'll understand when we see this)
 
 The list is huge and I regret not recording the session, so, I want to revise everything I learnt in that video and because of that I'm motivated to write this post. Hope this helps you too.
@@ -72,4 +72,8 @@ So, in this part we'll only see different ways to exploit stack. There are two w
 * The Stack (volatile)
 * The Heap (non volatile)
 
-Both can be exploited but here we'll see only how to exploit the stack.
+Both can be exploited but here we'll see only how to exploit the stack because that's what I learnt and what I know at the moment.
+
+#### What is The Stack?
+
+Stack is usually referred to a data structure that is `LIFO` (**Last In First Out**) type. In context with memory allocation, stack is a memory region assigned to each program while being loaded by the operating systems that is used like a stack data structure. You have `push` and `pop` instructions in assembly to save and get data from the stack (the memory region).
