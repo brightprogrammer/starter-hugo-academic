@@ -8,5 +8,5 @@ author: admin
 widget_id: "1"
 design:
   background:
-    image: wall.jpg
+    image: wall-dark-min.jpg
 ---
