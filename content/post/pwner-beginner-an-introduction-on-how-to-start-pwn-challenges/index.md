@@ -4,6 +4,18 @@ subtitle: Introduction On How To Solve Pwn Challenges
 date: 2021-11-03T03:54:45.867Z
 draft: false
 featured: false
+tags:
+  - pwning
+  - reversing
+  - python
+  - exploit
+  - buffer-overflow
+  - binary-exploitation
+  - challenge
+categories:
+  - pwning
+  - reversing
+  - binary-exploitation
 image:
   filename: featured
   focal_point: Smart
