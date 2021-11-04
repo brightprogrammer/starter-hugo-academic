@@ -3,6 +3,8 @@ widget: pages
 widget_id: RECENT-POSTS
 headless: true
 weight: 60
+title: Recent Posts
+subtitle: Five most recent posts on this blog
 active: true
 design:
   columns: "2"
