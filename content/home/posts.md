@@ -5,6 +5,7 @@ headless: true
 weight: 60
 title: Recent Posts
 subtitle: null
+active: false
 content:
   page_type: post
   count: 5
