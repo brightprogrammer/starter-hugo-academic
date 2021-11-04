@@ -32,4 +32,4 @@ email: misra.cxx@gmail.com
 superuser: true
 highlight_name: true
 ---
-Siddharth Mishra completed his high school in the year 2020 and at the moment is preparing for college entrace exams. He has 4 years progressive experience in C++ as he used it in amlost all projects that he made in the school. He started programming at the age of 14 and He has experience in Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Engine Development, GUI Programming and Computer Vision.
+I completed my high school in the year 2020 and at the moment, my college exams are over and I'm waiting for college counsellings to end. I have 4 years progressive experience in C++ and I've used it in amlost all my projects that I made in school. I started programming at the age of 11 (class 6th approximately). I started with HTML, then Java, then C++, then C, then Python in class XI and XII as it was in my syllabus. I have experience in Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Engine Development, GUI Programming and Computer Vision.
