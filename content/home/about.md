@@ -3,7 +3,7 @@ widget: about
 headless: true
 weight: 20
 title: About
-active: false
+active: true
 author: admin
 widget_id: "1"
 design:
