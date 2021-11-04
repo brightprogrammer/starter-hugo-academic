@@ -8,6 +8,6 @@ author: admin
 widget_id: "1"
 design:
   background:
-    image: wall-dark-min.jpg
+    image: ""
     text_color_light: false
 ---
