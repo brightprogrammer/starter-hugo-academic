@@ -25,5 +25,5 @@ design:
     gradient_end: ""
     text_color_light: false
     image: ""
-    image_darken: 0
+    image_darken: 1
 ---
