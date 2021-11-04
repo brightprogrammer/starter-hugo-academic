@@ -28,3 +28,4 @@ design:
     image: ""
     image_darken: 1
 ---
+Some of the posts that I wrote recently. Scrape your way through! You can also use the search to find a post by tag.
