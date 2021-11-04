@@ -63,8 +63,6 @@ Before beginning, you must know how to read assembly code! alteast a little bit.
 
 You must know what an ELF file is. If you need an intro to ELF files, you can refer to my notes [here](https://brightprogrammer.github.io/pwn.college/program-interaction/intro-to-elf-files.html). 
 
-
-
 ## The Real Stuff
 
 So, in this part we'll only see different ways to exploit stack. There are two ways in which memory can be allocated in a program :
@@ -76,4 +74,6 @@ Both can be exploited but here we'll see only how to exploit the stack because t
 
 #### What is The Stack?
 
-Stack is usually referred to a data structure that is `LIFO` (**Last In First Out**) type. In context with memory allocation, stack is a memory region assigned to each program while being loaded by the operating systems that is used like a stack data structure. You have `push` and `pop` instructions in assembly to save and get data from the stack (the memory region).
+Stack is usually referred to a data structure that is `LIFO` (**Last In First Out**) type. In context with memory allocation, stack is a memory region assigned to each program while being loaded by the operating systems that is used like a stack data structure. You have `push` and `pop` instructions in assembly to save and get data from the stack (the memory region). When a `push` instruction is executed, the data passed as second operand is stored in the memory region pointed by `stack pointer` and it is decremented by one, so that when a next push instruction is executed, it is pushed to memory region one more than previous one. When a `pop` instruction is executed, data stored in the memory region pointed by the `stack pointer` is stored in the given operand and `stack pointer` is incremented by one.
+
+![](selection_023.png)
