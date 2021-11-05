@@ -105,7 +105,11 @@ The stack is actually common for each function, it is just a plain contiguous me
 
 It is called a canary because of the use of canary birds in the mines before. Miners used to take canary birds in cages and go into the mine. A mine sometimes contains poisonous gases and when a canary stopped screaming then they understood that this area is poisonous and they get out of there. Sometimes the canary even died!
 
-The stack canary fullfills a similar purpose! In the beginning of a function, just after function epilogue, the value of 
+The stack canary fullfills a similar purpose! In the beginning of a function, just after function epilogue, a secret value is stored on the stack that is different for every function and at the end, just before epilogue, this value on stack is matched with the special value and if it's not same then this means that there was an overwrite and the program exits with a stack overflow error.
+
+![](selection_025.png "the magical value being placed in the stack")
+
+
 
 #### How The Stack Works
 
