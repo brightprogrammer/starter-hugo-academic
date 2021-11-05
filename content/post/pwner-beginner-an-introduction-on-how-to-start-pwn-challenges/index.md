@@ -127,6 +127,10 @@ stack_fail:
 
 ```
 
+If this canary is absent (can be turned off during compilation) then you can easily overwrite the whole stack! well there are some other constraints too to be honest which we'll see in this post.
+
+
+
 #### How The Stack Works
 
 You have `push` and `pop` instructions in assembly to save and get data from the stack (the memory region). When a `push` instruction is executed, the data passed as second operand is stored in the memory region pointed by `stack pointer` and it is decremented by one, so that when a next push instruction is executed, it is pushed to memory region one more than previous one. When a `pop` instruction is executed, data stored in the memory region pointed by the `stack pointer` is stored in the given operand and `stack pointer` is incremented by one.
