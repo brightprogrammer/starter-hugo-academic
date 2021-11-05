@@ -173,3 +173,15 @@ The term stack overwrite is a better and more precise term for this according to
 Say, the program is doing a read to a buffer syscall. The buffer size to be read is 0x20 and the read size is 0x30, then we can basically just write 0x30 bytes onto the stack! it doesn't matter what the size of buffer is!
 
 ![](amazing-gif.gif "taken from tenor[dot]com")
+
+#### What Is The Vulnerability Here?
+
+As we saw, the instruction pointer is saved on the stack and when return is called, the program jumps to that instruction address. We also saw that we can overwrite the stack if allowed to do so. This means we can overwrite the stack where the return address is stored! This means we can control the execution flow! This is a very big vulnerability in itself.
+
+![](mind-blown.gif "taken from tenor[dot]com")
+
+#### How do we exploit it then?
+
+We exploit this by writing a playload (basically a string) when the program takes input in such a way that it'll overwrite the return address with something useful! I'll use [ropemporium](https://ropemporium.com/)'s first challenge. Let's download [x86_64 architecture](https://ropemporium.com/binary/ret2win.zip). We'll use [`pwntools`](https://docs.pwntools.com/en/stable/) to write our exploit.
+
+To generate a base code from where we'll start building the exploit, let's create a template using the following command : `pwntools-pwn template --host=0.0.0.0 --port=1337 ./ret2win > exploit.py`.
