@@ -95,6 +95,9 @@ int main(){
     .
     .
     .
+      
+    // all these variables are allocate on the heap
+    char mem = (char*)(malloc(0x400)); // allocate 1024 bytes
 }
 .
 .
@@ -124,15 +127,16 @@ stack_check_fail :
 stack_fail:
     mov rdi, SIGSEGV         ; segmentation fault
     call sys.imp.exit        ; call exit
-
 ```
 
 If this canary is absent (can be turned off during compilation) then you can easily overwrite the whole stack! well there are some other constraints too to be honest which we'll see in this post.
-
-
 
 #### How The Stack Works
 
 You have `push` and `pop` instructions in assembly to save and get data from the stack (the memory region). When a `push` instruction is executed, the data passed as second operand is stored in the memory region pointed by `stack pointer` and it is decremented by one, so that when a next push instruction is executed, it is pushed to memory region one more than previous one. When a `pop` instruction is executed, data stored in the memory region pointed by the `stack pointer` is stored in the given operand and `stack pointer` is incremented by one.
 
-![stack image](selection_023.png "stack before push or pop")
+Let's say the next instruction to be executed is NOP, then after execution the stack will look something like this :
+
+![stack image](selection_027.png "stack before push or pop")
+
+The next instruction is a push instruction which will save the operand on the stack. When I say on the stack, I refer to the idea that stack
