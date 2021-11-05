@@ -139,4 +139,6 @@ Let's say the next instruction to be executed is NOP, then after execution the s
 
 ![stack image](selection_027.png "stack before push or pop")
 
-The next instruction is a push instruction which will save the operand on the stack. When I say on the stack, I refer to the idea that stack
+The next instruction is a push instruction which will save the operand on the stack. When I say on the stack, I refer to the idea that `stack pointer` is the top of stack and the value being pushed is stored there.
+
+![](selection_028.png)
