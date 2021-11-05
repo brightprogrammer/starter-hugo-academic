@@ -52,7 +52,8 @@ Then he asked me some questions to know how much I already know and then the nex
 * Return to `csu` (a function found in all C/C++ programs)
 * How things work when `NX` (**No eXecute**) is enabled and when it is disabled.
 * How to make the program leak some important memory address
-* How to dyanmically patch a binary using `read` (idk the exact term for this but you'll understand when we see this)
+* GOT (Global Offset Table) overwrite
+* Partial overwrite on GOT
 
 The list is huge and I regret not recording the session, so, I want to revise everything I learnt in that video and because of that I'm motivated to write this post. Hope this helps you too.
 
