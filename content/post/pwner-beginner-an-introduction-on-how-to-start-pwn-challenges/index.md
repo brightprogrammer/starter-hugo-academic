@@ -148,3 +148,15 @@ The next instruction is a push instruction which will save the operand on the st
 ![](selection_030.png "popping value from the stack in a register")
 
 This last instruction will pop a value from the stack and store it in `$RAX`.
+
+#### How The Stack Works In A Function Call
+
+Here I'll consider a program where canary is disabled. 
+
+![](function-stack-working.gif "stack when a function is called")
+
+The `SUB RSP, 0x10` is allocating 16 bytes buffer on the stack. When the instruction `CALL PWNME` is executed, the current `$RIP` is pushed onto the stack automatically and when the control flow reaches the function `PWNME`, `PUSH $RBP` is called to save the begin address address of stack of caller function. Later, when RET instruction is executed, the value of `$RIP` is popped from the stack and `$RSP` get's adjusted to the top of stack frame of caller function automatically.
+
+### Stack Overflow
+
+The term stack overwrite is a better and more precise term for this according to me because what you basically do is overwrite more than what was needed. But then the question comes : ***How do we overwrite the stack***? You can only overwrite the stack if the program takes input in a buffer allocated onto the stack.
