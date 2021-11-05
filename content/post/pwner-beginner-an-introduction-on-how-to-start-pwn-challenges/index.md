@@ -101,7 +101,13 @@ int main(){
 .
 ```
 
+The stack is actually common for each function, it is just a plain contiguous memory space like any other! but then what makes us think that stack is separate for each function? This is an illusion created by the compiler in the assembly level and this is where the stack `canary` comes into play. 
 
+It is called a canary because of the use of canary birds in the mines before. Miners used to take canary birds in cages and go into the mine. A mine sometimes contains poisonous gases and when a canary stopped screaming then they understood that this area is poisonous and they get out of there. Sometimes the canary even died!
+
+The stack canary fullfills a similar purpose! In the beginning of a function, just after function epilogue, the value of 
+
+#### How The Stack Works
 
 You have `push` and `pop` instructions in assembly to save and get data from the stack (the memory region). When a `push` instruction is executed, the data passed as second operand is stored in the memory region pointed by `stack pointer` and it is decremented by one, so that when a next push instruction is executed, it is pushed to memory region one more than previous one. When a `pop` instruction is executed, data stored in the memory region pointed by the `stack pointer` is stored in the given operand and `stack pointer` is incremented by one.
 
