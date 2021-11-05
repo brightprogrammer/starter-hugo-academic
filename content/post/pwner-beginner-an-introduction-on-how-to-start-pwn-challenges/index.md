@@ -51,6 +51,7 @@ Then he asked me some questions to know how much I already know and then the nex
 * Return `libc` (all C/C++ programs link to it)
 * Return to `csu` (a function found in all C/C++ programs)
 * How things work when `NX` (**No eXecute**) is enabled and when it is disabled.
+* How to make the program leak some important memory address
 * How to dyanmically patch a binary using `read` (idk the exact term for this but you'll understand when we see this)
 
 The list is huge and I regret not recording the session, so, I want to revise everything I learnt in that video and because of that I'm motivated to write this post. Hope this helps you too.
@@ -157,6 +158,14 @@ Here I'll consider a program where canary is disabled.
 
 The `SUB RSP, 0x10` is allocating 16 bytes buffer on the stack. When the instruction `CALL PWNME` is executed, the current `$RIP` is pushed onto the stack automatically and when the control flow reaches the function `PWNME`, `PUSH $RBP` is called to save the begin address address of stack of caller function. Later, when RET instruction is executed, the value of `$RIP` is popped from the stack and `$RSP` get's adjusted to the top of stack frame of caller function automatically.
 
+#### How Data Is Written To A Memory Location
+
+Before understanding stack overflow, you must first understand the write direction when a program is taking input. 
+
 ### Stack Overflow
 
-The term stack overwrite is a better and more precise term for this according to me because what you basically do is overwrite more than what was needed. But then the question comes : ***How do we overwrite the stack***? You can only overwrite the stack if the program takes input in a buffer allocated onto the stack.
+The term stack overwrite is a better and more precise term for this according to me because what you basically do is overwrite more than what was needed. But then the question comes : ***How do we overwrite the stack***? You can only overwrite the stack if the program takes input in a buffer allocated onto the stack and doesn't keep check of the input size.
+
+Say, the program is doing a read to a buffer syscall. The buffer size to be read is 0x20 and the read size is 0x30, then we can basically just write 0x30 bytes onto the stack! it doesn't matter what the size of buffer is!
+
+![](https://tenor.com/view/astonished-woah-gif-5025843)
