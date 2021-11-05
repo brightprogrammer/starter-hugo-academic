@@ -109,7 +109,23 @@ The stack canary fullfills a similar purpose! In the beginning of a function, ju
 
 ![](selection_025.png "the magical value being placed in the stack")
 
+![](selection_026.png "magical value being checked again")
 
+This is dynamically linked executable, so, the actual stack check code isn't here but usually it'll roughly look something like this :
+
+```
+; our stack check
+stack_check_fail : 
+    mov rax, qword [var_18h] ; get the magical value in rax
+    cmp rax, qword fs:[0x28] ; check the magical value
+    jne stack_fail           ; if fails then exit
+    
+; calls exit with segfault code
+stack_fail:
+    mov rdi, SIGSEGV         ; segmentation fault
+    call sys.imp.exit        ; call exit
+
+```
 
 #### How The Stack Works
 
