@@ -18,9 +18,10 @@ categories:
   - reversing
   - binary-exploitation
 image:
-  filename: amazing-gif.gif
+  filename: ""
   focal_point: Smart
   preview_only: false
+  alt_text: ""
 ---
 ## Background Story
 
@@ -169,4 +170,4 @@ The term stack overwrite is a better and more precise term for this according to
 
 Say, the program is doing a read to a buffer syscall. The buffer size to be read is 0x20 and the read size is 0x30, then we can basically just write 0x30 bytes onto the stack! it doesn't matter what the size of buffer is!
 
-![](https://tenor.com/view/astonished-woah-gif-5025843)
+![](amazing-gif.gif "taken from tenor[dot]com")
