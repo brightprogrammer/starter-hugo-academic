@@ -18,7 +18,7 @@ categories:
   - reversing
   - binary-exploitation
 image:
-  filename: featured
+  filename: amazing-gif.gif
   focal_point: Smart
   preview_only: false
 ---
