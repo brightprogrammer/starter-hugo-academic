@@ -74,6 +74,35 @@ Both can be exploited but here we'll see only how to exploit the stack because t
 
 #### What is The Stack?
 
-Stack is usually referred to a data structure that is `LIFO` (**Last In First Out**) type. In context with memory allocation, stack is a memory region assigned to each program while being loaded by the operating systems that is used like a stack data structure. You have `push` and `pop` instructions in assembly to save and get data from the stack (the memory region). When a `push` instruction is executed, the data passed as second operand is stored in the memory region pointed by `stack pointer` and it is decremented by one, so that when a next push instruction is executed, it is pushed to memory region one more than previous one. When a `pop` instruction is executed, data stored in the memory region pointed by the `stack pointer` is stored in the given operand and `stack pointer` is incremented by one.
+Stack is usually referred to a data structure that is `LIFO` (**Last In First Out**) type. In context with memory allocation, stack is a memory region assigned to each program while being loaded by the operating systems that is used like a stack data structure. When you allocate space without using functions like `malloc`, `calloc`, `new` etc..., you allocate them on the stack. See some examples below : 
+
+```c
+// includes
+.
+.
+.
+// this int is not in the stack, this is stored in $rax
+int main(){
+    .
+    .
+    .
+    // all these variables are allocated on the stack
+    int x;
+    float y;
+    double z;
+    uint8_t[1024] buffer;
+    char[256] input;
+    .
+    .
+    .
+}
+.
+.
+.
+```
+
+
+
+You have `push` and `pop` instructions in assembly to save and get data from the stack (the memory region). When a `push` instruction is executed, the data passed as second operand is stored in the memory region pointed by `stack pointer` and it is decremented by one, so that when a next push instruction is executed, it is pushed to memory region one more than previous one. When a `pop` instruction is executed, data stored in the memory region pointed by the `stack pointer` is stored in the given operand and `stack pointer` is incremented by one.
 
 ![stack image](selection_023.png "stack before push or pop")
