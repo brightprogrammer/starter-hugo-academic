@@ -141,4 +141,10 @@ Let's say the next instruction to be executed is NOP, then after execution the s
 
 The next instruction is a push instruction which will save the operand on the stack. When I say on the stack, I refer to the idea that `stack pointer` is the top of stack and the value being pushed is stored there.
 
-![](selection_028.png)
+![](selection_028.png "push something on the stack")
+
+![](selection_029.png "another value being pushed on the stack")
+
+![](selection_030.png "popping value from the stack in a register")
+
+This last instruction will pop a value from the stack and store it in `$RAX`.
