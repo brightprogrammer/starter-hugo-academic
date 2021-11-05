@@ -162,7 +162,9 @@ The `SUB RSP, 0x10` is allocating 16 bytes buffer on the stack. When the instruc
 
 #### How Data Is Written To A Memory Location
 
-Before understanding stack overflow, you must first understand the write direction when a program is taking input. 
+Before understanding stack overflow, you must first understand the write direction when a program is taking input. When program starts taking input and the buffer address is say **0x0000**, it takes first character input, then it will be written at address **0x0000**, for second character, the write address will be **0x0001**, for 10th character, the write address will be **0x0009**. Say we're writing the string "aaaa....aa" to the buffer then it'll be written like this :
+
+![](selection_031.png)
 
 ### Stack Overflow
 
