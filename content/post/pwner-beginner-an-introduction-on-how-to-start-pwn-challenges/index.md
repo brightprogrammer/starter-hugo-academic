@@ -264,7 +264,10 @@ If you want to debug it, set `context.terminal` with something like this
 ```python
 # which terminal to use
 context.terminal = ['xfce4-terminal', '--tab', '-x']
-
 ```
 
 This is for `xfce4-terminal` to launch a new tab and `-x` is for executing the command passed to it by pwntools. This will automatically launch a gdb terminal and then you can debug your exploit from there!
+
+## Example #1 : ret2win
+
+Let's try solving a challege as an example
