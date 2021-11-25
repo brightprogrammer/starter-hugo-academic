@@ -23,11 +23,16 @@ social:
 organizations:
   - name: Dhanbad Public School
     url: https://dhanbadpublicschool.edu.in/
+  - name: BIT Mesra
+    url: https://bitmesra.ac.in/
 education:
   courses:
     - course: CBSE XIIth Boards
       institution: Dhanbad Public School
       year: 2020
+    - course: Integrated Masters Of Science, Mathematics & Computing
+      institution: BIT Mesra
+      year: 2026
 email: misra.cxx@gmail.com
 superuser: true
 highlight_name: true
