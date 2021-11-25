@@ -21,8 +21,6 @@ social:
     icon_pack: fab
     icon: youtube
 organizations:
-  - name: Dhanbad Public School
-    url: https://dhanbadpublicschool.edu.in/
   - name: BIT Mesra
     url: https://bitmesra.ac.in/
 education:
