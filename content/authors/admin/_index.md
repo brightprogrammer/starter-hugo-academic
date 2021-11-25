@@ -37,4 +37,6 @@ email: misra.cxx@gmail.com
 superuser: true
 highlight_name: true
 ---
-I completed my high school in the year 2020 and at the moment, my college exams are over and I'm waiting for college counsellings to end. I have 4 years progressive experience in C++ and I've used it in amlost all my projects that I made in school. I started programming at the age of 11 (class 6th approximately). I started with HTML, then Java, then C++, then C, then Python in class XI and XII as it was in my syllabus. I have experience in Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Engine Development, GUI Programming and Computer Vision.
+I'm a student of **Integrated Masters Of Science, Mathematics** & Computing at [BIT Mesra](https://bitmesra.ac.in/). I'm currently in the pursuit of gaining knowledge in fields I'm interested in, like Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Development, Game Engine Development, GUI Programming, Computer Vision and similar low level areas in Computer Science.
+
+I like to work in constrained environments with as low resources as possible, because, necessity is the mother of invention. This is one of the major reasons I started to develop intersets in doing things the old way, the hard way but the fast way!
