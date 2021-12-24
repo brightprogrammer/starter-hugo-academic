@@ -126,3 +126,7 @@ Simple and short. The head block is big and is most probably reading input and d
 ![](overview.png)
 
 Looks like this one has lots of conditional jumps. Let's analyse this one. Spoiler : This is is indeed the dispatcher function.
+
+## Analysis
+
+Now we can go to main and look where this function is being called and then analyze what's being passed to this. We'll try to do as less reversing as possible in functions outside this one. I'll name this function to *dispatcher* to increase readability.
