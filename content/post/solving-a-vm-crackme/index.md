@@ -24,4 +24,8 @@ I've already partially solved this crackme and this'll be a detailed explanation
 
 ## What Is A VM?
 
-VM is short form of Virtual Machine. A virtual machine is exactly what it's name is, it's virtual!. An example of physical machine is your CPU. Your CPU is executing real instructions in programs
+VM is short form of Virtual Machine. A virtual machine is exactly what it's name is, it's virtual!.
+
+An example of physical machine is your CPU. Your CPU is executing real instructions. When you do a `mov` instruction, your CPU will take minimum number of steps to complete that instruction. That instruction will have effect on real registers and memory. 
+
+When it comes to a virtual CPU (machine), it may or may not have a move instruction in the first place! Even if it has a mov instruction, it'll be moving data to/from variables declared withing the program.
