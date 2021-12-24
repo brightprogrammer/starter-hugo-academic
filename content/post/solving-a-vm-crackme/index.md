@@ -108,3 +108,5 @@ void dispatch(){
 Instead of if-else statements, switch-case statements can be used too! Now, this is where the interesting part comes : In all normal, not crazy VMs you'll find a FeDeX loop like this one.  This function is what we need to find if it's a VM challenge. Generally it's easy to find because of the code structure here! When you'll see this code in a graph like format, you'll notice that almost all similar VMs (with a FeDeX loop) will have similar structure. Let's try that in this crackme.
 
 ## First Contact
+
+![](afl.png)
