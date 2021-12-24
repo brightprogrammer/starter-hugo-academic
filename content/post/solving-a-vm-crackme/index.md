@@ -121,4 +121,6 @@ Instead of going to main and following the code sequentially, we'll now go throu
 
 ![](main.png "high level view of main")
 
-Simple and short. The head block is big and is most probably reading input and doing some initializations.
+Simple and short. The head block is big and is most probably reading input and doing some initializations. On going through functions one by one, you'll see a function like this
+
+![](overview.png)
