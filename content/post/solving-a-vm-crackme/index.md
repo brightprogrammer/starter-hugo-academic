@@ -124,3 +124,5 @@ Instead of going to main and following the code sequentially, we'll now go throu
 Simple and short. The head block is big and is most probably reading input and doing some initializations. On going through functions one by one, you'll see a function like this
 
 ![](overview.png)
+
+Looks like this one has lots of conditional jumps. Let's analyse this one. Spoiler : This is is indeed the dispatcher function.
