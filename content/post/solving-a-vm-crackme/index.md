@@ -114,3 +114,11 @@ We'll a new tool **Iaito**. Iaito is the GUI version of radare. We'll use this t
 ![](entry.png)
 
 This is doing a simple call to `libc_start_main` which will eventually call `main`.
+
+> At this point I'd like to highlight that reversing XVM from scratch wasn't a complete waste as I can do normal reversing like this very easily. I can now read the assembly very easily and understand what the code is trying to do!
+
+Instead of going to main and following the code sequentially, we'll now go through all those functions and check the graph structure from a high level perspective.
+
+![](main.png "high level view of main")
+
+Simple and short. The head block is big and is most probably reading input and doing some initializations.
