@@ -4,6 +4,15 @@ subtitle: Beginners guide to solving a VM crackme.
 date: 2021-12-24T12:48:01.553Z
 draft: false
 featured: false
+tags:
+  - reversing
+  - virtual-machine
+  - crackme
+  - beginner
+categories:
+  - virtual-machine
+  - reversing
+  - crackme
 image:
   filename: featured
   focal_point: Smart
@@ -28,4 +37,10 @@ VM is short form of Virtual Machine. A virtual machine is exactly what it's name
 
 An example of physical machine is your CPU. Your CPU is executing real instructions. When you do a `mov` instruction, your CPU will take minimum number of steps to complete that instruction. That instruction will have effect on real registers and memory. 
 
-When it comes to a virtual CPU (machine), it may or may not have a move instruction in the first place! Even if it has a mov instruction, it'll be moving data to/from variables declared withing the program.
+When it comes to a virtual CPU (machine), it may or may not have a move instruction in the first place! Even if it has a mov instruction, it'll be moving data to/from variables declared within the program. So the virtual cpu doesn't directly use anything real (registers/memory) and all the resources that it'll use will be stored in a variable that is already allocated on either the stack or the heap. All the (virtual) instructions that a virtual machine will run will ultimately be converted to machine code. Because of this conversion, a virtual CPU takes much more number of steps than a physical CPU to execute a single (virtual) instruction and because of this, virtual machines are slower too.
+
+## How Do Virtual Machines Work?
+
+Since a virtual machine is trying to emulate some new instruction set, it'll need to have a CPU that will be able to decode those set of instructions and for that all virtual machines implement their own virtual CPU. How do we do that? Well, a CPU is just a bunch of registers and some logical units.
+
+![](abasiccomputer.gif)
