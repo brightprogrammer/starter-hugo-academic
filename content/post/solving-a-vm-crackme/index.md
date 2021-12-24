@@ -55,5 +55,13 @@ enum reg_id {
 struct cpu_t{
     int64_t registers[16]; // 16 registers
     int64_t* stack;
+    .
+    .
+    .
+    // some other things needed for this vm
 };
 ```
+
+This makes up the structure of our CPU, but then how will it execute instructions? Normally, challenge developers write their program in a symbolic language and then convert it to the virtual CPUs assembly code. This assembled code is what we refer to as the bytecode. It's just an array of numbers like the opcodes of your actual CPU.
+
+This bytecode is then read and passed to a **Fetch**, **Decode**, **Execute** (FeDeX) loop. This loop does what it's name is. It fetches the current instruction from bytecode, decodes what it means (useful part) and then executes it! This is very much similar to what an actual CPU does but this decoding part makes up the extra steps that our virtual CPU has to take.
