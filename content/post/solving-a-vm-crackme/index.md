@@ -109,4 +109,8 @@ Instead of if-else statements, switch-case statements can be used too! Now, this
 
 ## First Contact
 
-![](afl.png)
+We'll a new tool **Iaito**. Iaito is the GUI version of radare. We'll use this to quickly get to the dispatcher function and then we can switch to any other tool.
+
+![](entry.png)
+
+This is doing a simple call to `libc_start_main` which will eventually call `main`.
