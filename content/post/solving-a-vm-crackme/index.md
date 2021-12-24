@@ -75,14 +75,32 @@ This bytecode is then read and passed to a **Fetch**, **Decode**, **Execute** (F
 In normal CPU, there is a register called the **program counter** (instruction pointer in Intel CPUs). This register contains an absolute address or an offset from a base address that directly or indirectly points to the next instruction that needs to be executed. So, the fetch part just needs to keep track of this program counter. To fetch the next instruction, the program will do
 
 ```
+enum instr{
+    MOV_REG_CONST = 0, // mov const value to register
+    MOV_REG_REG, // move value in register to register
+    ADD_REG_CONST, // add value in register to a const value and store in register
+    .
+    .
+    .
+}
+
 void dispatch(){
     while(cpu.pc < cpu.code_sz){
-        // FETCH : 
-        // get current instruction and increase pc
-        // so that it points to next instruction
-        uint32_t curr_instr = cpu.bytecode[cpu.pc++];
-        
-        // DECODE & EXECUTE : 
+         // fetch current instruction and increment pc
+         uint32_t current_instr = cpu.bytecode[cpu.pc++];
+         
+         // decode
+         if(current_instr == MOV_REG_CONST){
+             // execute
+             uint32_t reg_idx = cpu.bytecode[cpu.pc++];
+             uint32_t const_val = cpu.bytecode[cpu.pc++];
+             cpu.register[reg_idx] = const val;
+         }else if(current_instr == MOV_REG_REG){
+             // execute
+         }
+         .
+         .
+         .
     }
 }
 ```
