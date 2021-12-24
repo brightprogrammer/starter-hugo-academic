@@ -74,7 +74,7 @@ This bytecode is then read and passed to a **Fetch**, **Decode**, **Execute** (F
 
 In normal CPU, there is a register called the **program counter** (instruction pointer in Intel CPUs). This register contains an absolute address or an offset from a base address that directly or indirectly points to the next instruction that needs to be executed. So, the fetch part just needs to keep track of this program counter. To fetch the next instruction, the program will do
 
-```
+```c
 enum instr{
     MOV_REG_CONST = 0, // mov const value to register
     MOV_REG_REG, // move value in register to register
