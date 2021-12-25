@@ -270,7 +270,7 @@ We'll also rename these functions accordingly. We noticed that values returned b
 
 Here is how this will look in C++ 
 
-```
+```cpp
 // other code
 ...
 
@@ -299,3 +299,9 @@ void dispatch(context& ctx){
 ...
 
 ```
+
+This wraps up mov instructions.
+
+Set of another if-elseif-else statements
+
+![](16.png)
