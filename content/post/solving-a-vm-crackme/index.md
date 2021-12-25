@@ -27,7 +27,7 @@ Here are a few resources before we begin :
 
 As I mentioned earlier, I am not good with VM crackmes but when I started following that video (first), just 40 minutes into the video and I'm able to detect the dispatcher function. I highly recommend anyone who really wants to learn. I'll be solving a few VM crackmes to improve my skills. I have basic reversing skills but I have a bad habit of getting stuck in useless functions or parts of code like we did with XVM. Our goal was to solve the crackme and I started to reconstruct the whole code. I won't be doing such things in this one. Although we might go into detail.
 
-At the time of writing I'm only 52 minutes into that [video](https://www.youtube.com/watch?v=b6udPT79itk&t=3278s) and still I was able to solve this challenge. Maybe the challenge is easier but I also feel that the video is effective too. 
+At the time of writing I'm only 52 minutes into that [video](https://www.youtube.com/watch?v=b6udPT79itk&t=3278s) and still I was able to solve this challenge. Maybe the challenge is easier but I also feel that the video is effective too.  This video was recommended by a new friend I made while we participated in hxp CTF. Some of the top Indian CTF teams collaborated to participate in this heavy weight CTF. He also gave me few other resources to work on.
 
 I've already partially solved this crackme and this'll be a detailed explanation on my struggles and all. Recently we participated in xmas ctf and I really felt like an impostor. I have two options : either I fight this and learn all about VMs (well, most of the stuffs) or I can just stay an impostor. I'll walk on the path less travelled by.
 
