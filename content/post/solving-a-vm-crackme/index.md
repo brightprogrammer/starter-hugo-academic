@@ -225,3 +225,11 @@ int main(){
   .
 }
 ```
+
+![](8.png)
+
+In the end it's comparing current instruction with value at some address. Let's what's at that address.
+
+![](9.png)
+
+Why I selected only 16 bytes of data? Check how many similar conditional jumps are there. You'll notice only 16 such jumps are present! And logic implies this must be the total number of instructions and also we got all the opcodes! This is just a tricker to make it hard to reverse, but we are smart XD.
