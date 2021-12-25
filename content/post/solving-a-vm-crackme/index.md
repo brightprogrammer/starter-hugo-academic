@@ -156,3 +156,9 @@ If you take a high level view, this is the basic working condition for the FeDeX
 ![](6.png)
 
 Looks like a2 is indeed an address. We can see that value is being fetched from it at an offeset. This happens when the bytecode for the vm is stored in the program itself in a global variable. Here a fixed address is being passed so let's check what's at that address.
+
+![](7.png)
+
+Size of this array is 16*5 + 5 = 85 bytes which is 0x55 in hex. Remember this is the third argument to dispatcher and also used in loop condition. This means this is our bytecode and a3 is the size of this bytecode. It's completely normal if you didn't get it in first glance (even I didn't get it but I feel experienced individuals will see it instantly!)
+
+This might be a good time to start making our decompiler!
