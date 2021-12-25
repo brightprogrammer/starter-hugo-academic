@@ -1,7 +1,7 @@
 ---
 title: Solving a VM CrackMe
 subtitle: Beginners guide to solving a VM crackme.
-date: 2021-12-24T12:48:01.553Z
+date: 2021-12-25T18:06:24.891Z
 draft: false
 featured: false
 tags:
