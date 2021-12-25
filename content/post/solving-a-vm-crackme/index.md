@@ -18,6 +18,8 @@ image:
   focal_point: Smart
   preview_only: false
 ---
+
+
 I'm always having problems solving a VM obfucscation challenge in any CTF. This time I plan to end this by solving a VM CrackMe. I got this from a team-mate ( [h4x5p4c3](https://twitter.com/h4x5p4c3) ), another helpful team-mate.
 
 Here are a few resources before we begin : 
@@ -257,3 +259,43 @@ Similar you'll see 2 more node sets like this below this one. Let's reverse this
 This one looks like it's moving op2 into *(ctx+op1). This bevaiour looks similar to a mov instruction : `mov <reg> <const>`. Let's check other node.
 
 ![](12.png)
+
+Let's analyze these two functions.
+
+![](13.png "this gets high nibble from a byte")
+
+![](14.png "getting lower 4 bits of given byte")
+
+We'll also rename these functions accordingly. We noticed that values returned by these functions is used as an offset in ctx array. This means that each nibble here represents as a register and this is also a mov instruction. This node is moving value from one register to another. This also means that maximum number of registers are 16 and program counter is separate from those registers. This is a huge coincidence!
+
+Here is how this will look in C++ 
+
+```
+// other code
+...
+
+void dispatch(context& ctx){
+    ctx.program_counter = 0;
+    while(ctx.program_counter < sizeof(bytecode)){
+        uint8_t current_instruction = bytecode + ctx.program_counter;
+
+        if(current_instruction == 0x01){
+            // mov instruction constant to register
+            int32_t r1 = bytecode + ctx.program_counter + 1; // register to place op2 into
+            int32_t op2 = bytecode + ctx.program_counter + 2; // value to be placed
+            context.registers[r1] = op2; // mov
+            context.program_counter += 1;
+        }else{
+            if(current_instruction == 0x02){
+                // move value from one register to another
+                int32_t op1 = bytecode + ctx.program_counter + 1;
+                int32_t r1 = op1 & 0x0f;
+                int32_t r2 = op1 >> 4;
+                context.registers[r2] = context.registers[r1];
+            }
+        }
+
+// other code
+...
+
+```
