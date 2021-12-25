@@ -305,3 +305,40 @@ This wraps up mov instructions.
 Set of another if-elseif-else statements
 
 ![](16.png)
+
+This one decodes to
+
+```cpp
+// other code
+...
+        if(current_instruction == 0x03){
+            // add values in two instructions
+            int32_t op1 = bytecode + ctx.program_counter + 1;
+            int32_t r1 = op1 & 0x0f;
+            int32_t r2 = op1 >> 4;
+            context.registers[r2] += context.registers[r1];
+        }else{
+            if(current_instruction == 0x04){
+                int32_t op1 = bytecode + ctx.program_counter + 1;
+                int32_t r1 = op1 & 0x0f;
+                int32_t r2 = op1 >> 4;
+                context.registers[r2] -= context.registers[r1];
+            }else{
+                if(current_instruction == 0x05){
+                    int32_t op1 = bytecode + ctx.program_counter + 1;
+                    int32_t r1 = op1 & 0x0f;
+                    int32_t r2 = op1 >> 4;
+                    context.registers[r2] *= context.registers[r1];
+                }else{
+                    if(current_instruction == 0x06){
+                        int32_t op1 = bytecode + ctx.program_counter + 1;
+                        int32_t r1 = op1 & 0x0f;
+                        int32_t r2 = op1 >> 4;
+                        context.registers[r2] /= context.registers[r1];
+                    }
+                }
+            }
+        }
+```
+
+I trust you can reverse this part easily. You must spend some time to analyze this if you're doing this for the first time.
