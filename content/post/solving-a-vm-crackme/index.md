@@ -18,8 +18,6 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-
-
 I'm always having problems solving a VM obfucscation challenge in any CTF. This time I plan to end this by solving a VM CrackMe. I got this from a team-mate ( [h4x5p4c3](https://twitter.com/h4x5p4c3) ), another helpful team-mate.
 
 Here are a few resources before we begin : 
@@ -297,7 +295,6 @@ void dispatch(context& ctx){
 
 // other code
 ...
-
 ```
 
 This wraps up mov instructions.
@@ -397,3 +394,54 @@ So, this set decodes to
 This one was for bitwise logical operations.
 
 ![](20.png "This set looks completely different")
+
+Decompilation to that red circle looks like this
+
+```cpp
+ // other code
+ ...
+ 
+        if(current_instruction == 0x0d){
+            if(ctx.registers[15] != 0){
+                ctx.program_counter = op1 - 2;
+            }
+        }else{
+            if(current_instruction == 0x0e){
+                if(ctx.registers[15] != 0){
+                    ctx.program_counter = op1 - 2;
+                }
+            }else{
+                if(current_instruction == 0x0f){
+                    if(ctx.r16 != 0){
+                        ctx.program_counter = op1 - 2;
+                    }
+                }else{
+                    if(current_instruction == 0x10){
+                        if(ctx.r16 != 0){
+                            ctx.program_counter = op1 -2;
+                        }
+                    }else{
+                        if(current_instruction == 0x11){
+                            if(ctx.r17 != 0){
+                                ctx.program_counter = op1 - 2;
+                            }
+                        }else{
+                            if(current_instruction == 0x12){
+                                if(ctx.r17 != 0){
+                                    ctx.program_counter = op2 - 2;
+                                }else{
+                                    if(current_instruction == 0x13){
+                                        // continue
+                                        ...
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+ // other code
+ ...
+```
