@@ -445,3 +445,299 @@ Decompilation to that red circle looks like this
  // other code
  ...
 ```
+
+![](21.png "some new fields are used here")
+
+I'll add some new fields to the context struct in order to understand this. This doesn't mean we understand the meaining of those fields. This part is a bit tricky.
+
+```cpp
+struct context{
+    int32_t registers[16];
+    uint8_t r16, r17;
+    int32_t arr; // ctx + 0x12
+    uint8_t var114;
+    int32_t program_counter = 0;
+};
+```
+
+This is how our context struct looks like now.
+
+```cpp
+        if(current_instruction == 0x0d){
+            if(ctx.registers[15] != 0){
+                ctx.program_counter = op1 - 2;
+            }
+        }else{
+            if(current_instruction == 0x0e){
+                if(ctx.registers[15] != 0){
+                    ctx.program_counter = op1 - 2;
+                }
+            }else{
+                if(current_instruction == 0x0f){
+                    if(ctx.r16 != 0){
+                        ctx.program_counter = op1 - 2;
+                    }
+                }else{
+                    if(current_instruction == 0x10){
+                        if(ctx.r16 != 0){
+                            ctx.program_counter = op1 -2;
+                        }
+                    }else{
+                        if(current_instruction == 0x11){
+                            if(ctx.r17 != 0){
+                                ctx.program_counter = op1 - 2;
+                            }
+                        }else{
+                            if(current_instruction == 0x12){
+                                if(ctx.r17 != 0){
+                                    ctx.program_counter = op2 - 2;
+                                }else{
+                                    if(current_instruction == 0x13){
+                                        ctx.arr[ctx.var114] = ctx.var114;
+                                        ctx.var114++;
+                                    }else{
+                                        if(current_instruction == 0x14){
+                                            ctx.registers[op1] = ctx.arr[ctx.var114];
+                                            ctx.var114--;
+                                        }
+                                    }
+
+
+                                    if(current_instruction == 0x15){
+                                        uint8_t r1 = op1 & 0x0f;
+                                        uint8_t r2 = op2 >> f;
+
+                                        int32_t var15h = ctx.registers[r1];
+                                        int32_t var16h = ctx.registers[r2];
+
+                                        // that loop is equivalent to this
+                                        ctx.registers[15] = 0;
+                                        ctx.r16 = 0;
+                                        ctx.r17 = 0;
+
+                                        if(var15h == var_16h){
+                                            ctx.registers[15] = 1;
+                                        }else{
+                                            if(var15h > var16h){
+                                                ctx.r17 = 1;
+                                            }else{
+                                                ctx.r16 = 1;
+                                            }
+                                        }
+                                    }else{
+                                        if(current_instruction != 0x16){ // early exit in program
+                                            return ctx.registers[op1];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+```
+
+Now, the only thing that remains is to understand all this code and replace them with print statements.
+
+To sync with you, here is the full code listing
+
+```cpp
+#include <iostream>
+#include <cstdint>
+
+// there might be some errors
+// I havent checked the code yet.
+
+uint8_t bytecode[] = {
+    0x14,0x00,0x01,0x0f,0x04,0x15,0x0f,0x0e,0x53,0x14,0x01,
+    0x14,0x02,0x14,0x03,0x14,0x04,0x01,0x08,0x13,0x01,0x09,
+    0x37,0x01,0x0a,0x01,0x01,0x0b,0xf0,0x01,0x0c,0x0f,0x01,
+    0x0d,0x90,0x01,0x07,0xad,0x15,0x27,0x0e,0x2c,0x03,0xea,
+    0x07,0x19,0x01,0x07,0xe9,0x15,0x17,0x0e,0x37,0x03,0xea,
+    0x07,0x48,0x07,0x49,0x01,0x07,0xcb,0x15,0x47,0x0e,0x44,
+    0x03,0xea,0x07,0x3d,0x07,0x3c,0x07,0x39,0x01,0x07,0x16,
+    0x15,0x37,0x0e,0x53,0x03,0xea,0x16,0x0e
+};
+
+struct context{
+    int32_t registers[16];
+    uint8_t r16, r17;
+    int32_t arr; // ctx + 0x12
+    uint8_t var114;
+    int32_t program_counter = 0;
+};
+
+void dispatch(context& ctx){
+    ctx.program_counter = 0;
+    while(ctx.program_counter < sizeof(bytecode)){
+        uint8_t current_instruction = bytecode + ctx.program_counter;
+        int32_t op1 = bytecode[ctx.program_counter + 1];
+
+        if(current_instruction == 0x01){
+            // mov instruction constant to register
+            int32_t r1 = bytecode[ctx.program_counter + 1]; // register to place op2 into
+            int32_t op2 = bytecode[ctx.program_counter + 2]; // value to be placed
+            context.registers[r1] = op2; // movstruction sign-extends a DWORD (3
+            context.program_counter += 1;
+        }else{
+            if(current_instruction == 0x02){
+                // move value from one register to another
+                int32_t r1 = op1 & 0x0f;
+                int32_t r2 = op1 >> 4;
+                context.registers[r1] = context.registers[r2];
+            }
+        }
+
+
+        if(current_instruction == 0x03){
+            // add values in two instructions
+            int32_t r1 = op1 & 0x0f;
+            int32_t r2 = op1 >> 4;
+            context.registers[r2] += context.registers[r1];
+        }else{
+            if(current_instruction == 0x04){
+                int32_t r1 = op1 & 0x0f;
+                int32_t r2 = op1 >> 4;
+                context.registers[r2] = context.registers[r1] - context.registers[r2];
+            }else{
+                if(current_instruction == 0x05){
+                    int32_t r1 = op1 & 0x0f;
+                    int32_t r2 = op1 >> 4;
+                    context.registers[r2] *= context.registers[r1];
+                }else{
+                    if(current_instruction == 0x06){
+                        int32_t r1 = op1 & 0x0f;
+                        int32_t r2 = op1 >> 4;
+                        context.registers[r2] /= context.registers[r2];
+                    }
+                }
+            }
+        }
+
+        if(current_instruction == 0x07){
+            int32_t r1 = op1 & 0x0f;
+            int32_t r2 = op1 >> 4;
+            context.registers[r2] ^= context.registers[r1];
+        }else{
+            if(current_instruction == 0x08){
+                int32_t r1 = op1 & 0x0f;
+                int32_t r2 = op1 >> 4;
+                context.registers[r2] |= context.registers[r1];
+            }else{
+                if(current_instruction == 0x09){
+                    int32_t r1 = op1 & 0x0f;
+                    int32_t r2 = op1 >> 4;
+                    context.registers[r2] &= context.registers[r1];
+                }else{
+                    if(current_instruction == 0x0a){
+                        int32_t r1 = op1 & 0x0f;
+                        int32_t r2 = op1 >> 4;
+                        // mind order of registers here
+                        context.registers[r1] = context.registers[r2] == 0;
+                    }else{
+                        if(current_instruction == 0x0b){
+                            int32_t r1 = op1 & 0x0f;
+                            int32_t r2 = op1 >> 4;
+                            context.registers[r2] = context.registers[r2] < context.registers[r1];
+                        }else{
+                            if(current_instruction == 0x0c){
+                                int32_t r1 = op1 & 0x0f;
+                                int32_t r2 = op1 >> 4;
+                                context.registers[r2] = context.registers[r2] > context.registers[r1];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(current_instruction == 0x0d){
+            if(ctx.registers[15] != 0){
+                ctx.program_counter = op1 - 2;
+            }
+        }else{
+            if(current_instruction == 0x0e){
+                if(ctx.registers[15] != 0){
+                    ctx.program_counter = op1 - 2;
+                }
+            }else{
+                if(current_instruction == 0x0f){
+                    if(ctx.r16 != 0){
+                        ctx.program_counter = op1 - 2;
+                    }
+                }else{
+                    if(current_instruction == 0x10){
+                        if(ctx.r16 != 0){
+                            ctx.program_counter = op1 -2;
+                        }
+                    }else{
+                        if(current_instruction == 0x11){
+                            if(ctx.r17 != 0){
+                                ctx.program_counter = op1 - 2;
+                            }
+                        }else{
+                            if(current_instruction == 0x12){
+                                if(ctx.r17 != 0){
+                                    ctx.program_counter = op2 - 2;
+                                }else{
+                                    if(current_instruction == 0x13){
+                                        ctx.arr[ctx.var114] = ctx.var114;
+                                        ctx.var114++;
+                                    }else{
+                                        if(current_instruction == 0x14){
+                                            ctx.registers[op1] = ctx.arr[ctx.var114];
+                                            ctx.var114--;
+                                        }
+                                    }
+
+
+                                    if(current_instruction == 0x15){
+                                        uint8_t r1 = op1 & 0x0f;
+                                        uint8_t r2 = op2 >> f;
+
+                                        int32_t var15h = ctx.registers[r1];
+                                        int32_t var16h = ctx.registers[r2];
+
+                                        // that loop is equivalent to this
+                                        ctx.registers[15] = 0;
+                                        ctx.r16 = 0;
+                                        ctx.r17 = 0;
+
+                                        if(var15h == var_16h){
+                                            ctx.registers[15] = 1;
+                                        }else{
+                                            if(var15h > var16h){
+                                                ctx.r17 = 1;
+                                            }else{
+                                                ctx.r16 = 1;
+                                            }
+                                        }
+                                    }else{
+                                        if(current_instruction != 0x16){ // early exit in program
+                                            return ctx.registers[op1];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        // increase program counter
+        ctx.program_counter += 2;
+    }
+}
+
+int main(){
+    std::string password;
+    std::cout << "size of bytecode : " << sizeof(bytecode) << std::endl;
+    std::cout << "enter password : " << std::endl;
+    std::cin >> password;
+}
+
+```
