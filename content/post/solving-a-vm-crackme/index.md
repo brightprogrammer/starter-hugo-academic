@@ -679,7 +679,6 @@ void dispatch(context& ctx){
                         }else{
                             if(current_instruction == 0x12){
                                 if(ctx.r17 != 0){
-                                    ctx.program_counter = op2 - 2;
                                 }else{
                                     if(current_instruction == 0x13){
                                         ctx.arr[ctx.var114] = ctx.var114;
@@ -741,3 +740,9 @@ int main(){
 }
 
 ```
+
+I'll end this post here and leave the part after this as a H/W hope this post helped you in understanding how to reverse VM CrackMes. I could have solved it completely but I want you to feel that you actually solved the challenge.
+
+> The best things that capture your imagination are ones you hadn't thought of before and that aren't talked about in the news all the time. 
+>
+> \- Steve Wozniak
