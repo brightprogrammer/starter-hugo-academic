@@ -141,4 +141,18 @@ That function looks like it's creating something  (some data structure), let's c
 
 ![](3.png)
 
-Looks like it's memsetting a huge array (0x118 bytes) to 0. So, we don't get any idea of what it is. But since this is the only constructor and is called in the initialization stage, most probably it's either building a context data structure or something similar to CPU. A context data structure will contain everything important for current execution, eg : handle to bytecode file, bytecode buffer in memory, cpu that'll execute the bytecode. Don't mind that for now as we'll see how it's being used (i.e if it's being used).
+Looks like it's memsetting a huge array (0x118 bytes) to 0. So, we don't get any idea of what it is. But since this is the only constructor and is called in the initialization stage, most probably it's either building a context data structure or something similar to CPU. A context data structure will contain everything important for current execution, eg : handle to bytecode file, bytecode buffer in memory, cpu that'll execute the bytecode. Don't mind that for now as we'll see how it's being used (i.e if it's being used). We'll name that variable as ctx and continue.
+
+Let's check the dispatcher function now.
+
+![](4.png "head block of dispatcher function")
+
+Name the first parameter as ctx, other two variables as arg2, arg3 and keep an eye on how the other two variables are being used from now on.
+
+![](5.png)
+
+If you take a high level view, this is the basic working condition for the FeDeX loop. This means this can be either a normal iterator or a program counter or something similar. Let's keep an eye on that variable too. If this field is being increased again and again in before some conditional jumps then it must be the program counter. Let's confirm that suspicion first. Scroll through the graph and check when and how it's being altered.
+
+![](6.png)
+
+Looks like a2 is indeed an address. We can see that value is being fetched from it at an offeset. This happens when the bytecode for the vm is stored in the program itself in a global variable. Here a fixed address is being passed so let's check what's at that address.
