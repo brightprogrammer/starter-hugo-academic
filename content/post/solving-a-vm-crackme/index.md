@@ -193,3 +193,12 @@ int main(){
     // other code
 }
 ```
+
+Let's also create a context struct which will hold program related information. For now it'll contain 16 registers (idk exact count yet, this might change in future) and a separate program counter. No need to add any extra fields that we won't be using yet. We'll modify this struct as we go. I'll assume that you're comfortable to do this in the language you're using.
+
+```
+struct context{
+    int32_t registers[16];
+    int32_t program_counter = 0;
+};
+```
