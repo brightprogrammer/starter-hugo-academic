@@ -130,3 +130,9 @@ Looks like this one has lots of conditional jumps. Let's analyse this one. Spoil
 ## Analysis
 
 Now we can go to main and look where this function is being called and then analyze what's being passed to this. We'll try to do as less reversing as possible in functions outside this one. I'll name this function to *dispatcher* to increase readability.
+
+![](2.png "call to dispatcher in main")
+
+Clearly this is taking three arguments, first one is some value in `rax`, second value looks like some address, and third one is some number. Let's check the value in rax.
+
+![](1.png)
