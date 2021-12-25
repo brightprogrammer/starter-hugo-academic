@@ -313,25 +313,21 @@ This one decodes to
 ...
         if(current_instruction == 0x03){
             // add values in two instructions
-            int32_t op1 = bytecode + ctx.program_counter + 1;
             int32_t r1 = op1 & 0x0f;
             int32_t r2 = op1 >> 4;
             context.registers[r2] += context.registers[r1];
         }else{
             if(current_instruction == 0x04){
-                int32_t op1 = bytecode + ctx.program_counter + 1;
                 int32_t r1 = op1 & 0x0f;
                 int32_t r2 = op1 >> 4;
                 context.registers[r2] -= context.registers[r1];
             }else{
                 if(current_instruction == 0x05){
-                    int32_t op1 = bytecode + ctx.program_counter + 1;
                     int32_t r1 = op1 & 0x0f;
                     int32_t r2 = op1 >> 4;
                     context.registers[r2] *= context.registers[r1];
                 }else{
                     if(current_instruction == 0x06){
-                        int32_t op1 = bytecode + ctx.program_counter + 1;
                         int32_t r1 = op1 & 0x0f;
                         int32_t r2 = op1 >> 4;
                         context.registers[r2] /= context.registers[r1];
@@ -354,39 +350,34 @@ So, this set decodes to
 ```cpp
 // other code
 ...
-if(current_instruction == 0x07){
-            int32_t op1 = bytecode + ctx.program_counter + 1;
+
+        if(current_instruction == 0x07){
             int32_t r1 = op1 & 0x0f;
             int32_t r2 = op1 >> 4;
             context.registers[r2] ^= context.registers[r1];
         }else{
             if(current_instruction == 0x08){
-                int32_t op1 = bytecode + ctx.program_counter + 1;
                 int32_t r1 = op1 & 0x0f;
                 int32_t r2 = op1 >> 4;
                 context.registers[r2] |= context.registers[r1];
             }else{
                 if(current_instruction == 0x09){
-                    int32_t op1 = bytecode + ctx.program_counter + 1;
                     int32_t r1 = op1 & 0x0f;
                     int32_t r2 = op1 >> 4;
                     context.registers[r2] &= context.registers[r1];
                 }else{
                     if(current_instruction == 0x0a){
-                        int32_t op1 = bytecode + ctx.program_counter + 1;
                         int32_t r1 = op1 & 0x0f;
                         int32_t r2 = op1 >> 4;
                         // mind order of registers here
                         context.registers[r1] = context.registers[r2] == 0;
                     }else{
                         if(current_instruction == 0x0b){
-                            int32_t op1 = bytecode + ctx.program_counter + 1;
                             int32_t r1 = op1 & 0x0f;
                             int32_t r2 = op1 >> 4;
                             context.registers[r2] = context.registers[r2] < context.registers[r1];
                         }else{
                             if(current_instruction == 0x0c){
-                                int32_t op1 = bytecode + ctx.program_counter + 1;
                                 int32_t r1 = op1 & 0x0f;
                                 int32_t r2 = op1 >> 4;
                                 context.registers[r2] = context.registers[r2] > context.registers[r1];
@@ -396,9 +387,13 @@ if(current_instruction == 0x07){
                 }
             }
         }
+
+
         
 // other code
 ...
 ```
 
 This one was for bitwise logical operations.
+
+![](20.png "This set looks completely different")
