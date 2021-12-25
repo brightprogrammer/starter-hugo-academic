@@ -341,4 +341,64 @@ This one decodes to
         }
 ```
 
-I trust you can reverse this part easily. You must spend some time to analyze this if you're doing this for the first time.
+I trust you can reverse this part easily. You must spend some time to analyze this if you're doing this for the first time. This set was for arithmetic operations. Let's jump to next set.
+
+I feel like I need to explain this if you're new to reversing.
+
+![](17.png)
+
+This will check if first register is 0 or not, if it's 0 then it'll set second register to 1, otherwise 0.
+
+So, this set decodes to
+
+```cpp
+// other code
+...
+if(current_instruction == 0x07){
+            int32_t op1 = bytecode + ctx.program_counter + 1;
+            int32_t r1 = op1 & 0x0f;
+            int32_t r2 = op1 >> 4;
+            context.registers[r2] ^= context.registers[r1];
+        }else{
+            if(current_instruction == 0x08){
+                int32_t op1 = bytecode + ctx.program_counter + 1;
+                int32_t r1 = op1 & 0x0f;
+                int32_t r2 = op1 >> 4;
+                context.registers[r2] |= context.registers[r1];
+            }else{
+                if(current_instruction == 0x09){
+                    int32_t op1 = bytecode + ctx.program_counter + 1;
+                    int32_t r1 = op1 & 0x0f;
+                    int32_t r2 = op1 >> 4;
+                    context.registers[r2] &= context.registers[r1];
+                }else{
+                    if(current_instruction == 0x0a){
+                        int32_t op1 = bytecode + ctx.program_counter + 1;
+                        int32_t r1 = op1 & 0x0f;
+                        int32_t r2 = op1 >> 4;
+                        // mind order of registers here
+                        context.registers[r1] = context.registers[r2] == 0;
+                    }else{
+                        if(current_instruction == 0x0b){
+                            int32_t op1 = bytecode + ctx.program_counter + 1;
+                            int32_t r1 = op1 & 0x0f;
+                            int32_t r2 = op1 >> 4;
+                            context.registers[r2] = context.registers[r2] < context.registers[r1];
+                        }else{
+                            if(current_instruction == 0x0c){
+                                int32_t op1 = bytecode + ctx.program_counter + 1;
+                                int32_t r1 = op1 & 0x0f;
+                                int32_t r2 = op1 >> 4;
+                                context.registers[r2] = context.registers[r2] > context.registers[r1];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+// other code
+...
+```
+
+This one was for bitwise logical operations.
