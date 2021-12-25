@@ -137,8 +137,8 @@ Clearly this is taking three arguments, first one is some value in `rax`, second
 
 ![](1.png)
 
-That function looks like it's creating something, let's check it out XD.
+That function looks like it's creating something  (some data structure), let's check it out XD.
 
 ![](3.png)
 
-Looks like it's memsetting a huge array (0x118 bytes) to 0. So, we don't get any idea of what it is. But since this is the only constructor and is called in the initialization stage, most
+Looks like it's memsetting a huge array (0x118 bytes) to 0. So, we don't get any idea of what it is. But since this is the only constructor and is called in the initialization stage, most probably it's either building a context data structure or something similar to CPU. A context data structure will contain everything important for current execution, eg : handle to bytecode file, bytecode buffer in memory, cpu that'll execute the bytecode. Don't mind that for now as we'll see how it's being used (i.e if it's being used).
