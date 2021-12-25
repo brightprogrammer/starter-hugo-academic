@@ -136,3 +136,9 @@ Now we can go to main and look where this function is being called and then anal
 Clearly this is taking three arguments, first one is some value in `rax`, second value looks like some address, and third one is some number. Let's check the value in rax.
 
 ![](1.png)
+
+That function looks like it's creating something, let's check it out XD.
+
+![](3.png)
+
+Looks like it's memsetting a huge array (0x118 bytes) to 0. So, we don't get any idea of what it is. But since this is the only constructor and is called in the initialization stage, most
