@@ -233,3 +233,27 @@ In the end it's comparing current instruction with value at some address. Let's 
 ![](9.png)
 
 Why I selected only 16 bytes of data? Check how many similar conditional jumps are there. You'll notice only 16 such jumps are present! And logic implies this must be the total number of instructions and also we got all the opcodes! This is just a trickery to make it hard to reverse, but we are smart XD.
+
+![](10.png)
+
+This type of graph occurs with a code flow like this
+
+```
+if(condition1){
+    ...
+}else{
+    if(condition2){ 
+        ...
+    }
+}
+
+// all edges join to end node here
+```
+
+Similar you'll see 2 more node sets like this below this one. Let's reverse this set first.
+
+![](11.png)
+
+This one looks like it's moving op2 into *(ctx+op1). This bevaiour looks similar to a mov instruction : `mov <reg> <const>`. Let's check other node.
+
+![](12.png)
