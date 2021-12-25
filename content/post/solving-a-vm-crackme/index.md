@@ -196,9 +196,32 @@ int main(){
 
 Let's also create a context struct which will hold program related information. For now it'll contain 16 registers (idk exact count yet, this might change in future) and a separate program counter. No need to add any extra fields that we won't be using yet. We'll modify this struct as we go. I'll assume that you're comfortable to do this in the language you're using.
 
-```
+```cpp
 struct context{
     int32_t registers[16];
     int32_t program_counter = 0;
 };
+```
+
+Now that we know the usage of all the arguments, we shoud start following each node one by one. First let's also create a dispatcher function and create that loop that we found near the first node of dispatcher function.
+
+```
+uint8_t bytecode = {
+  .
+  .
+  .
+}
+
+void dispatch(context& ctx){
+    ctx.program_counter = 0;
+    while(ctx.program_counter < sizeof(bytecode)){
+        // dispatchers
+    }
+}
+
+int main(){
+  .
+  .
+  .
+}
 ```
