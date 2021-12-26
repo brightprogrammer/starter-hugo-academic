@@ -738,10 +738,9 @@ int main(){
     std::cout << "enter password : " << std::endl;
     std::cin >> password;
 }
-
 ```
 
-I'll end this post here and leave the part after this as a H/W and I hope this post helped you in understanding how to reverse VM CrackMes. I could have solved it completely but I want you to feel that you actually solved the challenge.
+I'll end this post here and leave the part after this as a H/W and I hope this post helped you in understanding how to reverse VM CrackMes. I could have solved it completely but I want you to feel that you actually solved the challenge. Your next steps must be to check how the input is being used and when will the program print success. Once you cover those two and generate the disassembly, you can solve this crackme in one fell swoop.
 
 > The best things that capture your imagination are ones you hadn't thought of before and that aren't talked about in the news all the time. 
 >
