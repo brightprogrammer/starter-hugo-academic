@@ -198,8 +198,8 @@ Let's also create a context struct which will hold program related information. 
 
 ```cpp
 struct context{
-    int32_t registers[16];
-    int32_t program_counter = 0;
+    uint8_t registers[16];
+    uint32_t program_counter = 0;
 };
 ```
 
@@ -452,10 +452,11 @@ I'll add some new fields to the context struct in order to understand this. This
 
 ```cpp
 struct context{
-    int32_t registers[16];
+    uint8_t registers[16];
     uint8_t r16, r17;
-    int32_t arr; // ctx + 0x12
-    uint8_t var114;
+    int8_t arr[0x100]; // ctx + 0x12
+    unsigned short dummy; // because there is a 2 byte gap
+    uint32_t var114;
     int32_t program_counter = 0;
 };
 ```
