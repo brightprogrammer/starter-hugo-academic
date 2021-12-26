@@ -571,21 +571,21 @@ struct context{
 void dispatch(context& ctx){
     ctx.program_counter = 0;
     while(ctx.program_counter < sizeof(bytecode)){
-        uint8_t current_instruction = bytecode + ctx.program_counter;
+        uint8_t current_instruction = bytecode[ctx.program_counter];
         int32_t op1 = bytecode[ctx.program_counter + 1];
 
         if(current_instruction == 0x01){
             // mov instruction constant to register
             int32_t r1 = bytecode[ctx.program_counter + 1]; // register to place op2 into
             int32_t op2 = bytecode[ctx.program_counter + 2]; // value to be placed
-            context.registers[r1] = op2; // movstruction sign-extends a DWORD (3
-            context.program_counter += 1;
+            ctx.registers[r1] = op2; // movstruction sign-extends a DWORD (3
+            ctx.program_counter += 1;
         }else{
             if(current_instruction == 0x02){
                 // move value from one register to another
                 int32_t r1 = op1 & 0x0f;
                 int32_t r2 = op1 >> 4;
-                context.registers[r1] = context.registers[r2];
+                ctx.registers[r1] = ctx.registers[r2];
             }
         }
 
@@ -599,17 +599,17 @@ void dispatch(context& ctx){
             if(current_instruction == 0x04){
                 int32_t r1 = op1 & 0x0f;
                 int32_t r2 = op1 >> 4;
-                context.registers[r2] = context.registers[r1] - context.registers[r2];
+                ctx.registers[r2] -= context.registers[r1];
             }else{
                 if(current_instruction == 0x05){
                     int32_t r1 = op1 & 0x0f;
                     int32_t r2 = op1 >> 4;
-                    context.registers[r2] *= context.registers[r1];
+                    ctx.registers[r2] *= ctx.registers[r1];
                 }else{
                     if(current_instruction == 0x06){
                         int32_t r1 = op1 & 0x0f;
                         int32_t r2 = op1 >> 4;
-                        context.registers[r2] /= context.registers[r2];
+                        ctx.registers[r2] /= ctx.registers[r1];
                     }
                 }
             }
@@ -618,33 +618,33 @@ void dispatch(context& ctx){
         if(current_instruction == 0x07){
             int32_t r1 = op1 & 0x0f;
             int32_t r2 = op1 >> 4;
-            context.registers[r2] ^= context.registers[r1];
+            ctx.registers[r2] ^= ctx.registers[r1];
         }else{
             if(current_instruction == 0x08){
                 int32_t r1 = op1 & 0x0f;
                 int32_t r2 = op1 >> 4;
-                context.registers[r2] |= context.registers[r1];
+                ctx.registers[r2] |= ctx.registers[r1];
             }else{
                 if(current_instruction == 0x09){
                     int32_t r1 = op1 & 0x0f;
                     int32_t r2 = op1 >> 4;
-                    context.registers[r2] &= context.registers[r1];
+                    ctx.registers[r2] &= ctx.registers[r1];
                 }else{
                     if(current_instruction == 0x0a){
                         int32_t r1 = op1 & 0x0f;
                         int32_t r2 = op1 >> 4;
                         // mind order of registers here
-                        context.registers[r1] = context.registers[r2] == 0;
+                        ctx.registers[r1] = ctx.registers[r2] == 0;
                     }else{
                         if(current_instruction == 0x0b){
                             int32_t r1 = op1 & 0x0f;
                             int32_t r2 = op1 >> 4;
-                            context.registers[r2] = context.registers[r2] < context.registers[r1];
+                            ctx.registers[r2] = ctx.registers[r2] < context.registers[r1];
                         }else{
                             if(current_instruction == 0x0c){
                                 int32_t r1 = op1 & 0x0f;
                                 int32_t r2 = op1 >> 4;
-                                context.registers[r2] = context.registers[r2] > context.registers[r1];
+                                ctx.registers[r2] = ctx.registers[r2] > context.registers[r1];
                             }
                         }
                     }
