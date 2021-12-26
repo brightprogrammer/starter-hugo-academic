@@ -377,7 +377,7 @@ So, this set decodes to
                             if(current_instruction == 0x0c){
                                 int32_t r1 = op1 & 0x0f;
                                 int32_t r2 = op1 >> 4;
-                                context.registers[r2] = context.registers[r2] > context.registers[r1];
+                                context.registers[r2] = context.registers[r2] >> context.registers[r1];
                             }
                         }
                     }
@@ -644,7 +644,7 @@ void dispatch(context& ctx){
                             if(current_instruction == 0x0c){
                                 int32_t r1 = op1 & 0x0f;
                                 int32_t r2 = op1 >> 4;
-                                ctx.registers[r2] = ctx.registers[r2] > context.registers[r1];
+                                ctx.registers[r2] = ctx.registers[r2] >> context.registers[r1];
                             }
                         }
                     }
