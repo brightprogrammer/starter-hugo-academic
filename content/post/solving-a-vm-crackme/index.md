@@ -564,7 +564,7 @@ uint8_t bytecode[] = {
 struct context{
     int8_t registers[16];
     uint8_t r16, r17;
-    int8_t arr; // ctx + 0x12
+    int8_t arr[0x100]; // ctx + 0x12
     uint8_t var114;
     int32_t program_counter = 0;
 };
