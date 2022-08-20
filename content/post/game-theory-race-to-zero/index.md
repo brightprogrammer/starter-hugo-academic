@@ -9,11 +9,11 @@ image:
   focal_point: Smart
   preview_only: false
 ---
-So, recently I conducted a small socail experiment based on something I read in a Game Theory [book](https://www.amazon.in/Game-Theory-Critical-Concepts-Sciences/dp/0415222400/ref=sr_1_1?crid=2DQJH8C3AMFK7&keywords=game+theory+critical+concepts&qid=1660931489&sprefix=game+theory+critical+concep%2Caps%2C304&sr=8-1) that I recently issued from library. Damn college libraries are awesome! especially the maths sections and biology ones! This blog post is about the experiment I conducted. Thanks to all my classmates who participated in this experiment.
+So, recently I conducted a small social experiment based on something I read in a Game Theory [book](https://www.amazon.in/Game-Theory-Critical-Concepts-Sciences/dp/0415222400/ref=sr_1_1?crid=2DQJH8C3AMFK7&keywords=game+theory+critical+concepts&qid=1660931489&sprefix=game+theory+critical+concep%2Caps%2C304&sr=8-1) that I recently issued from library. Damn college libraries are awesome! especially the maths sections and biology ones! This blog post is about the experiment I conducted. Thanks to all my classmates who participated in this experiment.
 
 ## What Is Game Theory?
 
-Ever fell into a situation where the decision you take depends on what decision others take? Well, yes, you are in that situation uncountable times in a day! Game Theory is the maths behind these situations. In Game Theory we study what optimal decision must players participating in a game take in order to maximize their chances of winning. More precisely how the book states it :
+Ever fell into a situation where the decision you take depends on what decision others take? Well, yes, you are in that situation uncountable times in a day! Game Theory is the maths behind these situations. In Game Theory we study what optimal decision must players participating in a game take, in order to maximize their chances of winning. More precisely how the book states it :
 
 > The study of how rational people behave under such circumstances is the subject of *game theory*
 
@@ -69,3 +69,5 @@ As we can see, Nash also came to same conclusion as Cournot. They both predicted
 This approach not only solved this Race-to-Ten problem, but also solved Cournot's problem as Nash was able to show out of all the decisions the two firms can make, there is only one decision that would not falsify the beliefs that led to this decision! The only reason we were stuck in the Gordian knot was because one belief led to another that required the previous one to be modifed again.
 
 To be honest, I'm new to game theory and some of the statements I wrote today sometimes go over my head to and I have to re-read them multiple times and recally how I understood it last time. It is quite complex (atleast at this point) but I know that it will open a new dimension of thinking for me.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">New post, after a long time. This one is on mathematics, game theory. Hope you guys like the practicality of this post!! 😋<a href="https://t.co/rhsUW5TnJd">https://t.co/rhsUW5TnJd</a></p>&mdash; Siddharth Mishra (@brightprogramer) <a href="https://twitter.com/brightprogramer/status/1560728347302170624?ref_src=twsrc%5Etfw">August 19, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
