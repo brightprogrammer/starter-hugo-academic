@@ -1,6 +1,7 @@
 ---
-title: Reverse Engineering Rustlang Binaries - 0x1 - Empty Program
-subtitle: ""
+title: Reverse Engineering Rustlang Binaries - A Series
+subtitle: This is a series of notes of my take on understanding how to reverse
+  rustlang binaries.
 date: 2022-12-11T17:51:03.124Z
 draft: false
 featured: false
@@ -11,6 +12,10 @@ image:
 ---
 ![](michael-d-rnkqwvo80y4-unsplash.jpg)
 
-I've been struggling with reverse engineering rustlang binaries for a while in CTF challenges. So I'm starting a reverse engineering series where I reverse engineer several rustlang binariesa and try to understand how they actually works.
+I've been struggling with reverse engineering rustlang binaries for a while in CTF challenges. So I'm starting a reverse engineering series where I reverse engineer several rustlang binariesa and try to understand how they actually work.
 
-Y﻿ou can find my notes [here](https://drive.google.com/file/d/19fdIMiFIpVDdJN4DrG7K_PTP1Wj0poUO/view?usp=share_link).
+1. [P﻿art One](https://drive.google.com/file/d/19fdIMiFIpVDdJN4DrG7K_PTP1Wj0poUO/view?usp=share_link) : I tried to understand the basic structure of an empty rustlang binary. This helped me understand some ground rules while reversing a rustlang binary.
+2. [P﻿art Two](https://drive.google.com/file/d/1DdlAhtMK45-0rxdN74ycwc09AEX02meg/view?usp=share_link) : I tried to reverse a basic Hello, World! program. I'm taking slight midifications at a time!
+
+\
+I﻿f you find this research work useful in your work, please consider giving attribution or something like that. Also, if you think that you can give some hints to improve this work, please consider contact me through email **misra.cxx@gmail.com**
