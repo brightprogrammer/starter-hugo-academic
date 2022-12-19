@@ -24,7 +24,7 @@ social:
     icon_pack: far
     link: https://infosec.exchange/@brightprogrammer
     label: ""
-    icon: <i class="fa fa-mastodon" aria-hidden="true"></i>
+    icon: mastodon
 organizations:
   - name: BIT Mesra
     url: https://bitmesra.ac.in/
