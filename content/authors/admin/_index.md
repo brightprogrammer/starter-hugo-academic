@@ -2,12 +2,11 @@
 title: Siddharth Mishra
 role: Computer Science Enthusiast
 avatar_filename: avatar.png
-bio: My interests include CyberSecurity, Machine Learning and Computer Graphics
+bio: Building and breaking into systems to learn them inside out!
 interests:
-  - Cyber Security
+  - Reverse Engineering
+  - Pwning
   - Computer Graphics Programing
-  - Machine Learning
-  - Computer Vision
 social:
   - icon: github
     icon_pack: fab
@@ -35,7 +34,7 @@ email: misra.cxx@gmail.com
 superuser: true
 highlight_name: true
 ---
-I'm a student of **Integrated Masters Of Science, Mathematics** **& Computing** at [BIT Mesra](https://bitmesra.ac.in/). I'm currently in the pursuit of gaining knowledge in fields I'm interested in, like Machine Learning, Reverse Engineering, Malware Analysis, Operating System Development, Compiler Design, Game Development, Game Engine Development, GUI Programming, Computer Vision and similar low level areas in Computer Science.
+I'm a student of **Integrated Masters Of Science, Mathematics** **& Computing** at [BIT Mesra](https://bitmesra.ac.in/). I will be the best reverse engineer in the whole world one day and all the days after that till time will exist! The best hacker you will ever see or have seen!
 
 I like to work in constrained environments with as low resources as possible, because, necessity is the mother of invention. This is one of the major reasons I started to develop intersets in doing things the old way, the hard way but the fast way!
 
