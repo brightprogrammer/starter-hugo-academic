@@ -19,6 +19,12 @@ social:
     link: https://youtube.com/channel/UCaa5_xy0usCnHXNketyHlmQ
     icon_pack: fab
     icon: youtube
+  - display:
+      header: false
+    icon_pack: far
+    link: https://infosec.exchange/@brightprogrammer
+    label: ""
+    icon: <i class="fa fa-mastodon" aria-hidden="true"></i>
 organizations:
   - name: BIT Mesra
     url: https://bitmesra.ac.in/
