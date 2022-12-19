@@ -16,7 +16,7 @@ social:
     link: https://twitter.com/brightprogramer
   - display:
       header: false
-    link: https://youtube.com/channel/UCaa5_xy0usCnHXNketyHlmQ
+    link: https://youtube.com/@brightprogrammer
     icon_pack: fab
     icon: youtube
   - display:
