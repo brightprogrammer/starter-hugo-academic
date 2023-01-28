@@ -4,6 +4,13 @@ subtitle: A challenge from crackmes[.]one
 date: 2023-01-28T05:48:16.873Z
 draft: false
 featured: false
+tags:
+  - reverse-engineering
+  - crackme
+  - protection
+categories:
+  - reverse-engineering
+  - crackme
 image:
   filename: featured
   focal_point: Smart
