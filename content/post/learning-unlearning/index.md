@@ -19,9 +19,9 @@ O﻿ne day, a Student came to his Master asked:
 
 **S﻿tudent** : I really want to know. You haven't answered me yet. I can arrange everything for you here if you want.
 
-**M﻿aster** : The master stayed silent for a while, then sighed and started talking.  
+*(﻿The master stayed silent for a while, then sighed and started talking.)*
 
-You see, you are not the only one learning here! Today we will learn something about the process of learning. I climb up this hill everyday and I was doing this before you joined me for a long long time! Long even before you were born. Now since I'm learning with you, I have to pay attention to my learnings too and I can't put all my focus on teaching you. Now, I have been doing this for a long time now so I can answer some of your questions and your curiosity but I can never answer all of them.
+**M﻿aster** : You see, you are not the only one learning here! Today we will learn something about the process of learning. I climb up this hill everyday and I was doing this before you joined me for a long long time! Long even before you were born. Now since I'm learning with you, I have to pay attention to my learnings too and I can't put all my focus on teaching you. Now, I have been doing this for a long time now so I can answer some of your questions and your curiosity but I can never answer all of them.
 
 C﻿uriosity is like infinite stream of water flowing through a small hole. You want more water to flow, you have to make the hole larger. The only way to make this hole larger is by trying to pass your finger out of the hope. Imaging this act as you trying to grab the question from the back of this very little hole. The more and more you do this, more this hole enlargens and more easily you can ask questions but what happens when this hole becomes large?
 
