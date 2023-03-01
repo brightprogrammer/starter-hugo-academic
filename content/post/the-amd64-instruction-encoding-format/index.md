@@ -143,3 +143,11 @@ T﻿his prefix is used to change the address size when accessing an address. For
 T﻿his is used to override default segment being used when getting values from a memory address. For example, you can use address size override prefix to change from ds to cs segment, like `mov word ptr ds:[rdi*4 + base]` to `mov word ptr cs:[rdi*4+base]`.
 
 ![Table 1-5 (AMD Vol3 Page11)](screenshot-from-2023-03-02-00-26-45.png "Table showing different segment override prefixes (AMD Vol3 Page11)")
+
+S﻿imilarly you can take reference for `LOCK` and `REP`, `REPE/REPZ` and `REPNE/REPNZ` prefixes from the manual.
+
+## T﻿he Instruction Decoding Algorithm
+
+T﻿his writeup is no replacement for the 3000+ pages architecture manual given by the CPU vendor themselves to you. Ending this post with an awesome diagram from the manual itself to help you understand step wise how to decode the `AMD64` instruction.
+
+![Figure 1-1 (AMD Vol3 Page2)](screenshot-from-2023-03-02-00-34-12.png "Control flow diagram of a simple algorithm to decode instructions (AMD Vol3 Page2)")
