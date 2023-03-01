@@ -11,6 +11,8 @@ image:
 ---
 For past few days I've been working on a personal program/binary analysis tool which I'm calling **Katana**. I've made a simple Elf file loader for now but for it to have more utilities while working, and for me to learn something more, I've started working on my own disassembler for Katana. For now I want to support only `AMD64` and `x86` Instruction formats but in future I want to add support for `ARM`, `MIPS`, `RISCV` etc... I've also been doing live streams but the progress is really really slow! I have no guidance and I'm just reading the manuals and working on my own which is quite difficult. But! I won't complain and I think I've found a solution for this! and the solution is to write a blog on the instruction encoding format so that this will act like notes for me.
 
+P﻿lease consider this post as a primer before digging into the manual yourself, and this post is in no way a replacement for the detailed manual that you have!
+
 ## A﻿rchitecture Programmer Manual
 
 T﻿his manual describes all the workings on an AMD64 CPU, like it's an interface. Whatever's in the manual must be (assumed) to be true because it is provided by the CPU vendor! T﻿here are two versions of AMD64 architecture programmer manual. One is given by Intel and other my AMD itself. I personally find AMD much easier to read because it has less content, better diagrams and it's precise. Other's might find Intel to be more precise and complete. Here are the two versions :
@@ -151,3 +153,5 @@ S﻿imilarly you can take reference for `LOCK` and `REP`, `REPE/REPZ` and `REPNE
 T﻿his writeup is no replacement for the 3000+ pages architecture manual given by the CPU vendor themselves to you. Ending this post with an awesome diagram from the manual itself to help you understand step wise how to decode the `AMD64` instruction.
 
 ![Figure 1-1 (AMD Vol3 Page2)](screenshot-from-2023-03-02-00-34-12.png "Control flow diagram of a simple algorithm to decode instructions (AMD Vol3 Page2)")
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">As promised, I did a writeup for introducing you to the AMD64 Instruction Encoding format<a href="https://t.co/KVOBKG5KLb">https://t.co/KVOBKG5KLb</a></p>&mdash; Siddharth Mishra (@brightprogramer) <a href="https://twitter.com/brightprogramer/status/1631008375898099713?ref_src=twsrc%5Etfw">March 1, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
