@@ -27,8 +27,8 @@ A﻿ prefix is a byte that comes at the very beginning of instruction. All prefi
 T﻿here are three types of prefixes :
 
 1. **L﻿egacy Prefixes** : These prefixes were present in older architectures also (before `AMD64`). There can be maximum of four legacy prefix bytes in an instruction. There are five different types of legacy prefixes.
-2. **R﻿EX Prefix** : This is a single byte prefix and there can be maximum one REX prefix in an instruction. REX prefixes are used to extend the register/memory size in an instruction. This was introduced in `AMD64` architecture because the size of `GPRs` (General Purpose Registers) and `EFLAGs` were increased from 32 bits to 64 bits. Value of REX prefix ranges from 0x40 to 0x4f. So to detect whether this prefix is a REX prefix or not, we can check whether upper nibble is 0x4 or not. The lower nibble specifies some other things that we will see later.
-3. **V﻿EX/XOP Prefix** : These are again single byte prefixes used to give access to different set of registers. Registers like `XMM0`, `XMM1`, ...., `XMM15`, `YMM0`, `YMM1`, ..., `YMM15`, `MMX0`, `MMX1`, ..., `MMX15` and `ZMM0`, `ZMM1`, ..., `ZMM15`. This means a different class of instructions too (Vectorized).
+2. **R﻿EX Prefix** : This is a single byte prefix and there can be maximum one REX prefix in an instruction. REX prefixes are used to extend the register/memory size in an instruction. This was introduced in `AMD64` architecture because the size of `GPRs` (General Purpose Registers) and `EFLAGs` were increased from 32 bits to 64 bits. Value of REX prefix ranges from 0x40 to 0x4f. So to detect whether this prefix is a REX prefix or not, we can check whether upper nibble is 0x4 or not. The lower nibble specifies some other things that we will see later but for now, know that REX prefix helps you access `rXX` registers (`rax`, `rbx`, ..., `r8`, `r9`, ...).
+3. **V﻿EX/XOP Prefix** : 
 
 I﻿ will explain legacy prefixes in more detail later, for now let's just skim through each name so that you have the names in mind and have an abstract idea of what they do.
 
@@ -50,6 +50,8 @@ T﻿he ModRM byte has three fields.
 
 ![(AMD Vol3 Page17)](screenshot-from-2023-03-01-19-02-58.png "Diagram of the ModRM byte (AMD Vol3 Page17)")
 
+### The `M﻿odRM.mod` Field
+
 T﻿he `ModRM.mod` field is short for form Mode or to be more precise, it stands for different **Register Addressing Modes**. A register addressing mode, tells us whether the operands stay in the register or in a memory. Any instruction that takes operands, needs it's operands to exist somewhere! This can be in either registers (meaning all operands are registers) or atleast one of the operand is a memory operand. We know that there can't be instructions where all operands (both in case of instructions that take two operands) are memory operands. This means there are two types of addressing modes : 
 
 * **R﻿egister Direct Addressing Mode** (`ModRM.mod = 11b`) :  All operands are in registers.
@@ -69,6 +71,16 @@ E﻿xamples of instructions in register-indirect addressing mode :
 * `a﻿dd dword ptr ds:[eax], ebx`
 * `mov byte ptr ds:[eax*4 + 0xcafebabe], ch`
 * `m﻿ov qword ptr[rbp-0x08], 0`
+
+When using indirect addressing mode, we will optionally need a displacement value and optionally an **SIB (Scale Index Base)** byte. The task of SIB byte is to help us iterate over array like memory regions, given a base value in displacement field, an index register where the index of entry in the array will be stored and a scale value that can be 1, 2, 4 or 8. More on SIB byte later.
+
+### T﻿he `ModRM.r` Field
+
+T﻿his specifies the register being used in the instruction. Three bits means total of 8 different values. Remind me, how many GPRs are there in x86 instruction set? (`eax`, `ebx`, `ecx`, `edx`, `esi`, `edi`, `esp`, `ebp`). Total 8 right? How do we access the extended `rXX` counterparts of these registers in `AMD64` architecture? Take your time and recall what you've learned up until now in this post. The answer is by using `REX` prefix. There's a specific bit (`REX.R`) in the lower nibble of `REX` prefix that is used in combination to this `ModRM.r` field to allow it 16 different values. If this bit is 0, then you will access normal extended version of these registers, however if this bit is 1, then you'll get access to extended registers. More on this later as there is more to it.
+
+### T﻿he `ModRM.rm` Field
+
+T﻿his specifies the register/memory operand based on the register addressing mode we talked about. If the mode is register direct addressing mode then this will refer to a register, else a memory operand. The rest of the working is pretty much same as ModRM.r field except a few places that we will discuss later.
 
 ### T﻿he Legacy Prefixes
 
