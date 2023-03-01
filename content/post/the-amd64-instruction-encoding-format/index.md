@@ -134,7 +134,20 @@ N﻿ote that here `ModRM.rm` is fixed to `100b` so all index is done by `SIB` by
 
 ![Table 1-13 (AMD Vol3 Page20)](screenshot-from-2023-03-02-00-57-59.png "SIB.base encodings for ModRM.r/m = 100b (AMD Vol3 Page20)")
 
+![Table 1-14 (AMD Vol3 Page21)](screenshot-from-2023-03-02-01-10-02.png "Operand Addressing Using ModRM and SIB Bytes (AMD Vol3 Page21)")
 
+A﻿s examples
+
+* `03 84 c1 00 00 00 00` decodes to `add eax, dword ptr ds:[rcx+rax*8]` in 64 bit mode. This is because for `84`, we have `ModRM.mod = 10b` and `ModRM.r = 00b` and `ModRM.rm = 100b` and then since `ModRM.rm` is `100b`, we have an `SIB` byte `c1` which after you decode, you'll get `SIB.scale = 11b`, `SIB.index = 000b` and `SIB.base = 001b`. Refer to the above tables and try to decode this!
+* `03 84 c2 00 00 00 00`  decodes to `add eax, dword ptr ds:[rdx+rax*8]`
+* `03 84 c3 00 00 00 00` decodes to `add eax, dword ptr ds:[rbx+rax*8]`
+* `03 84 c3 00 00 00 01` decodes to \
+  `add eax, dword ptr ds:[rbx+rax*8+0x1000000]`
+* `48 03 84 c3 00 00 00 01` decodes to `add rax, qword ptr ds:[rbx+rax*8+0x1000000]`
+* `4c 03 84 c3 00 00 00 01` decodes to `add r8, qword ptr ds:[rbx+rax*8+0x1000000]`
+* `4c 03 84 e3 00 00 00 01` decodes to \
+  `add r8, qword ptr ds:[rbx+0x1000000]`
+* `4c 03 84 d3 00 00 00 01` decodes to `add r8, qword ptr ds:[rbx+rdx*8+0x1000000]`
 
 ## T﻿he Legacy Prefixes In Combination With REX and ModRM
 
