@@ -27,8 +27,10 @@ A﻿ prefix is a byte that comes at the very beginning of instruction. All prefi
 T﻿here are three types of prefixes :
 
 1. **L﻿egacy Prefixes** : These prefixes were present in older architectures also (before `AMD64`). There can be maximum of four legacy prefix bytes in an instruction. There are five different types of legacy prefixes.
-2. **R﻿EX Prefix** : This is a single byte prefix and there can be maximum one REX prefix in an instruction. REX prefixes are used to extend the register/memory size in an instruction. This was introduced in `AMD64` architecture because the size of `GPRs` (General Purpose Registers) and `EFLAGs` were increased from 32 bits to 64 bits. Value of REX prefix ranges from 0x40 to 0x4f. So to detect whether this prefix is a REX prefix or not, we can check whether upper nibble is 0x4 or not. The lower nibble specifies some other things that we will see later but for now, know that REX prefix helps you access `rXX` registers (`rax`, `rbx`, ..., `r8`, `r9`, ...).
-3. **V﻿EX/XOP Prefix** : 
+2. **R﻿EX Prefix** : This is a single byte prefix and there can be maximum one REX prefix in an instruction. They allow access to R-Extended and new registers added to AMD64 architecture. Value of REX prefix ranges from 0x40 to 0x4f. So to detect whether this prefix is a REX prefix or not, we can check whether upper nibble is 0x4 or not.
+
+   ![Fig 1-3 (AMD Vol3 Page15)](screenshot-from-2023-03-01-23-21-21.png "Layout of REX prefix byte (AMD Vol3 Page15)")
+3. **V﻿EX/XOP Prefix** : I'll cover this in a later part maybe, ignore this for now. 
 
 I﻿ will explain legacy prefixes in more detail later, for now let's just skim through each name so that you have the names in mind and have an abstract idea of what they do.
 
@@ -76,14 +78,24 @@ When using indirect addressing mode, we will optionally need a displacement valu
 
 ### T﻿he `ModRM.r` Field
 
-T﻿his specifies the register being used in the instruction. Three bits means total of 8 different values. Remind me, how many GPRs are there in x86 instruction set? (`eax`, `ebx`, `ecx`, `edx`, `esi`, `edi`, `esp`, `ebp`). Total 8 right? How do we access the extended `rXX` counterparts of these registers in `AMD64` architecture? Take your time and recall what you've learned up until now in this post. The answer is by using `REX` prefix. There's a specific bit (`REX.R`) in the lower nibble of `REX` prefix that is used in combination to this `ModRM.r` field to allow it 16 different values. If this bit is 0, then you will access normal extended version of these registers, however if this bit is 1, then you'll get access to extended registers. More on this later as there is more to it.
+T﻿his specifies the register being used in the instruction. Three bits means total of 8 different values. Remind me, how many GPRs are there in x86 instruction set? (`eax`, `ebx`, `ecx`, `edx`, `esi`, `edi`, `esp`, `ebp`). Total 8 right? How do we access the extended `rXX` counterparts of these registers in `AMD64` architecture? Take your time and recall what you've learned up until now in this post. The answer is by using `REX` prefix. There's a specific bit (`REX.W`) in the lower nibble of `REX` prefix that is used in combination to this `ModRM.r` field and another bit in `REX` (`REX.B`) to allow it 16 different registers . If `REX.R` is zero then you won't be able to access the complete R-Extended registers but instead lower parts like lower double-word or just a word. The `REX.B` bit is placed as the most significant bit in front of `ModRM.r` field to create the whole field of 4 bits and hence get 16 different values to access 16 different GPRs.
 
 ### T﻿he `ModRM.rm` Field
 
-T﻿his specifies the register/memory operand based on the register addressing mode we talked about. If the mode is register direct addressing mode then this will refer to a register, else a memory operand. The rest of the working is pretty much same as ModRM.r field except a few places that we will discuss later.
+T﻿his specifies the register/memory operand based on the register addressing mode we talked about. If the mode is register direct addressing mode then this will refer to a register, else a memory operand. Here instead of `REX.W` and `REX.R`, there is `REX.X` and `REX.B` respectively. The rest of the working is pretty much same as `ModRM.r` field except a few places that we will discuss later.
+
+## T﻿he Combination Of `REX` and `ModRM` Byte
+
+A﻿s I mentioned, `REX` byte is used in combination with `ModRM` byte to give access to all 16 R-Extended registers. Before we continue, I'd like to give you values of the `ModRM.r` and `ModRM.r/m` field that index different registers.
+
+![Table 1-10 (AMD Vol3 Page18)](screenshot-from-2023-03-01-23-32-13.png "Table showing different values of ModRM fields to index different registers (AMD Vol3 Page18)")
+
+P﻿lease ignore the fourth column for now and only refer to first, second and third one. For given 8 values using only `ModRM.r` or `ModRM.rm` field and no `REX` prefix byte, we can have access to only these registers, but if we flag the `REX.R` bit as 1 then we 8 more different values which are used to index registers `r8` to `r15`. There are instructions that access only a part of these registers, like only the lower byte, or word, or double word. In those cases the `REX.W` prefix will be ignored. `REX.W` prefix is taken into account only where it's possible to increaase the size of registers to their maximum.
+
+![Figure 2-3 (AMD Vol3 Page39)](screenshot-from-2023-03-01-23-39-34.png "Table displaying the GPRs and their format (AMD Vol3 Page39)")
 
 ### T﻿he Legacy Prefixes
 
 L﻿egacy prefixes are of five types and each type has specific byte assigned. Comparing the first few bytes of instruction with these special bytes, we can check whether this byte is a legacy prefix byte or not.
 
-![(AMD Vol3 Page7)](screenshot-from-2023-03-01-18-42-05.png "Table showing all legacy prefix bytes with their meaning and names (AMD Vol3 Page7)")
+![Table 1-1 (AMD Vol3 Page7)](screenshot-from-2023-03-01-18-42-05.png "Table showing all legacy prefix bytes with their meaning and names (AMD Vol3 Page7)")
