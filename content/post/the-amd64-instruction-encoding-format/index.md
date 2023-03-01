@@ -28,10 +28,28 @@ T﻿here are three types of prefixes :
 
 1. **L﻿egacy Prefixes** : These prefixes were present in older architectures also (before `AMD64`). There can be maximum of four legacy prefix bytes in an instruction. There are five different types of legacy prefixes.
 2. **R﻿EX Prefix** : This is a single byte prefix and there can be maximum one REX prefix in an instruction. REX prefixes are used to extend the register/memory size in an instruction. This was introduced in `AMD64` architecture because the size of `GPRs` (General Purpose Registers) and `EFLAGs` were increased from 32 bits to 64 bits. Value of REX prefix ranges from 0x40 to 0x4f. So to detect whether this prefix is a REX prefix or not, we can check whether upper nibble is 0x4 or not. The lower nibble specifies some other things that we will see later.
-3. **V﻿EX/XOP Prefix** : These are again single byte prefixes used to give access to different set of registers. Registers like XMM0, XMM1, ...., XMM15, YMM0, YMM1, ..., YMM15, MMX0, MMX1, ..., MMX15 and ZMM0, ZMM1, ..., ZMM15. This means a different class of instructions too (Vectorized).
+3. **V﻿EX/XOP Prefix** : These are again single byte prefixes used to give access to different set of registers. Registers like `XMM0`, `XMM1`, ...., `XMM15`, `YMM0`, `YMM1`, ..., `YMM15`, `MMX0`, `MMX1`, ..., `MMX15` and `ZMM0`, `ZMM1`, ..., `ZMM15`. This means a different class of instructions too (Vectorized).
+
+## O﻿pcode Bytes
+
+A﻿n opcode byte is a special byte that uniquely identifies an instruction. For example `0x90` is a special byte that uniquely identifies the `nop` instruction. Also notice that this instruction won't need any of the prefix bytes! To uniquely identify an instruction there can be maximum of three opcode bytes and for these we have three different opcode maps. For instructions that have more than three opcode bytes, we have escape sequences.
+
+## E﻿scape Sequences
+
+A﻿n escape sequence is a unique set of bytes (or a just a single byte) that adds more variety of instructions to the basic instruction set. For example, instructions that have two opcode bytes have `0x0f` as their first opcode byte as escape sequence.
+
+## T﻿he ModRM Byte
+
+T﻿he ModRM byte has three fields.
+
+* M﻿ode field (upper two bits, 0xc0 mask)
+* R﻿ field (next three bits, 0x38 mask)
+* R﻿M field (lower three bits, 0x07 mask)
+
+![](screenshot-from-2023-03-01-19-02-58.png "Diagram of the ModRM byte (AMD Vol3 Page17)")
 
 ### T﻿he Legacy Prefixes
 
 L﻿egacy prefixes are of five types and each type has specific byte assigned. Comparing the first few bytes of instruction with these special bytes, we can check whether this byte is a legacy prefix byte or not.
 
-![](screenshot-from-2023-03-01-18-42-05.png "Table showing all legacy prefix bytes with their meaning and names (AMD Vol3 Page7)")
+![(AMD Vol3 Page7)](screenshot-from-2023-03-01-18-42-05.png "Table showing all legacy prefix bytes with their meaning and names (AMD Vol3 Page7)")
