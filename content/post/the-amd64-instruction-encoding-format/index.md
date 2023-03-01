@@ -22,6 +22,10 @@ T﻿his manual describes all the workings on an AMD64 CPU, like it's an interfac
 
 P﻿lease keep taking reference from this while reading this blog post. But before I can tell you anything about instruction encoding, I have to instroduce you to some basic terms that will be used a lot.
 
+## G﻿eneral Instruction Layout
+
+![Figure 1-2 (AMD Vol3 Page5)](screenshot-from-2023-03-02-00-42-24.png "Figure showing general layout of an AMD64 Instruction (AMD Vol3 Page5)")
+
 ## P﻿refixes
 
 A﻿ prefix is a byte that comes at the very beginning of instruction. All prefixes are optional! This means there are instructions that don't have prefixes at all! They are used to modify the basic instruction's register/memory size, change segment's being used, change behaviour by making the instruction repeat multiple times (in string instructions) and give it other magical powers!
@@ -110,6 +114,22 @@ H﻿aving problems assembling this? We'll we're writing a disassembler, so maybe
 
 N﻿ow, if you are a keen observer, then you might have noticed something here! We've never specified the order in which the operands will appear! This operands are specified by the ModRM byte right? Where did we specify the order in which the operands encoded in this ModRM byte will be? This is given by the instruction you are using! If the operand in the instruction mnemonic is written as `regXX/memXX` where `XX` is the size of register or memory then that means that operand is indexed using the `ModRM.rm` field. For operand encoded just as `regXX` we have `ModRM.r` field. Obviously this means the extended versions of these fields also if `REX` prefix is present. This means while writing disassembler, you have to take references from these tables also! Phew!!
 
+## T﻿he `SIB` (Scale Index Base) Byte
+
+T﻿his is a special form of register-indirect memory addressing for accessing an array like memory region.
+
+![Table 1-10 (AMD64 Vol3 Page18)](screenshot-from-2023-03-01-23-32-13.png "Table displaying different values of ModRM.r or ModRM.rm field (AMD64 Vol3 Page18)")
+
+A﻿n `SIB` byte is present only if the mode is register-indirect and `ModRM.rm` value is `100b`. 
+
+![Figure 1-5 (AMD Vol3 Page19)](screenshot-from-2023-03-02-00-49-09.png "Diagram displaying different fields of SIB byte (AMD Vol3 Page19)")
+
+![Table 1-11 (AMD Vol3 Page19)](screenshot-from-2023-03-02-00-50-23.png "Table showing different SIB.sacle value encodings (AMD Vol3 Page19)")
+
+
+
+
+
 ## T﻿he Legacy Prefixes In Combination With REX and ModRM
 
 L﻿egacy prefixes are of five types and each type has specific byte assigned. Comparing the first few bytes of instruction with these special bytes, we can check whether this byte is a legacy prefix byte or not.
@@ -147,6 +167,10 @@ T﻿his is used to override default segment being used when getting values from 
 ![Table 1-5 (AMD Vol3 Page11)](screenshot-from-2023-03-02-00-26-45.png "Table showing different segment override prefixes (AMD Vol3 Page11)")
 
 S﻿imilarly you can take reference for `LOCK` and `REP`, `REPE/REPZ` and `REPNE/REPNZ` prefixes from the manual.
+
+## I﻿mmediate and Displacement Fields
+
+T﻿hese two values depend on the instruction you're trying to decode. You can refer to the instruction reference in the manual. If the instruction wants an immediate value as one of it's operands, then it'll surely be there!
 
 ## T﻿he Instruction Decoding Algorithm
 
