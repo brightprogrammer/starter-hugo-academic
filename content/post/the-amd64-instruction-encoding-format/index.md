@@ -126,7 +126,13 @@ A﻿n `SIB` byte is present only if the mode is register-indirect and `ModRM.rm`
 
 ![Table 1-11 (AMD Vol3 Page19)](screenshot-from-2023-03-02-00-50-23.png "Table showing different SIB.sacle value encodings (AMD Vol3 Page19)")
 
+T﻿hen the `SIB.index` field is used to specify the index of register containing the index into array and the `SIB.base` field is used to specify the index of register containing base address of this register-indirect addressing mode.
 
+N﻿ote that here `ModRM.rm` is fixed to `100b` so all index is done by `SIB` byte. For second operand, `ModRM.r` can index to other registers. Due to this configuration, the `REX.X` and `REX.B` bits were given to extend this `SIB.base` and `SIB.index` fields.
+
+![Table 1-12 (AMD Vol3 Page20)](screenshot-from-2023-03-02-00-56-19.png "SIB.index and SIB.base Field Encodings (AMD Vol3 Page20)")
+
+![Table 1-13 (AMD Vol3 Page20)](screenshot-from-2023-03-02-00-57-59.png "SIB.base encodings for ModRM.r/m = 100b (AMD Vol3 Page20)")
 
 
 
