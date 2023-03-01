@@ -1,5 +1,5 @@
 ---
-title: The AMD64 Instruction Encoding Format
+title: The AMD64 Instruction Encoding Format Part 1
 subtitle: Understanding The AMD64 Instruction Encoding Format
 date: 2023-03-01T13:14:02.601Z
 draft: false
@@ -94,8 +94,52 @@ P﻿lease ignore the fourth column for now and only refer to first, second and t
 
 ![Figure 2-3 (AMD Vol3 Page39)](screenshot-from-2023-03-01-23-39-34.png "Table displaying the GPRs and their format (AMD Vol3 Page39)")
 
-### T﻿he Legacy Prefixes
+S﻿o, let's say the `REX.R` bit is flagged and the `ModRM.r` field is set to 0, then the effective value (which is 8) will index to r8 register and it's smaller parts depending on the instruction. For example `00` and `03` are two instruction opcodes  that belong to the `ADD` instruction family.
+
+![(AMD Vol3 Page83)](screenshot-from-2023-03-01-23-48-48.png-mh.png "Table showing all possible ADD opcodes and their description (AMD Vol3 Page83)")
+
+D﻿on't pay attention to the specific opcodes and just pay attention to the first byte in opcode and the size of operands in the instruction. I'll now give a few examples here and let you figure out how this work
+
+F﻿or adding r8b (lower byte of r8 register) and al (lower byte of rax register), and storing the result back to al, we have the instruction : `add al, r8b` which assembles to `44 00 c0`.
+
+F﻿or adding `r15` and `rax` and storing result back to `r8`, we have instruction : `add rax, r15` which assembles to `4c 03 f8`.
+
+H﻿aving problems assembling this? We'll we're writing a disassembler, so maybe first try decoding the opcodes I gave you. First try to identify whether there is a `REX` prefix or not, then identify the opcode, then decode the value of `ModRM` fields and try to get operands.
+
+N﻿ow, if you are a keen observer, then you might have noticed something here! We've never specified the order in which the operands will appear! This operands are specified by the ModRM byte right? Where did we specify the order in which the operands encoded in this ModRM byte will be? This is given by the instruction you are using! If the operand in the instruction mnemonic is written as `regXX/memXX` where `XX` is the size of register or memory then that means that operand is indexed using the `ModRM.rm` field. For operand encoded just as `regXX` we have `ModRM.r` field. Obviously this means the extended versions of these fields also if `REX` prefix is present. This means while writing disassembler, you have to take references from these tables also! Phew!!
+
+## T﻿he Legacy Prefixes In Combination With REX and ModRM
 
 L﻿egacy prefixes are of five types and each type has specific byte assigned. Comparing the first few bytes of instruction with these special bytes, we can check whether this byte is a legacy prefix byte or not.
 
 ![Table 1-1 (AMD Vol3 Page7)](screenshot-from-2023-03-01-18-42-05.png "Table showing all legacy prefix bytes with their meaning and names (AMD Vol3 Page7)")
+
+### T﻿he Operand Size Override Prefix (`0x66`)
+
+T﻿his prefix is used to override and select the non default operand size. If REX prefix byte is present along with this  prefix byte then, REX is always given preference! Also, this byte has some other meanings too which is used to extend the instruction set. More on that in later parts of this post (series).
+
+![Table 1-2 (AMD Vol3 Page8)](screenshot-from-2023-03-02-00-15-40.png "Table showing the different operand size overrides when this prefix is present (AMD Vol3 Page8)")
+
+T﻿ake a look at this table and closely understand the meaning and then try to decode/assemble the following opcodes/instructions.
+
+* `66 03 f8`
+* `66 03 c0`
+* `66 03 ca`
+* `66 00 ca`
+* `00 ca`
+* `00 f8`
+* `a﻿dd al, al`
+* `a﻿dd al, dh`
+* `a﻿dd dh, al`
+
+### T﻿he Address Size Override Prefix (0x67)
+
+T﻿his prefix is used to change the address size when accessing an address. For example in instructions `mov byte ptr ds:[rax]` and `mov qword ptr ds:[rax]` has different address sizes. This is also changing the default address size just like address size override.
+
+![Table 1-3 (AMD Vol3 Page9)](screenshot-from-2023-03-02-00-23-13.png "Table showing effective address size in different cases (AMD Vol3 Page9)")
+
+### T﻿he Segment Override
+
+T﻿his is used to override default segment being used when getting values from a memory address. For example, you can use address size override prefix to change from ds to cs segment, like `mov word ptr ds:[rdi*4 + base]` to `mov word ptr cs:[rdi*4+base]`.
+
+![Table 1-5 (AMD Vol3 Page11)](screenshot-from-2023-03-02-00-26-45.png "Table showing different segment override prefixes (AMD Vol3 Page11)")
