@@ -21,4 +21,3 @@ I've been struggling with reverse engineering rustlang binaries for a while in C
 5. [P﻿art Five](https://drive.google.com/file/d/19LS42rsCdIwWhsTKZJ6XUJ4ojRVDKxDr/view?usp=share_link) [**Mon Dec 26 2022**] : Recently me and my team (zh3r0) played a ctf where we had a rust VM challenge. I struggled a bit but was able to understand exactly how it's working. Thanks to my previous efforts of trying to understand rust binaries, this time I had enough confidence.
 
 \
-I﻿f you find this research work useful in your work, please consider giving attribution or something like that. Also, if you think that you can give some hints to improve this work, please consider contact me through email **misra.cxx@gmail.com**
